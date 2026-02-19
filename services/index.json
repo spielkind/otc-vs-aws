@@ -1,0 +1,16 @@
+[
+  "container.json",
+  "serverless.json",
+  "compute.json",
+  "security.json",
+  "networking.json",
+  "identity.json",
+  "dns-cdn.json",
+  "monitoring.json",
+  "management.json",
+  "analytics.json",
+  "database.json",
+  "storage.json",
+  "messaging.json",
+  "contact-center.json"
+]

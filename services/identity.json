@@ -1,0 +1,73 @@
+[
+  {
+    "name": "Amazon Cognito",
+    "category": "Identity",
+    "effort": "hard",
+    "equiv": "none",
+    "scope": [
+      "K1"
+    ],
+    "otc": "Kein Equivalent",
+    "tfAws": "aws_cognito_user_pool",
+    "tfOtc": null,
+    "tfStatus": "none",
+    "docsAws": "https://docs.aws.amazon.com/cognito/",
+    "docsOtc": null,
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cognito_user_pool",
+    "tfDocsOtc": null,
+    "desc": {
+      "de": "Managed User Identity Service. User Pools (Sign-up/Sign-in, MFA, Account Recovery), Identity Pools (Federated Identities → temporäre AWS Credentials), OAuth 2.0/OIDC/SAML, Social Login, Hosted UI, Lambda Triggers, Advanced Security (Adaptive Auth).",
+      "en": "Managed user identity service. User Pools (sign-up/sign-in, MFA, account recovery), Identity Pools (federated identities → temporary AWS credentials), OAuth 2.0/OIDC/SAML, social login, hosted UI, Lambda triggers, advanced security (adaptive auth)."
+    },
+    "otcDesc": {
+      "de": "Kein Managed Identity Service für Endbenutzer. Empfehlung: Keycloak auf CCE (Open Source, CNCF-nah) — bietet OIDC, SAML 2.0, Social Login, User Federation, Admin Console, Themes, Event Listeners. Alternativ Zitadel (Go-basiert, cloud-native) oder Authentik (Python, modern). OTC IAM ist ausschließlich für Cloud-Administratoren.",
+      "en": "No managed identity service for end users. Recommendation: Keycloak on CCE (open source, CNCF-aligned) — offers OIDC, SAML 2.0, social login, user federation, admin console, themes, event listeners. Alternatively Zitadel (Go-based, cloud-native) or Authentik (Python, modern). OTC IAM is for cloud administrators only."
+    },
+    "alt": {
+      "de": "Keycloak (auf CCE), Auth0, Okta, Zitadel, Authentik",
+      "en": "Keycloak (on CCE), Auth0, Okta, Zitadel, Authentik"
+    },
+    "migration": {
+      "de": "**Keycloak als Ersatz.** OTC hat keinen Managed Identity Service. Keycloak auf CCE deckt User Pools (Realms), OAuth 2.0/OIDC/SAML, Social Login, MFA, Hosted UI und User Federation ab. Alternativen: Auth0 (SaaS), Zitadel, Authentik. **Identity Pools.** Temporäre Cloud-Credentials für Endbenutzer (Cognito Identity Pools) haben kein Pendant — muss applikationsseitig über Token-Exchange gelöst werden. **Feature-Lücken.** Adaptive Authentication und Compromised Credentials Detection (Cognito Advanced Security) gibt es in Keycloak nicht. **User-Migration.** Cognito User Migration Lambda Trigger → Keycloak User Federation mit Custom Provider. Kein automatischer Import möglich. **Self-Managed.** Keycloak auf CCE bedeutet eigener Betrieb: HA-Setup, Updates, Backup und Monitoring liegen bei euch.",
+      "en": "**Keycloak as replacement.** OTC has no managed identity service. Keycloak on CCE covers User Pools (Realms), OAuth 2.0/OIDC/SAML, social login, MFA, hosted UI and user federation. Alternatives: Auth0 (SaaS), Zitadel, Authentik. **Identity Pools.** Temporary cloud credentials for end users (Cognito Identity Pools) have no equivalent — must be solved application-side via token exchange. **Feature gaps.** Adaptive authentication and compromised credentials detection (Cognito Advanced Security) are not available in Keycloak. **User migration.** Cognito User Migration Lambda Trigger → Keycloak User Federation with custom provider. No automatic import possible. **Self-managed.** Keycloak on CCE means you handle operations: HA setup, updates, backup and monitoring are your responsibility."
+    },
+    "equivNote": null,
+    "tfNote": null
+  },
+  {
+    "name": "AWS IAM",
+    "category": "Identity",
+    "effort": "medium",
+    "equiv": "partial",
+    "scope": [
+      "K1",
+      "K2"
+    ],
+    "otc": "Identity and Access Mgmt (IAM)",
+    "tfAws": "aws_iam_user, aws_iam_role",
+    "tfOtc": "opentelekomcloud_identity_user_v3, opentelekomcloud_identity_role_v3, opentelekomcloud_identity_agency_v3",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/iam/",
+    "docsOtc": "https://docs.otc.t-systems.com/identity-access-management/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/identity_user_v3",
+    "desc": {
+      "de": "Users, Groups, Roles (AssumeRole/STS), Policies (JSON), MFA, Permission Boundaries, SCPs (Organizations), SAML/OIDC Federation, IAM Access Analyzer, Identity Center (SSO).",
+      "en": "Users, groups, roles (AssumeRole/STS), policies (JSON), MFA, permission boundaries, SCPs (Organizations), SAML/OIDC federation, IAM Access Analyzer, Identity Center (SSO)."
+    },
+    "otcDesc": {
+      "de": "User/Group/Agency-basiertes Access Control. Agencies delegieren Zugriff an andere Accounts oder OTC-Services (≈AWS Roles). Custom Policies (JSON, Effect/Action/Resource) und ~500 System Policies. MFA (TOTP). SAML 2.0 und OIDC Identity Federation (IdP-Mapping auf User Groups). Projekte für regionale Ressourcen-Isolation. Security Settings: Login-Policies, Passwort-Policies, ACL, Session-Timeout.",
+      "en": "User/group/agency-based access control. Agencies delegate access to other accounts or OTC services (≈AWS Roles). Custom policies (JSON, effect/action/resource) and ~500 system policies. MFA (TOTP). SAML 2.0 and OIDC identity federation (IdP mapping to user groups). Projects for regional resource isolation. Security settings: login policies, password policies, ACL, session timeout."
+    },
+    "alt": null,
+    "migration": {
+      "de": "**Agencies statt Roles.** OTC IAM nutzt Agencies anstelle von Roles — eine Agency definiert Trust (delegierter Account oder Service) und Permissions (System- oder Custom Policies). Service-Linked Roles müssen als Agencies manuell erstellt werden. **Gruppen-basierte Zuweisung.** Policies werden User Groups zugewiesen, nicht direkt einzelnen Usern. **Projekte statt OUs.** Regionale Ressourcen-Isolation erfolgt über Projekte (jede Region = ein Projekt, max 20). **Policy-Syntax.** Policies sind JSON-basiert (Effect/Action/Resource), aber Actions heißen anders (z.B. obs:object:GetObject statt s3:GetObject). **Cross-Account Access.** Über Agencies mit delegierter Account-ID realisierbar. **Federation.** SAML 2.0: IdP-Metadata importieren, Mapping Rules definieren (IdP-Attribute auf User Groups). OIDC Federation analog. **Fehlende Konzepte.** Permission Boundaries, SCPs und IAM Access Analyzer haben kein Pendant. Identity Center (SSO) muss durch SAML Federation nachgebaut werden. **Account-Limits.** Max 500 IAM User pro Account, max 20 Projekte.",
+      "en": "**Agencies instead of Roles.** OTC IAM uses agencies instead of roles — an agency defines trust (delegated account or service) and permissions (system or custom policies). Service-linked roles must be created manually as agencies. **Group-based assignment.** Policies are assigned to user groups, not directly to individual users. **Projects instead of OUs.** Regional resource isolation uses projects (each region = one project, max 20). **Policy syntax.** Policies are JSON-based (effect/action/resource), but actions are named differently (e.g. obs:object:GetObject instead of s3:GetObject). **Cross-account access.** Achievable via agencies with delegated account ID. **Federation.** SAML 2.0: import IdP metadata, define mapping rules (IdP attributes to user groups). OIDC federation analogous. **Missing concepts.** Permission boundaries, SCPs and IAM Access Analyzer have no equivalent. Identity Center (SSO) must be rebuilt via SAML federation. **Account limits.** Max 500 IAM users per account, max 20 projects."
+    },
+    "equivNote": {
+      "de": "Users, User Groups, Agencies (≈Roles mit Trust-Beziehung), Custom/System Policies (JSON), MFA (TOTP), SAML 2.0/OIDC Federation vorhanden. Agencies erlauben Cross-Account-Zugriff (Account-ID als Delegated) und Service-Zugriff (z.B. ECS→OBS). Kein STS AssumeRole API — Agency-Token wird über IAM API bezogen. Kein Permission Boundaries, kein SCPs, kein IAM Access Analyzer, kein Identity Center (SSO). Projekte statt OUs für regionale Isolation.",
+      "en": "Users, user groups, agencies (≈roles with trust relationship), custom/system policies (JSON), MFA (TOTP), SAML 2.0/OIDC federation available. Agencies allow cross-account access (account ID as delegated) and service access (e.g. ECS→OBS). No STS AssumeRole API — agency token obtained via IAM API. No permission boundaries, no SCPs, no IAM Access Analyzer, no Identity Center (SSO). Projects instead of OUs for regional isolation."
+    },
+    "tfNote": null
+  }
+]

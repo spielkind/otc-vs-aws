@@ -1,0 +1,231 @@
+[
+  {
+    "name": "Amazon Kinesis",
+    "category": "Messaging",
+    "effort": "hard",
+    "equiv": "partial",
+    "scope": [
+      "K1",
+      "K2"
+    ],
+    "otc": "DMS Kafka",
+    "tfAws": "aws_kinesis_stream",
+    "tfOtc": "opentelekomcloud_dms_kafka_instance_v2",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/kinesis/",
+    "docsOtc": "https://docs.otc.t-systems.com/distributed-message-service/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kinesis_stream",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/dms_kafka_instance_v2",
+    "desc": {
+      "de": "Streaming-Plattform: Data Streams (Echtzeit-Ingestion), Firehose (ETL → S3/Redshift/OpenSearch), Data Analytics (SQL/Flink auf Streams), Video Streams. Serverless, auto-skalierend.",
+      "en": "Streaming platform: Data Streams (real-time ingestion), Firehose (ETL → S3/Redshift/OpenSearch), Data Analytics (SQL/Flink on streams), Video Streams. Serverless, auto-scaling."
+    },
+    "otcDesc": {
+      "de": "⚠️ DIS (Data Ingestion Service, direktes Kinesis-Pendant) ist seit 01.07.2025 EOL! DMS Kafka ist die verbleibende Lösung: Managed Kafka 2.7/3.x, Multi-AZ, SASL/SSL, Consumer Groups, bis 30 Broker. Kein Serverless — feste Instanzgröße (100 MB/s bis 1200 MB/s). Für Batch-Ingestion OBS, für Stream Analytics MRS Flink/Spark Streaming.",
+      "en": "⚠️ DIS (Data Ingestion Service, direct Kinesis equivalent) has been EOL since 01.07.2025! DMS Kafka is the remaining solution: Managed Kafka 2.7/3.x, multi-AZ, SASL/SSL, consumer groups, up to 30 brokers. No serverless — fixed instance size (100 MB/s to 1200 MB/s). For batch ingestion OBS, for stream analytics MRS Flink/Spark Streaming."
+    },
+    "alt": {
+      "de": "DMS Kafka, MRS Spark Streaming, OBS (Batch)",
+      "en": "DMS Kafka, MRS Spark Streaming, OBS (Batch)"
+    },
+    "migration": {
+      "de": "**DIS ist EOL.** Data Ingestion Service (direktes Kinesis-Pendant) wurde am 01.07.2025 abgeschaltet — nicht als Migrationsziel verwenden. **Service-Mapping.** Kinesis Data Streams → DMS Kafka Topics mit Partitions. Kinesis Firehose (Delivery Streams) → DMS Kafka + FunctionGraph Consumer → OBS (manuell aufbauen). Lambda Event Source Mapping → FunctionGraph DMS-Kafka-Trigger. **Analytics & Video.** Kinesis Data Analytics → Apache Flink auf CCE oder MRS Spark Streaming. Kinesis Video Streams hat kein OTC-Pendant — externe Lösung nötig.",
+      "en": "**DIS is EOL.** Data Ingestion Service (direct Kinesis equivalent) was shut down on 2025-07-01 — do not use as migration target. **Service mapping.** Kinesis Data Streams → DMS Kafka topics with partitions. Kinesis Firehose (Delivery Streams) → DMS Kafka + FunctionGraph consumer → OBS (build manually). Lambda Event Source Mapping → FunctionGraph DMS Kafka trigger. **Analytics & Video.** Kinesis Data Analytics → Apache Flink on CCE or MRS Spark Streaming. Kinesis Video Streams has no OTC equivalent — external solution needed."
+    },
+    "equivNote": {
+      "de": "DIS (direktes Kinesis-Pendant) ist EOL seit 01.07.2025. DMS Kafka deckt Streaming ab, ist aber Broker-basiert (nicht serverless wie Kinesis). Kein Firehose-Pendant (Delivery Streams → manuell: Kafka + FunctionGraph → OBS). Keine Data Analytics (Flink → MRS). Kein Video Streams. Capacity Planning nötig (keine On-Demand-Shard-Skalierung).",
+      "en": "DIS (direct Kinesis equivalent) is EOL since 01.07.2025. DMS Kafka covers streaming but is broker-based (not serverless like Kinesis). No Firehose equivalent (delivery streams → manual: Kafka + FunctionGraph → OBS). No Data Analytics (Flink → MRS). No Video Streams. Capacity planning required (no on-demand shard scaling)."
+    },
+    "tfNote": null
+  },
+  {
+    "name": "Amazon SQS",
+    "category": "Messaging",
+    "effort": "medium",
+    "equiv": "partial",
+    "scope": [
+      "K1"
+    ],
+    "otc": "DMS (RabbitMQ/Kafka)",
+    "tfAws": "aws_sqs_queue",
+    "tfOtc": "opentelekomcloud_dms_dedicated_instance_v2",
+    "tfStatus": "partial",
+    "docsAws": "https://docs.aws.amazon.com/sqs/",
+    "docsOtc": "https://docs.otc.t-systems.com/distributed-message-service/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sqs_queue",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/dms_dedicated_instance_v2",
+    "desc": {
+      "de": "Serverless Message Queuing. Standard (best-effort ordering, at-least-once) und FIFO Queues (exactly-once, ordered). Dead Letter Queues, Long Polling, Batch Operations, Message Timer, bis 256 KB.",
+      "en": "Serverless message queuing. Standard (best-effort ordering, at-least-once) and FIFO queues (exactly-once, ordered). Dead letter queues, long polling, batch operations, message timer, up to 256 KB."
+    },
+    "otcDesc": {
+      "de": "DMS bietet Managed RabbitMQ (AMQP 0-9-1) und Kafka als Queue-Alternativen. RabbitMQ für SQS-ähnliche Patterns: Queues, Exchanges, Bindings, Dead Letter Exchanges (DLX), TTL, Priority Queues, Consumer Acknowledgements. Broker-basiert (nicht serverless) — Single/Cluster-Instanzen provisionieren. Kein Terraform-Resource für RabbitMQ (nur Kafka).",
+      "en": "DMS offers managed RabbitMQ (AMQP 0-9-1) and Kafka as queue alternatives. RabbitMQ for SQS-like patterns: queues, exchanges, bindings, dead letter exchanges (DLX), TTL, priority queues, consumer acknowledgements. Broker-based (not serverless) — provision single/cluster instances. No Terraform resource for RabbitMQ (Kafka only)."
+    },
+    "alt": {
+      "de": "Kafka auf CCE, Redis Queues",
+      "en": "Kafka on CCE, Redis Queues"
+    },
+    "migration": {
+      "de": "**Protokollwechsel.** SQS ist HTTP-Pull, RabbitMQ ist AMQP-Push — grundlegend anderes Messaging-Modell (Broker vs. Managed Queue). SQS Long Polling → RabbitMQ Push-Modell (Basic.Consume). **Ordering & DLQ.** FIFO-Garantien: RabbitMQ garantiert Ordering nur pro Queue — Message Grouping über Consistent Hash Exchange. Dead Letter Queues → RabbitMQ DLX (Dead Letter Exchange). **Feature-Mapping.** Batch Operations → Publisher Confirms. SQS Message Attributes → RabbitMQ Headers. **Terraform-Lücke.** RabbitMQ ist NICHT per Terraform provisionierbar — nur Kafka hat eine TF-Resource im OTC Provider.",
+      "en": "**Protocol change.** SQS is HTTP-pull, RabbitMQ is AMQP-push — fundamentally different messaging model (broker vs. managed queue). SQS Long Polling → RabbitMQ push model (Basic.Consume). **Ordering & DLQ.** FIFO guarantees: RabbitMQ guarantees ordering only per queue — message grouping via Consistent Hash Exchange. Dead Letter Queues → RabbitMQ DLX (Dead Letter Exchange). **Feature mapping.** Batch operations → Publisher Confirms. SQS Message Attributes → RabbitMQ Headers. **Terraform gap.** RabbitMQ is NOT provisionable via Terraform — only Kafka has a TF resource in the OTC provider."
+    },
+    "equivNote": {
+      "de": "DMS RabbitMQ ist Broker-basiert (nicht serverless wie SQS). SQS ist HTTP-Pull, RabbitMQ ist AMQP-Push — grundlegend anderes Messaging-Modell. DLX (Dead Letter Exchange) entspricht SQS DLQ. FIFO-Garantie nur pro Queue (kein Message Group ID). RabbitMQ bietet mehr Routing-Optionen (Topic/Fanout/Headers Exchange). Kein Terraform für RabbitMQ-Instanzen (nur Kafka hat TF-Resource). Kapazitätsplanung nötig.",
+      "en": "DMS RabbitMQ is broker-based (not serverless like SQS). SQS is HTTP-pull, RabbitMQ is AMQP-push — fundamentally different messaging model. DLX (Dead Letter Exchange) corresponds to SQS DLQ. FIFO guarantee only per queue (no message group ID). RabbitMQ offers more routing options (topic/fanout/headers exchange). No Terraform for RabbitMQ instances (only Kafka has TF resource). Capacity planning required."
+    },
+    "tfNote": {
+      "de": "Nur DMS Kafka per Terraform provisionierbar. RabbitMQ hat kein Terraform-Resource im OTC Provider.",
+      "en": "Only DMS Kafka provisionable via Terraform. RabbitMQ has no Terraform resource in the OTC provider."
+    }
+  },
+  {
+    "name": "Amazon SNS",
+    "category": "Messaging",
+    "effort": "easy",
+    "equiv": "partial",
+    "scope": [
+      "K1"
+    ],
+    "otc": "Simple Message Notification (SMN)",
+    "tfAws": "aws_sns_topic",
+    "tfOtc": "opentelekomcloud_smn_topic_v2",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/sns/",
+    "docsOtc": "https://docs.otc.t-systems.com/simple-message-notification/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/smn_topic_v2",
+    "desc": {
+      "de": "Pub/Sub Messaging + Mobile Push. Standard/FIFO Topics, Message Filtering (Attribute-basiert), Fan-out zu SQS/Lambda/HTTP, Mobile Push (APNs/FCM), SMS, Email.",
+      "en": "Pub/Sub messaging + mobile push. Standard/FIFO topics, message filtering (attribute-based), fan-out to SQS/Lambda/HTTP, mobile push (APNs/FCM), SMS, email."
+    },
+    "otcDesc": {
+      "de": "Pub/Sub mit Topics und Subscriptions. Protokolle: HTTP/HTTPS, Email, SMS, FunctionGraph, DMS (Kafka). Topic-basiertes Fan-out, Template-basierte Nachrichten. Kein Mobile Push (APNs/FCM), keine FIFO Topics, kein attributbasiertes Message Filtering. Max 10.000 Subscriptions pro Topic.",
+      "en": "Pub/sub with topics and subscriptions. Protocols: HTTP/HTTPS, email, SMS, FunctionGraph, DMS (Kafka). Topic-based fan-out, template-based messages. No mobile push (APNs/FCM), no FIFO topics, no attribute-based message filtering. Max 10,000 subscriptions per topic."
+    },
+    "alt": {
+      "de": "DMS Kafka (Fan-out via Topics), RabbitMQ (Exchanges)",
+      "en": "DMS Kafka (fan-out via topics), RabbitMQ (exchanges)"
+    },
+    "migration": {
+      "de": "**Kein Mobile Push.** APNs/GCM werden nicht unterstützt — Firebase oder OneSignal extern anbinden. **Kein FIFO.** Ordering muss applikationsseitig gelöst werden. **Filter-Einschränkung.** Attributbasiertes Message Filtering fehlt — komplexe Filterlogik in FunctionGraph verlagern. **Fan-out-Pattern.** SNS + SQS Fan-out → SMN + DMS RabbitMQ via FunctionGraph-Bridge. Cross-Region Delivery gibt es nicht.",
+      "en": "**No mobile push.** APNs/GCM are not supported — integrate Firebase or OneSignal externally. **No FIFO.** Ordering must be handled application-side. **Filter limitation.** Attribute-based message filtering is missing — move complex filter logic to FunctionGraph. **Fan-out pattern.** SNS + SQS fan-out → SMN + DMS RabbitMQ via FunctionGraph bridge. Cross-region delivery does not exist."
+    },
+    "equivNote": {
+      "de": "SMN unterstützt HTTP/HTTPS, Email, SMS und FunctionGraph-Subscriptions. Kein Mobile Push (APNs/FCM — Firebase/OneSignal nutzen). Keine FIFO Topics. Kein attributbasiertes Message Filtering (nur Topic-Level). SMN kann an DMS Kafka publishen. Max 10.000 Subscriptions/Topic. Template-basierte Nachrichten für formatierte Benachrichtigungen.",
+      "en": "SMN supports HTTP/HTTPS, email, SMS and FunctionGraph subscriptions. No mobile push (APNs/FCM — use Firebase/OneSignal). No FIFO topics. No attribute-based message filtering (topic-level only). SMN can publish to DMS Kafka. Max 10,000 subscriptions/topic. Template-based messages for formatted notifications."
+    },
+    "tfNote": null
+  },
+  {
+    "name": "Amazon SES",
+    "category": "Messaging",
+    "effort": "hard",
+    "equiv": "none",
+    "scope": [],
+    "otc": "Kein Equivalent",
+    "tfAws": "aws_ses_domain_identity, aws_ses_email_identity",
+    "tfOtc": null,
+    "tfStatus": "none",
+    "docsAws": "https://docs.aws.amazon.com/ses/",
+    "docsOtc": null,
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ses_domain_identity",
+    "tfDocsOtc": null,
+    "desc": {
+      "de": "Simple Email Service. Transaktions-E-Mails, Massen-E-Mails, SMTP-Interface, Bounce/Complaint Handling, Dedicated IPs.",
+      "en": "Simple Email Service. Transactional emails, bulk emails, SMTP interface, bounce/complaint handling, dedicated IPs."
+    },
+    "otcDesc": {
+      "de": "OTC bietet keinen Managed Email-Dienst. Kein SMTP-as-a-Service, kein Bounce Management.",
+      "en": "OTC offers no managed email service. No SMTP-as-a-service, no bounce management."
+    },
+    "alt": {
+      "de": "SendGrid, Mailgun, Amazon SES (cross-cloud)",
+      "en": "SendGrid, Mailgun, Amazon SES (cross-cloud)"
+    },
+    "migration": {
+      "de": "**Kein OTC-Pendant.** Managed Email existiert auf OTC nicht. OTC Secure Mail Gateway ist ein SMTP-Relay, kein SES-Ersatz. **Alternativen.** SendGrid, Mailgun oder SES cross-cloud über Internet nutzen. SES Receipt Rules (Inbound) → SendGrid Inbound Parse oder Mailgun Routes. **DNS-Umstellung.** SPF-, DKIM- und DMARC-Records beim neuen Provider anpassen — Propagation dauert bis 48h. **IP Warmup.** Bei Dedicated IPs 2–4 Wochen Warmup-Phase einplanen. **Kosten.** SES ist sehr günstig ($0.10/1000 Mails) — Alternativen deutlich teurer bei hohem Volumen.",
+      "en": "**No OTC equivalent.** Managed email does not exist on OTC. OTC Secure Mail Gateway is an SMTP relay, not an SES replacement. **Alternatives.** Use SendGrid, Mailgun, or SES cross-cloud over internet. SES Receipt Rules (inbound) → SendGrid Inbound Parse or Mailgun Routes. **DNS migration.** Adjust SPF, DKIM, and DMARC records with new provider — propagation takes up to 48h. **IP warmup.** Plan 2–4 weeks warmup phase for dedicated IPs. **Cost.** SES is very cheap ($0.10/1000 emails) — alternatives significantly more expensive at high volume."
+    },
+    "equivNote": null,
+    "tfNote": null
+  },
+  {
+    "name": "Amazon MQ",
+    "category": "Messaging",
+    "effort": "medium",
+    "equiv": "partial",
+    "scope": [],
+    "otc": "DMS for RabbitMQ",
+    "tfAws": "aws_mq_broker, aws_mq_configuration",
+    "tfOtc": "opentelekomcloud_dms_dedicated_instance_v2",
+    "tfStatus": "partial",
+    "docsAws": "https://docs.aws.amazon.com/amazon-mq/",
+    "docsOtc": "https://docs.otc.t-systems.com/distributed-message-service/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/mq_broker",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/dms_dedicated_instance_v2",
+    "desc": {
+      "de": "Managed Message Broker. ActiveMQ und RabbitMQ. AMQP, MQTT, STOMP, OpenWire. Multi-AZ, Persistence, Encryption.",
+      "en": "Managed message broker. ActiveMQ and RabbitMQ. AMQP, MQTT, STOMP, OpenWire. Multi-AZ, persistence, encryption."
+    },
+    "otcDesc": {
+      "de": "Managed RabbitMQ-Instanzen. AMQP 0-9-1, Cluster-Modus für HA, Persistence, SSL/TLS. Kein ActiveMQ Support.",
+      "en": "Managed RabbitMQ instances. AMQP 0-9-1, cluster mode for HA, persistence, SSL/TLS. No ActiveMQ support."
+    },
+    "alt": {
+      "de": "ActiveMQ/RabbitMQ auf ECS (self-managed), DMS Kafka (für Pub/Sub-Patterns)",
+      "en": "ActiveMQ/RabbitMQ on ECS (self-managed), DMS Kafka (for pub/sub patterns)"
+    },
+    "migration": {
+      "de": "**ActiveMQ-Wegfall.** ActiveMQ (OpenWire, STOMP) wird auf OTC nicht unterstützt — Clients auf AMQP umstellen oder ActiveMQ self-hosted auf ECS betreiben. **RabbitMQ-Migration.** Definitions (Queues/Exchanges/Bindings) per rabbitmqadmin exportieren und importieren. ActiveMQ Network of Brokers → RabbitMQ Federation Plugin oder Shovel. **MQTT-Einschränkung.** MQTT nur über RabbitMQ MQTT Plugin mit eingeschränkter MQTT 5.0 Unterstützung. **Terraform-Lücke.** DMS RabbitMQ TF kann nur Instanzen provisionieren — keine Queue/Exchange-Konfiguration per Terraform.",
+      "en": "**ActiveMQ unavailable.** ActiveMQ (OpenWire, STOMP) is not supported on OTC — switch clients to AMQP or run ActiveMQ self-hosted on ECS. **RabbitMQ migration.** Export/import definitions (queues/exchanges/bindings) via rabbitmqadmin. ActiveMQ Network of Brokers → RabbitMQ Federation Plugin or Shovel. **MQTT limitation.** MQTT only via RabbitMQ MQTT Plugin with limited MQTT 5.0 support. **Terraform gap.** DMS RabbitMQ TF can only provision instances — no queue/exchange configuration via Terraform."
+    },
+    "equivNote": {
+      "de": "DMS bietet managed RabbitMQ, aber kein ActiveMQ. ActiveMQ-Clients müssen auf AMQP migriert oder ActiveMQ self-hosted betrieben werden. Kein nativer MQTT-Broker.",
+      "en": "DMS offers managed RabbitMQ but no ActiveMQ. ActiveMQ clients must migrate to AMQP or run ActiveMQ self-hosted. No native MQTT broker."
+    },
+    "tfNote": {
+      "de": "DMS RabbitMQ Instanz per TF provisionierbar, aber Queue/Exchange/Binding-Konfiguration nicht per TF.",
+      "en": "DMS RabbitMQ instance provisionable via TF, but queue/exchange/binding configuration not via TF."
+    }
+  },
+  {
+    "name": "Amazon MSK",
+    "category": "Messaging",
+    "effort": "medium",
+    "equiv": "partial",
+    "scope": [],
+    "otc": "DMS for Kafka",
+    "tfAws": "aws_msk_cluster, aws_msk_configuration, aws_msk_serverless_cluster",
+    "tfOtc": "opentelekomcloud_dms_dedicated_instance_v2",
+    "tfStatus": "partial",
+    "docsAws": "https://docs.aws.amazon.com/msk/",
+    "docsOtc": "https://docs.otc.t-systems.com/distributed-message-service/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/msk_cluster",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/dms_dedicated_instance_v2",
+    "desc": {
+      "de": "Managed Apache Kafka. Serverless und Provisioned. Multi-AZ, Schema Registry (Glue), MSK Connect, Tiered Storage.",
+      "en": "Managed Apache Kafka. Serverless and provisioned. Multi-AZ, Schema Registry (Glue), MSK Connect, tiered storage."
+    },
+    "otcDesc": {
+      "de": "Managed Kafka-Instanzen. Multi-AZ, Consumer Groups, Topic Management, SASL/SSL. Kein Serverless-Modus, weniger Kafka-Versionen als MSK.",
+      "en": "Managed Kafka instances. Multi-AZ, consumer groups, topic management, SASL/SSL. No serverless mode, fewer Kafka versions than MSK."
+    },
+    "alt": {
+      "de": "Self-managed Kafka auf CCE (Strimzi Operator), Redpanda auf CCE",
+      "en": "Self-managed Kafka on CCE (Strimzi Operator), Redpanda on CCE"
+    },
+    "migration": {
+      "de": "**Versionskompatibilität.** DMS Kafka unterstützt weniger Kafka-Versionen als MSK — vor Migration prüfen. **Kein Serverless.** MSK Serverless hat kein Pendant — DMS braucht feste Instanzgröße (Capacity Planning erforderlich). **Fehlende Managed-Komponenten.** MSK Connect (Managed Kafka Connect) → self-hosted auf CCE. Schema Registry (Glue) → Confluent Schema Registry auf CCE. Cruise Control → manuelles Partition-Rebalancing. Tiered Storage nicht verfügbar. **Authentifizierung.** IAM-basierte Auth gibt es nicht — DMS nur SASL/PLAIN oder SCRAM. **Live-Migration.** MirrorMaker 2 für die Übergangsphase von MSK zu DMS Kafka nutzen.",
+      "en": "**Version compatibility.** DMS Kafka supports fewer Kafka versions than MSK — check before migration. **No serverless.** MSK Serverless has no equivalent — DMS needs fixed instance size (capacity planning required). **Missing managed components.** MSK Connect (Managed Kafka Connect) → self-hosted on CCE. Schema Registry (Glue) → Confluent Schema Registry on CCE. Cruise Control → manual partition rebalancing. Tiered Storage not available. **Authentication.** IAM-based auth does not exist — DMS only SASL/PLAIN or SCRAM. **Live migration.** Use MirrorMaker 2 for transition phase from MSK to DMS Kafka."
+    },
+    "equivNote": {
+      "de": "DMS Kafka bietet managed Kafka-Instanzen mit SASL/SSL. Kein MSK Serverless, kein MSK Connect (Managed Kafka Connect), kein Tiered Storage, weniger Kafka-Versionen, keine IAM-basierte Authentifizierung. Schema Registry muss selbst betrieben werden.",
+      "en": "DMS Kafka provides managed Kafka instances with SASL/SSL. No MSK Serverless, no MSK Connect (managed Kafka Connect), no tiered storage, fewer Kafka versions, no IAM-based authentication. Schema Registry must be self-operated."
+    },
+    "tfNote": {
+      "de": "DMS Kafka Instanz und Topics per TF, aber Consumer Groups und ACLs nicht per TF steuerbar.",
+      "en": "DMS Kafka instance and topics via TF, but consumer groups and ACLs not manageable via TF."
+    }
+  }
+]

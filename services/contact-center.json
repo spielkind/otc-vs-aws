@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Amazon Connect",
+    "category": "Contact Center",
+    "effort": "hard",
+    "equiv": "none",
+    "scope": [
+      "K1"
+    ],
+    "otc": "Kein Equivalent",
+    "tfAws": "aws_connect_instance",
+    "tfOtc": null,
+    "tfStatus": "none",
+    "docsAws": "https://docs.aws.amazon.com/connect/",
+    "docsOtc": null,
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/connect_instance",
+    "tfDocsOtc": null,
+    "desc": {
+      "de": "Cloud Contact Center. Voice, Chat, IVR, Recording, Analytics.",
+      "en": "Cloud contact center. Voice, chat, IVR, recording, analytics."
+    },
+    "otcDesc": {
+      "de": "Keine Contact Center Lösung.",
+      "en": "No contact center solution."
+    },
+    "alt": {
+      "de": "Asterisk/FreePBX, Genesys, Twilio Flex",
+      "en": "Asterisk/FreePBX, Genesys, Twilio Flex"
+    },
+    "migration": {
+      "de": "**Kein OTC-Pendant.** Cloud Contact Center muss über Drittanbieter abgebildet werden: Genesys Cloud, Five9 oder Twilio Flex. **IVR-Logik.** Contact Flows komplett neu aufbauen — kein Migrations-Tool verfügbar. **NLU & Bots.** Amazon Connect Lex-Bots → externe NLU-Integration (Dialogflow, Rasa). Connect Wisdom → eigene Knowledge Base. **Sprachanalyse.** Contact Lens (Echtzeit-Analyse) → externe Speech-Analytics-Lösung anbinden. **Rufnummern.** Telefonnummern müssen portiert werden — Vorlaufzeit einplanen.",
+      "en": "**No OTC equivalent.** Cloud contact center must be covered by third-party solutions: Genesys Cloud, Five9, or Twilio Flex. **IVR logic.** Contact Flows must be rebuilt entirely — no migration tool available. **NLU & bots.** Amazon Connect Lex bots → external NLU integration (Dialogflow, Rasa). Connect Wisdom → custom knowledge base. **Speech analytics.** Contact Lens (real-time analysis) → integrate external speech analytics solution. **Phone numbers.** Phone numbers must be ported — plan for lead time."
+    },
+    "equivNote": null,
+    "tfNote": null
+  }
+]

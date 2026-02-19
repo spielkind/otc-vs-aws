@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AWS → OTC Migration Guide</title>
+<link rel="stylesheet" href="css/vars.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/filters.css">
+<link rel="stylesheet" href="css/cards.css">
+<link rel="stylesheet" href="css/migration.css">
+<link rel="stylesheet" href="css/dark.css">
+<link rel="stylesheet" href="css/mobile.css">
+<link rel="stylesheet" href="css/print.css">
+</head>
+<body>
+<div class="header"><div class="container"><div class="header-row">
+<div class="header-left"><h1>AWS → <span>Open Telekom Cloud</span></h1><div class="sub" id="subtitle"></div></div>
+<div class="header-center"><span class="ai-hint" id="aiHint">🤖 KI-generiert · ohne Gewähr</span></div>
+<div class="header-right">
+<div class="lang-toggle"><button class="lang-btn active" onclick="setLang('de')">DE</button><button class="lang-btn" onclick="setLang('en')">EN</button></div>
+<div class="header-actions">
+<a class="h-btn" id="linkRoadmap" href="#" target="_blank">🗺️ <span class="h-btn-label">Roadmap</span></a>
+<a class="h-btn" id="linkRelease" href="#" target="_blank">📰 <span class="h-btn-label">Release Notes</span></a>
+<a class="h-btn" id="linkLeistung" href="#" target="_blank">📋 <span class="h-btn-label">Leistungsbeschreibung</span></a>
+<button class="h-btn" onclick="toggleAll()" id="btnToggle">⊞ <span class="h-btn-label">Alle öffnen</span></button>
+<button class="h-btn" onclick="toggleDark()" id="btnDark">🌙</button>
+<button class="h-btn" onclick="exportCSV()">📊 <span class="h-btn-label">CSV</span></button>
+<button class="h-btn" onclick="exportPDF()">📄 <span class="h-btn-label">PDF</span></button>
+</div>
+</div></div></div></div>
+
+<div class="toolbar"><div class="container"><div class="toolbar-inner">
+<div class="search-wrap"><input type="text" class="search-box" id="searchBox" placeholder="Service suchen..."></div>
+<div class="pill-group" id="catPills"></div>
+<span class="pill-sep">|</span>
+<div class="equiv-group" id="equivPills"></div>
+<span class="pill-sep">|</span>
+<div class="tf-group" id="tfPills"></div>
+<span class="pill-sep">|</span>
+<div class="effort-pills">
+<button class="pill pill-eff eff-easy"><span class="eff-cnt" id="ecnt">0</span> <span id="elbl">Einfach</span></button>
+<button class="pill pill-eff eff-med"><span class="eff-cnt" id="mcnt">0</span> <span id="mlbl">Mittel</span></button>
+<button class="pill pill-eff eff-hard"><span class="eff-cnt" id="hcnt">0</span> <span id="hlbl">Hoch</span></button>
+</div>
+<span class="pill-sep">|</span>
+<div class="sort-group"><span style="font-size:.7rem;color:#999" id="sortLabel">Sort:</span>
+<button class="sort-btn active" data-sort="name">A-Z</button>
+<button class="sort-btn" data-sort="category">Kategorie</button>
+<button class="sort-btn" data-sort="effort">Aufwand</button>
+</div>
+<span class="pill-sep">|</span>
+<div class="scope-group" id="scopePills"></div>
+</div></div></div>
+
+<div class="container">
+<div class="filter-info" id="filterInfo"></div>
+<div class="grid" id="grid"></div>
+</div>
+
+<div class="footer">AWS → OTC Migration Guide | <a href="https://open-telekom-cloud.com" target="_blank">T-Systems Open Telekom Cloud</a> | <span id="genDate"></span></div>
+
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<button class="filter-fab" id="filterFab" onclick="toggleSheet()">🔍 <span id="filterBadge"></span></button>
+<div class="sheet-overlay" id="sheetOverlay" onclick="toggleSheet()"></div>
+<div class="bottom-sheet" id="bottomSheet">
+<div class="sheet-handle" onclick="toggleSheet()"><span></span></div>
+<button class="sheet-close" onclick="toggleSheet()">✕</button>
+<div class="sheet-body">
+<div class="sheet-row"><input type="text" class="search-box sheet-search" id="sheetSearch" placeholder="Service suchen..."></div>
+<div class="sheet-section"><div class="sheet-label">Scope</div><div class="sheet-pills" id="sheetScope"></div></div>
+<div class="sheet-section"><div class="sheet-label" id="sheetCatLabel">Kategorie</div><div class="sheet-pills" id="sheetCats"></div></div>
+<div class="sheet-section"><div class="sheet-label">Equiv</div><div class="sheet-pills" id="sheetEquiv"></div></div>
+<div class="sheet-section"><div class="sheet-label">Terraform</div><div class="sheet-pills" id="sheetTf"></div></div>
+<div class="sheet-section"><div class="sheet-label" id="sheetEffLabel">Aufwand</div><div class="sheet-pills" id="sheetEffort"></div></div>
+<div class="sheet-section"><div class="sheet-label" id="sheetSortLabel">Sortierung</div><div class="sheet-pills" id="sheetSort"></div></div>
+<div class="sheet-row"><button class="sheet-reset" id="sheetReset" onclick="resetFilters();document.getElementById('sheetSearch').value='';buildUI();buildSheet();render()">✕ Reset</button></div>
+</div>
+</div>
+
+<!-- JS: order matters (state before filters before render before export before app) -->
+<script src="js/i18n.js"></script>
+<script src="js/state.js"></script>
+<script src="js/filters.js"></script>
+<script src="js/render.js"></script>
+<script src="js/export.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

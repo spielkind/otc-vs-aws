@@ -1,0 +1,245 @@
+[
+  {
+    "name": "Amazon VPC",
+    "category": "Networking",
+    "effort": "easy",
+    "equiv": "full",
+    "scope": [
+      "K1",
+      "K2"
+    ],
+    "otc": "Virtual Private Cloud (VPC)",
+    "tfAws": "aws_vpc, aws_subnet",
+    "tfOtc": "opentelekomcloud_vpc_v1, opentelekomcloud_vpc_subnet_v1",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/vpc/",
+    "docsOtc": "https://docs.otc.t-systems.com/virtual-private-cloud/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/vpc_v1",
+    "desc": {
+      "de": "Isoliertes Netzwerk. Subnets, Route Tables, Security Groups, NACLs, VPN, Direct Connect, VPC Peering, VPC Flow Logs, IPv6 Dual-Stack, VPC Endpoints.",
+      "en": "Isolated network. Subnets, route tables, security groups, NACLs, VPN, Direct Connect, VPC Peering, VPC Flow Logs, IPv6 dual-stack, VPC Endpoints."
+    },
+    "otcDesc": {
+      "de": "CIDR-Blöcke, Subnets (DHCP-basiert), Security Groups (stateful, bis 20 Regeln/Gruppe default), Firewalls (Subnet-ACLs, stateless, 5-Tupel Allow/Deny), VPN, Direct Connect, VPC Peering (nur intra-Region), Enterprise Router (ER) für Cross-VPC, VPC Flow Logs (nach LTS), IPv6 Dual-Stack (eingeschränkt).",
+      "en": "CIDR blocks, subnets (DHCP-based), security groups (stateful, up to 20 rules/group default), firewalls (subnet ACLs, stateless, 5-tuple allow/deny), VPN, Direct Connect, VPC Peering (intra-region only), Enterprise Router (ER) for cross-VPC, VPC Flow Logs (to LTS), IPv6 dual-stack (limited)."
+    },
+    "alt": null,
+    "migration": {
+      "de": "**Security Groups.** Max 20 Regeln/Gruppe (erweiterbar), max 400 pro Projekt. CIDR-Bereiche können nach VPC-Erstellung nicht geändert werden. **Network ACLs.** AWS NACLs → OTC 'Firewalls' (Subnet-Level, stateless, 5-Tupel, Allow/Deny) — funktional identisch. **Peering & Routing.** VPC Peering nur intra-Region — für Cross-Region Enterprise Router (ER) nutzen. NAT Gateway ist ein separater Service. **Flow Logs.** Gehen nach LTS mit weniger Feldern als AWS, kein S3-Export. **Fehlend.** IPv6 Dual-Stack nur eingeschränkt verfügbar. Kein VPC Lattice.",
+      "en": "**Security groups.** Max 20 rules/group (expandable), max 400 per project. CIDR ranges cannot be changed after VPC creation. **Network ACLs.** AWS NACLs → OTC 'Firewalls' (subnet-level, stateless, 5-tuple, allow/deny) — functionally identical. **Peering & routing.** VPC Peering intra-region only — use Enterprise Router (ER) for cross-region. NAT Gateway is a separate service. **Flow Logs.** Go to LTS with fewer fields than AWS, no S3 export. **Missing.** IPv6 dual-stack limited availability. No VPC Lattice."
+    },
+    "equivNote": null,
+    "tfNote": null
+  },
+  {
+    "name": "Elastic Load Balancing",
+    "category": "Networking",
+    "effort": "easy",
+    "equiv": "full",
+    "scope": [
+      "K1",
+      "K2"
+    ],
+    "otc": "Elastic Load Balance (ELB)",
+    "tfAws": "aws_lb, aws_lb_listener",
+    "tfOtc": "opentelekomcloud_lb_loadbalancer_v3",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/elasticloadbalancing/",
+    "docsOtc": "https://docs.otc.t-systems.com/elastic-load-balancing/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/lb_loadbalancer_v3",
+    "desc": {
+      "de": "Traffic-Verteilung. ALB (L7, HTTP/HTTPS, Path/Host-based Routing), NLB (L4, TCP/UDP/TLS, ultra-low latency), GLB (Gateway, transparent inspection). Health Checks, Sticky Sessions, WAF-Integration.",
+      "en": "Traffic distribution. ALB (L7, HTTP/HTTPS, path/host-based routing), NLB (L4, TCP/UDP/TLS, ultra-low latency), GLB (Gateway, transparent inspection). Health checks, sticky sessions, WAF integration."
+    },
+    "otcDesc": {
+      "de": "Dedicated ELB (exklusive Ressourcen, bis 20 Mio. Connections/AZ) und Shared ELB (Cluster, günstiger). L4 (TCP/UDP) + L7 (HTTP/HTTPS). Dedicated unterstützt: QUIC, HTTP/2, TLS 1.3, SNI, Path/Host-based Routing (L7 Policies), Weighted Backend Groups, IP-Backend (Cross-VPC). WebSocket nur bei Dedicated. EU-NL nur Dedicated.",
+      "en": "Dedicated ELB (exclusive resources, up to 20M connections/AZ) and Shared ELB (cluster, cheaper). L4 (TCP/UDP) + L7 (HTTP/HTTPS). Dedicated supports: QUIC, HTTP/2, TLS 1.3, SNI, path/host-based routing (L7 policies), weighted backend groups, IP backend (cross-VPC). WebSocket only with Dedicated. EU-NL Dedicated only."
+    },
+    "alt": {
+      "de": "Nginx, HAProxy",
+      "en": "Nginx, HAProxy"
+    },
+    "migration": {
+      "de": "**ELB-Typen.** OTC bietet Shared (Classic), Dedicated und Dedicated (WAF). Für Produktion Dedicated verwenden. **Layer-7-Migration.** ALB-Features (Path-/Host-based Routing) → Dedicated ELB mit L7-Policies. NLB (TCP/UDP) → Dedicated ELB TCP Listener. **Verhaltensunterschiede.** Sticky Sessions sind Cookie-basiert mit anderer Konfiguration. WebSocket-Support nur bei Dedicated ELB. Cross-Zone Load Balancing ist Standard und nicht abschaltbar. Target Group Health Checks haben andere Parameter. **Fehlend.** Gateway Load Balancer existiert nicht.",
+      "en": "**ELB types.** OTC offers Shared (Classic), Dedicated, and Dedicated (WAF). Use Dedicated for production. **Layer 7 migration.** ALB features (path/host-based routing) → Dedicated ELB with L7 policies. NLB (TCP/UDP) → Dedicated ELB TCP Listener. **Behavioral differences.** Sticky Sessions are cookie-based with different configuration. WebSocket support only with Dedicated ELB. Cross-zone load balancing is default and cannot be disabled. Target group health checks have different parameters. **Missing.** Gateway Load Balancer does not exist."
+    },
+    "equivNote": null,
+    "tfNote": null
+  },
+  {
+    "name": "AWS Direct Connect",
+    "category": "Networking",
+    "effort": "medium",
+    "equiv": "full",
+    "scope": [],
+    "otc": "Direct Connect (DC)",
+    "tfAws": "aws_dx_connection, aws_dx_gateway, aws_dx_private_virtual_interface",
+    "tfOtc": "opentelekomcloud_dc_virtual_gateway_v3, opentelekomcloud_dc_virtual_interface_v3",
+    "tfStatus": "partial",
+    "docsAws": "https://docs.aws.amazon.com/directconnect/",
+    "docsOtc": "https://docs.otc.t-systems.com/direct-connect/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dx_connection",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/dc_virtual_gateway_v3",
+    "desc": {
+      "de": "Dedizierte Netzwerkverbindung zwischen On-Premises und AWS. Private/Public VIF, LAG, Direct Connect Gateway.",
+      "en": "Dedicated network connection between on-premises and AWS. Private/public VIF, LAG, Direct Connect Gateway."
+    },
+    "otcDesc": {
+      "de": "Dedizierte Netzwerkverbindung zwischen On-Premises und OTC. Virtual Gateway, Virtual Interface, Hosted/Standard Connect.",
+      "en": "Dedicated network connection between on-premises and OTC. Virtual gateway, virtual interface, hosted/standard connect."
+    },
+    "alt": {
+      "de": "VPN (IPSec Site-to-Site)",
+      "en": "VPN (IPSec site-to-site)"
+    },
+    "migration": {
+      "de": "**Bestellprozess.** OTC Direct Connect wird über T-Systems/Partner bestellt — Vorlaufzeit mehrere Wochen. Nur Standorte in DE/EU verfügbar (weniger PoPs als AWS). **BGP-Konfiguration.** ASN-Bereiche können abweichen — vor Migration prüfen. LAG (Link Aggregation Group) funktioniert ähnlich. **Routing-Mapping.** Virtual Interfaces (Public/Private) → Direct Connect Virtual Gateway + VPC-Attachment. Transit VIF → Enterprise Router mit Direct Connect. **Fehlend.** MACsec-Verschlüsselung nicht verfügbar.",
+      "en": "**Ordering process.** OTC Direct Connect is ordered via T-Systems/partners — lead time several weeks. Only locations in DE/EU available (fewer PoPs than AWS). **BGP configuration.** ASN ranges may differ — check before migration. LAG (Link Aggregation Group) works similarly. **Routing mapping.** Virtual Interfaces (Public/Private) → Direct Connect Virtual Gateway + VPC attachment. Transit VIF → Enterprise Router with Direct Connect. **Missing.** MACsec encryption not available."
+    },
+    "equivNote": null,
+    "tfNote": {
+      "de": "Connection und Virtual Interface per TF, aber BGP-Konfiguration und physische Bereitstellung nicht per TF automatisierbar.",
+      "en": "Connection and virtual interface via TF, but BGP configuration and physical provisioning not automatable via TF."
+    }
+  },
+  {
+    "name": "AWS Transit Gateway",
+    "category": "Networking",
+    "effort": "easy",
+    "equiv": "partial",
+    "scope": [],
+    "otc": "Enterprise Router (ER)",
+    "tfAws": "aws_ec2_transit_gateway, aws_ec2_transit_gateway_vpc_attachment",
+    "tfOtc": "opentelekomcloud_er_instance_v3, opentelekomcloud_er_vpc_attachment_v3",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/vpc/latest/tgw/",
+    "docsOtc": "https://docs.otc.t-systems.com/enterprise-router/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ec2_transit_gateway",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/er_instance_v3",
+    "desc": {
+      "de": "Zentraler Netzwerk-Hub für VPC-zu-VPC, VPN und Direct Connect. Route Tables, Peering, Multicast.",
+      "en": "Central network hub for VPC-to-VPC, VPN and Direct Connect. Route tables, peering, multicast."
+    },
+    "otcDesc": {
+      "de": "Zentraler Netzwerk-Hub. VPC-Attachments, Route Tables, Propagations, Associations, Cross-Account Sharing, Flow Logs.",
+      "en": "Central network hub. VPC attachments, route tables, propagations, associations, cross-account sharing, flow logs."
+    },
+    "alt": {
+      "de": "VPC Peering (für wenige VPCs)",
+      "en": "VPC Peering (for few VPCs)"
+    },
+    "migration": {
+      "de": "**Kernfunktionen.** Enterprise Router (ER) deckt VPC/VPN/DC-Attachments, Route Tables mit Propagation (auto + manuell) und Associations sowie Cross-Account Sharing ab. **Ressourcen-Mapping.** TGW Attachments → ER Connections (VPC, VPN, Virtual Gateway, CFW). TGW Route Tables → ER Route Tables (mit Propagation und Association). ER unterstützt auch Flow Logs. **Fehlend.** Kein Transit Gateway Peering über Regionen, kein TGW Multicast, kein Network Manager, kein TGW Connect (GRE).",
+      "en": "**Core features.** Enterprise Router (ER) covers VPC/VPN/DC attachments, route tables with propagation (auto + manual) and associations, plus cross-account sharing. **Resource mapping.** TGW Attachments → ER Connections (VPC, VPN, Virtual Gateway, CFW). TGW Route Tables → ER Route Tables (with propagation and association). ER also supports flow logs. **Missing.** No Transit Gateway Peering across regions, no TGW Multicast, no Network Manager, no TGW Connect (GRE)."
+    },
+    "equivNote": {
+      "de": "Enterprise Router deckt VPC-Attachments, Route Tables mit Propagation/Association, Cross-Account Sharing und Flow Logs ab. Fehlend: Multicast, Cross-Region Peering, Network Manager, TGW Connect (GRE).",
+      "en": "Enterprise Router covers VPC attachments, route tables with propagation/association, cross-account sharing, and flow logs. Missing: multicast, cross-region peering, Network Manager, TGW Connect (GRE)."
+    },
+    "tfNote": null
+  },
+  {
+    "name": "Amazon NAT Gateway",
+    "category": "Networking",
+    "effort": "easy",
+    "equiv": "full",
+    "scope": [],
+    "otc": "NAT Gateway",
+    "tfAws": "aws_nat_gateway",
+    "tfOtc": "opentelekomcloud_nat_gateway_v2, opentelekomcloud_nat_snat_rule_v2, opentelekomcloud_nat_dnat_rule_v2",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html",
+    "docsOtc": "https://docs.otc.t-systems.com/nat-gateway/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/nat_gateway_v2",
+    "desc": {
+      "de": "Managed NAT für ausgehenden Internet-Traffic aus privaten Subnets. SNAT und DNAT.",
+      "en": "Managed NAT for outbound internet traffic from private subnets. SNAT and DNAT."
+    },
+    "otcDesc": {
+      "de": "Managed NAT Gateway. SNAT-Regeln für ausgehenden Traffic, DNAT-Regeln für Port Forwarding. EIP-basiert.",
+      "en": "Managed NAT Gateway. SNAT rules for outbound traffic, DNAT rules for port forwarding. EIP-based."
+    },
+    "alt": {
+      "de": "iptables NAT auf ECS-Instanz",
+      "en": "iptables NAT on ECS instance"
+    },
+    "migration": {
+      "de": "**Regel-Konfiguration.** SNAT- und DNAT-Regeln werden separat konfiguriert (nicht automatisch wie bei AWS). Max 200 SNAT/DNAT-Regeln pro NAT Gateway. Elastic IPs müssen vorher erstellt und zugewiesen werden. **Private NAT.** Private NAT Gateway (VPC-zu-VPC ohne Internet) ist ein separater Service. **Kostenmodell.** Abrechnung nach Verbindungen + Traffic, nicht pauschal pro Stunde wie AWS.",
+      "en": "**Rule configuration.** SNAT and DNAT rules are configured separately (not automatic like AWS). Max 200 SNAT/DNAT rules per NAT Gateway. Elastic IPs must be created and assigned beforehand. **Private NAT.** Private NAT Gateway (VPC-to-VPC without internet) is a separate service. **Cost model.** Billed by connections + traffic, not flat hourly rate like AWS."
+    },
+    "equivNote": null,
+    "tfNote": null
+  },
+  {
+    "name": "AWS VPN (Site-to-Site)",
+    "category": "Networking",
+    "effort": "easy",
+    "equiv": "full",
+    "scope": [],
+    "otc": "VPN Gateway",
+    "tfAws": "aws_vpn_gateway, aws_vpn_connection, aws_customer_gateway",
+    "tfOtc": "opentelekomcloud_vpnaas_service_v2, opentelekomcloud_vpnaas_ipsec_policy_v2, opentelekomcloud_vpnaas_ike_policy_v2",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/vpn/latest/s2svpn/",
+    "docsOtc": "https://docs.otc.t-systems.com/virtual-private-network/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpn_connection",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/vpnaas_service_v2",
+    "desc": {
+      "de": "Managed IPSec VPN. Zwei Tunnel pro Connection, BGP/Static Routing, Accelerated VPN (Global Accelerator), VPN CloudHub.",
+      "en": "Managed IPSec VPN. Two tunnels per connection, BGP/static routing, Accelerated VPN (Global Accelerator), VPN CloudHub."
+    },
+    "otcDesc": {
+      "de": "Managed IPSec VPN Gateway. IKEv1/IKEv2, IPSec Policies, Site-to-Site Tunnel. Unterstützt BGP und Static Routing.",
+      "en": "Managed IPSec VPN Gateway. IKEv1/IKEv2, IPSec policies, site-to-site tunnel. Supports BGP and static routing."
+    },
+    "alt": {
+      "de": "strongSwan/Libreswan auf ECS, WireGuard",
+      "en": "strongSwan/Libreswan on ECS, WireGuard"
+    },
+    "migration": {
+      "de": "**Site-to-Site VPN.** OTC VPN Gateway unterstützt IPsec IKEv1/v2 und funktioniert ähnlich wie AWS. **Kein Client VPN.** AWS Client VPN → OpenVPN auf ECS oder WireGuard self-hosted. **Tunnel-Redundanz.** OTC erstellt standardmäßig nur einen Tunnel — für HA zwei VPN-Verbindungen konfigurieren. BGP über VPN ist eingeschränkt (statische Routen bevorzugt). **Fehlend.** Accelerated VPN (Global Accelerator Integration) gibt es nicht.",
+      "en": "**Site-to-site VPN.** OTC VPN Gateway supports IPsec IKEv1/v2 and works similarly to AWS. **No Client VPN.** AWS Client VPN → OpenVPN on ECS or WireGuard self-hosted. **Tunnel redundancy.** OTC creates only one tunnel by default — configure two VPN connections for HA. BGP over VPN is limited (static routes preferred). **Missing.** Accelerated VPN (Global Accelerator integration) does not exist."
+    },
+    "equivNote": null,
+    "tfNote": null
+  },
+  {
+    "name": "AWS PrivateLink",
+    "category": "Networking",
+    "effort": "easy",
+    "equiv": "partial",
+    "scope": [],
+    "otc": "VPC Endpoint (VPCEP)",
+    "tfAws": "aws_vpc_endpoint, aws_vpc_endpoint_service",
+    "tfOtc": "opentelekomcloud_vpcep_service_v1, opentelekomcloud_vpcep_endpoint_v1",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/vpc/latest/privatelink/",
+    "docsOtc": "https://docs.otc.t-systems.com/vpc-endpoint/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/vpcep_service_v1",
+    "desc": {
+      "de": "Privater Zugriff auf AWS-Services und eigene Services über VPC Endpoints. Interface Endpoints (ENI-basiert), Gateway Endpoints (S3, DynamoDB). PrivateLink Service für eigene Service-Exposition.",
+      "en": "Private access to AWS services and own services via VPC endpoints. Interface endpoints (ENI-based), gateway endpoints (S3, DynamoDB). PrivateLink service for own service exposure."
+    },
+    "otcDesc": {
+      "de": "Privater Zugriff auf OTC-Services über VPC Endpoints. Interface Endpoints für OBS, DNS und weitere OTC-Services. Eigene Services über VPC Endpoint Services exponieren.",
+      "en": "Private access to OTC services via VPC endpoints. Interface endpoints for OBS, DNS and other OTC services. Expose own services via VPC Endpoint Services."
+    },
+    "alt": {
+      "de": "VPC Peering + Security Groups, Proxy auf ECS (Nginx/HAProxy), NAT Gateway für OTC-Service-Zugriff",
+      "en": "VPC Peering + security groups, proxy on ECS (Nginx/HAProxy), NAT Gateway for OTC service access"
+    },
+    "migration": {
+      "de": "**Endpoint-Typen.** VPCEP unterstützt Gateway Endpoints (OBS, DIS) und Interface Endpoints, aber deutlich weniger OTC-Services haben Endpoint-Support als AWS. **Kein Policy-Modell.** Endpoint Policies gibt es nicht — Zugriffskontrolle nur über Security Groups. **Eigene Services.** PrivateLink für eigene Services → VPCEP Service erstellen (Whitelist-basiert). Cross-Account Endpoint Sharing ist eingeschränkt. **DNS-Abweichung.** DNS-Integration funktioniert anders — kein privates DNS wie bei AWS Interface Endpoints.",
+      "en": "**Endpoint types.** VPCEP supports Gateway Endpoints (OBS, DIS) and Interface Endpoints, but significantly fewer OTC services support endpoints than AWS. **No policy model.** Endpoint Policies don't exist — access control only via Security Groups. **Own services.** PrivateLink for own services → create VPCEP Service (whitelist-based). Cross-account endpoint sharing is limited. **DNS difference.** DNS integration works differently — no private DNS like AWS Interface Endpoints."
+    },
+    "equivNote": {
+      "de": "VPCEP bietet Interface und Gateway Endpoints für ausgewählte OTC-Services (OBS, DNS, DIS u.a.) und eigene Endpoint Services. Deutlich weniger Service-Integrationen als AWS (~20 vs. 100+), keine Endpoint Policies, kein PrivateLink Marketplace.",
+      "en": "VPCEP provides interface and gateway endpoints for selected OTC services (OBS, DNS, DIS etc.) and own endpoint services. Significantly fewer service integrations than AWS (~20 vs. 100+), no endpoint policies, no PrivateLink marketplace."
+    },
+    "tfNote": null
+  }
+]

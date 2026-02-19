@@ -1,0 +1,172 @@
+[
+  {
+    "name": "Amazon S3",
+    "category": "Storage",
+    "effort": "easy",
+    "equiv": "full",
+    "scope": [
+      "K1",
+      "K2"
+    ],
+    "otc": "Object Storage Service (OBS)",
+    "tfAws": "aws_s3_bucket",
+    "tfOtc": "opentelekomcloud_obs_bucket",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/s3/",
+    "docsOtc": "https://docs.otc.t-systems.com/object-storage-service/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/obs_bucket",
+    "desc": {
+      "de": "Object Storage. 11x9 Durability, Versioning, Lifecycle, Event Notifications, S3 Select, Object Lock (WORM), Intelligent-Tiering, Transfer Acceleration, Batch Operations.",
+      "en": "Object storage. 11x9 durability, versioning, lifecycle, event notifications, S3 Select, Object Lock (WORM), Intelligent-Tiering, Transfer Acceleration, Batch Operations."
+    },
+    "otcDesc": {
+      "de": "S3-kompatible REST-API (SDKs, CLI, Browser). Storage-Klassen: Standard, Infrequent Access, Archive. Versioning, Lifecycle Policies, Server-Side Encryption (SSE-KMS/SSE-OBS), WORM (Object Lock), Bucket Policies, Cross-Region Replication, Event Notifications (SMN/FunctionGraph). Max. Objekt: 48.8 TB (Multipart), 5 GB (Single PUT). Kein S3 Select, kein Intelligent-Tiering.",
+      "en": "S3-compatible REST API (SDKs, CLI, browser). Storage classes: Standard, Infrequent Access, Archive. Versioning, lifecycle policies, server-side encryption (SSE-KMS/SSE-OBS), WORM (Object Lock), bucket policies, cross-region replication, event notifications (SMN/FunctionGraph). Max object: 48.8 TB (multipart), 5 GB (single PUT). No S3 Select, no Intelligent-Tiering."
+    },
+    "alt": null,
+    "migration": {
+      "de": "**API-Kompatibilität.** OBS ist S3-API-kompatibel — SDKs und CLI funktionieren. WORM/Object Lock ist verfügbar. **Storage-Klassen.** Standard, IA, Archive (kein Intelligent-Tiering, kein Glacier Deep Archive). **Bucket Policies.** Ähnlich wie AWS, aber mit anderer Condition-Syntax. **Event-Notifications.** OBS Events + SMN/FunctionGraph. Cross-Region Replication verfügbar (nur bestimmte Regionen). **Fehlend.** S3 Select, Object Lambda, Transfer Acceleration und Batch Operations nicht verfügbar. Multipart Upload funktioniert, Limits können abweichen.",
+      "en": "**API compatibility.** OBS is S3 API-compatible — SDKs and CLI work. WORM/Object Lock available. **Storage classes.** Standard, IA, Archive (no Intelligent-Tiering, no Glacier Deep Archive). **Bucket policies.** Similar to AWS but with different condition syntax. **Event notifications.** OBS Events + SMN/FunctionGraph. Cross-region replication available (specific regions only). **Missing.** S3 Select, Object Lambda, Transfer Acceleration, and Batch Operations not available. Multipart Upload works, limits may differ."
+    },
+    "equivNote": null,
+    "tfNote": null
+  },
+  {
+    "name": "Amazon EFS",
+    "category": "Storage",
+    "effort": "easy",
+    "equiv": "partial",
+    "scope": [
+      "K1"
+    ],
+    "otc": "Scalable File Service (SFS)",
+    "tfAws": "aws_efs_file_system",
+    "tfOtc": "opentelekomcloud_sfs_file_system_v2, opentelekomcloud_sfs_turbo_share_v1",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/efs/",
+    "docsOtc": "https://docs.otc.t-systems.com/scalable-file-service/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/efs_file_system",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/sfs_file_system_v2",
+    "desc": {
+      "de": "Managed NFS (NFSv4). Elastisch, Auto-Scaling Throughput (Bursting/Elastic), Multi-AZ, Encryption, EFS Access Points, Lifecycle (IA-Klasse), EFS Replication.",
+      "en": "Managed NFS (NFSv4). Elastic, auto-scaling throughput (bursting/elastic), multi-AZ, encryption, EFS Access Points, lifecycle (IA class), EFS Replication."
+    },
+    "otcDesc": {
+      "de": "Managed NFS in drei Varianten: SFS Capacity-Oriented (elastisch, bis 2 PB, max 10 GB/s, 10k IOPS, Latenz 10–500 ms), SFS Turbo (High-Performance, feste Größe, Typen Standard/Performance mit SSD-Backend, bis 320 TB, sub-ms Latenz), General Purpose File System (bis 4 PB, 5 GB/s). Encryption, Snapshots (nur SFS Turbo). NFSv3 (Capacity-Oriented) bzw. NFSv3/NFSv4 (Turbo).",
+      "en": "Managed NFS in three variants: SFS Capacity-Oriented (elastic, up to 2 PB, max 10 GB/s, 10k IOPS, latency 10–500 ms), SFS Turbo (high-performance, fixed size, types Standard/Performance with SSD backend, up to 320 TB, sub-ms latency), General Purpose File System (up to 4 PB, 5 GB/s). Encryption, snapshots (SFS Turbo only). NFSv3 (Capacity-Oriented) or NFSv3/NFSv4 (Turbo)."
+    },
+    "alt": null,
+    "migration": {
+      "de": "**Kein Auto-Scaling.** SFS Turbo hat feste Größe — kein automatisches Throughput Scaling (Bursting/Elastic Modus). Typen: Standard (SSD, 150 MB/s Baseline), Performance (SSD, 350 MB/s Baseline) — Größe und Throughput vorab festlegen. **Fehlende Features.** EFS Lifecycle Management (IA Tier) nicht verfügbar. EFS Access Points nicht unterstützt — POSIX-Berechtigungen manuell konfigurieren. EFS Replication nicht verfügbar. **Cross-AZ.** Cross-AZ Mount funktioniert, Cross-Region nicht. **SFS-Varianten.** SFS Capacity-Oriented ist elastisch (wie EFS), hat aber 10–500 ms Latenz — für latenzempfindliche Workloads SFS Turbo wählen. Snapshots nur für SFS Turbo verfügbar.",
+      "en": "**No auto-scaling.** SFS Turbo has fixed size — no automatic throughput scaling (bursting/elastic mode). Types: Standard (SSD, 150 MB/s baseline), Performance (SSD, 350 MB/s baseline) — choose size and throughput upfront. **Missing features.** EFS Lifecycle Management (IA tier) not available. EFS Access Points not supported — configure POSIX permissions manually. EFS Replication not available. **Cross-AZ.** Cross-AZ mount works, cross-region does not. **SFS variants.** SFS Capacity-Oriented is elastic (like EFS) but has 10–500 ms latency — choose SFS Turbo for latency-sensitive workloads. Snapshots only available for SFS Turbo."
+    },
+    "equivNote": {
+      "de": "SFS Turbo hat feste Größe (kein Auto-Scaling wie EFS). Keine EFS Access Points, keine Lifecycle-basierte Tiering (IA-Klasse), keine EFS Replication. SFS bietet 3 Typen: Capacity-Oriented (großes Volumen, hohe Latenz), Turbo Standard/Performance (SSD, sub-ms Latenz), General Purpose (bis 4 PB). Turbo Performance ist für anspruchsvolle Workloads (HPC, AI) geeignet.",
+      "en": "SFS Turbo has fixed size (no auto-scaling like EFS). No EFS Access Points, no lifecycle-based tiering (IA class), no EFS Replication. SFS offers 3 types: Capacity-Oriented (large volume, higher latency), Turbo Standard/Performance (SSD, sub-ms latency), General Purpose (up to 4 PB). Turbo Performance is suited for demanding workloads (HPC, AI)."
+    },
+    "tfNote": null
+  },
+  {
+    "name": "AWS Backup",
+    "category": "Storage",
+    "effort": "easy",
+    "equiv": "partial",
+    "scope": [],
+    "otc": "Cloud Backup and Recovery (CBR)",
+    "tfAws": "aws_backup_vault, aws_backup_plan, aws_backup_selection",
+    "tfOtc": "opentelekomcloud_cbr_vault_v3, opentelekomcloud_cbr_policy_v3",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/aws-backup/",
+    "docsOtc": "https://docs.otc.t-systems.com/cloud-backup-recovery/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/backup_vault",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/cbr_vault_v3",
+    "desc": {
+      "de": "Zentraler Backup-Service. Automatisierte Backup-Pläne für EC2, RDS, EFS, DynamoDB, S3 u.v.m. Cross-Region, Cross-Account, Vault Lock.",
+      "en": "Central backup service. Automated backup plans for EC2, RDS, EFS, DynamoDB, S3 and more. Cross-region, cross-account, vault lock."
+    },
+    "otcDesc": {
+      "de": "Zentrales Backup für ECS, EVS, SFS Turbo. Backup-Policies, Replication-Policies für Cross-Region, Vaults, Wiederherstellung.",
+      "en": "Central backup for ECS, EVS, SFS Turbo. Backup policies, replication policies for cross-region, vaults, recovery."
+    },
+    "alt": {
+      "de": "Veeam auf ECS, Restic/Borg + OBS, Velero (für CCE/Kubernetes)",
+      "en": "Veeam on ECS, Restic/Borg + OBS, Velero (for CCE/Kubernetes)"
+    },
+    "migration": {
+      "de": "**Service-Scope.** CBR deckt ECS, EVS und SFS Turbo ab, aber kein zentraler Backup-Plan über alle Services — separate Backup-Policies pro Service-Typ nötig. **Cross-Region.** CBR Replication Policies speichern Replicas in Replication Vaults, aber weniger Ziel-Regionen als AWS. **RDS-Backup.** Nicht über CBR — separates RDS Automated Backup nutzen. **Fehlend.** Backup Vault Lock (WORM) nicht verfügbar. AWS Backup Audit Manager hat kein Pendant. **Windows-Workloads.** Application-consistent Backups für Windows → VSS-Integration prüfen.",
+      "en": "**Service scope.** CBR covers ECS, EVS, and SFS Turbo, but no central backup plan across all services — separate backup policies per service type required. **Cross-region.** CBR Replication Policies store replicas in replication vaults, but fewer target regions than AWS. **RDS backup.** Not via CBR — use separate RDS Automated Backup. **Missing.** Backup Vault Lock (WORM) not available. AWS Backup Audit Manager has no equivalent. **Windows workloads.** Application-consistent backups for Windows → check VSS integration."
+    },
+    "equivNote": {
+      "de": "CBR unterstützt ECS/EVS/SFS Turbo. Cross-Region via Replication Policies möglich (weniger Ziel-Regionen). Kein Cross-Account Backup, kein Vault Lock (WORM), weniger Service-Integrationen als AWS Backup (~15 Services).",
+      "en": "CBR supports ECS/EVS/SFS Turbo. Cross-region via replication policies possible (fewer target regions). No cross-account backup, no vault lock (WORM), fewer service integrations than AWS Backup (~15 services)."
+    },
+    "tfNote": null
+  },
+  {
+    "name": "Amazon EBS",
+    "category": "Storage",
+    "effort": "easy",
+    "equiv": "full",
+    "scope": [],
+    "otc": "Elastic Volume Service (EVS)",
+    "tfAws": "aws_ebs_volume, aws_ebs_snapshot",
+    "tfOtc": "opentelekomcloud_evs_volume_v3",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/ebs/",
+    "docsOtc": "https://docs.otc.t-systems.com/elastic-volume-service/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ebs_volume",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/evs_volume_v3",
+    "desc": {
+      "de": "Elastic Block Store. Persistente Block-Volumes für EC2. Typen: gp3, io2, st1, sc1. Snapshots, Encryption, Multi-Attach.",
+      "en": "Elastic Block Store. Persistent block volumes for EC2. Types: gp3, io2, st1, sc1. Snapshots, encryption, multi-attach."
+    },
+    "otcDesc": {
+      "de": "Persistente Block-Volumes für ECS. Typen: High-IO (SSD), Ultra-High-IO (SSD), Common-IO (SATA). Snapshots, Encryption, Shared EVS (Multi-Attach).",
+      "en": "Persistent block volumes for ECS. Types: High-IO (SSD), Ultra-High-IO (SSD), Common-IO (SATA). Snapshots, encryption, Shared EVS (multi-attach)."
+    },
+    "alt": null,
+    "migration": {
+      "de": "**Disk-Typen.** EVS: SSD (General Purpose), Ultra-High I/O (io1-Pendant), High I/O. Provisioned IOPS → Ultra-High I/O EVS (andere Preisstruktur). **Kein gp3-Pendant.** gp3 (Baseline + Burst) hat kein direktes Pendant — SSD-Performance-Stufen prüfen. io2 Block Express nicht verfügbar. **Multi-Attach.** io1/io2 Multi-Attach → EVS Shared Disk (nur für bestimmte Dateisysteme). **Snapshots.** Funktionieren ähnlich, aber kein Fast Snapshot Restore. EBS Direct APIs (Snapshot-Zugriff) fehlen. **Verschlüsselung.** EVS Encryption mit KMS (ähnlich wie AWS).",
+      "en": "**Disk types.** EVS: SSD (General Purpose), Ultra-High I/O (io1 equivalent), High I/O. Provisioned IOPS → Ultra-High I/O EVS (different pricing structure). **No gp3 equivalent.** gp3 (baseline + burst) has no direct equivalent — check SSD performance tiers. io2 Block Express not available. **Multi-Attach.** io1/io2 Multi-Attach → EVS Shared Disk (only for certain filesystems). **Snapshots.** Work similarly but no Fast Snapshot Restore. EBS Direct APIs (snapshot access) missing. **Encryption.** EVS Encryption with KMS (similar to AWS)."
+    },
+    "equivNote": null,
+    "tfNote": null
+  },
+  {
+    "name": "Amazon S3 Glacier",
+    "category": "Storage",
+    "effort": "medium",
+    "equiv": "partial",
+    "scope": [],
+    "otc": "OBS (Cold/Archive Storage Class)",
+    "tfAws": "aws_glacier_vault, aws_s3_bucket (with lifecycle to Glacier)",
+    "tfOtc": "opentelekomcloud_obs_bucket",
+    "tfStatus": "partial",
+    "docsAws": "https://docs.aws.amazon.com/amazonglacier/latest/dev/",
+    "docsOtc": "https://docs.otc.t-systems.com/object-storage-service/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/glacier_vault",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/obs_bucket",
+    "desc": {
+      "de": "Langzeit-Archivierungsspeicher. Vault-basiert, Retrieval Policies (Expedited/Standard/Bulk), Vault Lock für WORM Compliance. Glacier Deep Archive für niedrigste Kosten.",
+      "en": "Long-term archive storage. Vault-based, retrieval policies (expedited/standard/bulk), vault lock for WORM compliance. Glacier Deep Archive for lowest cost."
+    },
+    "otcDesc": {
+      "de": "OBS bietet Cold und Archive Storage Classes als Speicherklassen innerhalb von OBS-Buckets. Kein separater Service — Objekte werden über Lifecycle-Policies oder direkt in Cold/Archive-Klasse geschrieben.",
+      "en": "OBS provides Cold and Archive storage classes within OBS buckets. No separate service — objects are written to Cold/Archive class via lifecycle policies or directly."
+    },
+    "alt": null,
+    "migration": {
+      "de": "**Storage-Klassen.** OBS Cold Storage entspricht Glacier, aber: kein Glacier Deep Archive — niedrigste Stufe ist OBS Cold. **Retrieval-Zeiten.** OBS Cold Standard Retrieval 1–5 Minuten (Glacier: 3–5 Stunden) — deutlich schneller. **Compliance.** Vault Lock → OBS WORM (Object Lock, Retention Policies). **Kein Retrieval-Tiering.** Glacier Flexible Retrieval Optionen (Expedited/Standard/Bulk) → OBS Cold hat nur einen Retrieval-Modus. **Fehlend.** Glacier Select nicht verfügbar.",
+      "en": "**Storage classes.** OBS Cold Storage corresponds to Glacier, but: no Glacier Deep Archive — lowest tier is OBS Cold. **Retrieval times.** OBS Cold Standard Retrieval 1–5 minutes (Glacier: 3–5 hours) — significantly faster. **Compliance.** Vault Lock → OBS WORM (Object Lock, Retention Policies). **No retrieval tiering.** Glacier Flexible Retrieval options (Expedited/Standard/Bulk) → OBS Cold has only one retrieval mode. **Missing.** Glacier Select not available."
+    },
+    "equivNote": {
+      "de": "Glacier wird auf OTC über OBS Storage Classes (Cold/Archive) abgebildet — kein separater Vault-Service. OBS WORM (Object Lock, Retention Policies) ist verfügbar. Kein Glacier Deep Archive als eigener Tier, kein Glacier Select. Retrieval-Zeiten bei OBS Archive sind kürzer als bei AWS Glacier.",
+      "en": "Glacier is mapped on OTC via OBS storage classes (Cold/Archive) — no separate vault service. OBS WORM (Object Lock, retention policies) is available. No Glacier Deep Archive as separate tier, no Glacier Select. Retrieval times for OBS Archive are shorter than AWS Glacier."
+    },
+    "tfNote": {
+      "de": "OBS Lifecycle Rules (inkl. Cold/Archive Transition) per TF steuerbar, aber Retrieval Jobs nicht per TF.",
+      "en": "OBS lifecycle rules (incl. cold/archive transition) manageable via TF, but retrieval jobs not via TF."
+    }
+  }
+]

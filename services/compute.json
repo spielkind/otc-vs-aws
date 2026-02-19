@@ -1,0 +1,103 @@
+[
+  {
+    "name": "Amazon EC2",
+    "category": "Compute",
+    "effort": "easy",
+    "equiv": "full",
+    "scope": [
+      "K1",
+      "K2"
+    ],
+    "otc": "Elastic Cloud Server (ECS)",
+    "tfAws": "aws_instance, aws_ebs_volume",
+    "tfOtc": "opentelekomcloud_compute_instance_v2",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/ec2/",
+    "docsOtc": "https://docs.otc.t-systems.com/elastic-cloud-server/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/compute_instance_v2",
+    "desc": {
+      "de": "Skalierbare VMs. 750+ Instance-Typen (General Purpose, Compute, Memory, Storage, Accelerated/GPU). Spot Instances, Placement Groups, Dedicated Hosts, Nitro-Architektur, ENA.",
+      "en": "Scalable VMs. 750+ instance types (general purpose, compute, memory, storage, accelerated/GPU). Spot instances, placement groups, dedicated hosts, Nitro architecture, ENA."
+    },
+    "otcDesc": {
+      "de": "VMs mit Flavor-Naming: Typ.Generation.RAM-Ratio (z.B. s3.large.2 = General Purpose Gen3, 1:2 RAM). Typen: s (General), c (Compute), m (Memory), d (Disk-intensive), p/pi/pn (GPU V100, T4, A100, H100), hana (SAP). Windows/Linux, VPC-Integration, Multi-AZ, Auto Scaling. Spot-Flavors mit festen Rabatten (keine Auktion). Server Groups für Anti-Affinity.",
+      "en": "VMs with flavor naming: type.generation.RAM-ratio (e.g. s3.large.2 = General Purpose Gen3, 1:2 RAM). Types: s (general), c (compute), m (memory), d (disk-intensive), p/pi (GPU V100/T4), hana (SAP). Windows/Linux, VPC integration, multi-AZ, Auto Scaling. Spot flavors with fixed discounts (no auctions). Server groups for anti-affinity."
+    },
+    "alt": null,
+    "migration": {
+      "de": "**Flavor-Schema.** m5.large → s3.large.2 — Suffix gibt RAM-Ratio an (.2 = 1:2 vCPU:RAM). GPU-Flavors (A100, H100) verfügbar. **Image-Formate.** AMI-Export nur als RAW/VMDK, kein QCOW2. **Netzwerk & Security.** Security Groups max 50 Regeln (AWS: 60). Kein Nitro/ENA — EVS-Performance-Tiers prüfen. Elastic IPs pro Region limitiert. **Cloud-Init.** User Data Scripts prüfen — Versionsunterschiede zwischen AWS und OTC können Probleme machen. **Spot & Placement.** Spot-Instanzen haben feste Rabatte statt Auktionsmodell. Placement Groups → nur Server Groups mit Anti-Affinity. **Nicht verfügbar.** Keine Dedicated Hosts, kein Capacity Reservations.",
+      "en": "**Flavor schema.** m5.large → s3.large.2 — suffix indicates RAM ratio (.2 = 1:2 vCPU:RAM). GPU flavors (A100, H100) available. **Image formats.** AMI export only as RAW/VMDK, no QCOW2. **Networking & security.** Security groups max 50 rules (AWS: 60). No Nitro/ENA — check EVS performance tiers. Elastic IPs limited per region. **Cloud-Init.** Check User Data scripts — version differences between AWS and OTC can cause issues. **Spot & placement.** Spot instances use fixed discounts instead of auction model. Placement Groups → only Server Groups with anti-affinity. **Not available.** No dedicated hosts, no capacity reservations."
+    },
+    "equivNote": null,
+    "tfNote": null
+  },
+  {
+    "name": "AWS Auto Scaling",
+    "category": "Compute",
+    "effort": "easy",
+    "equiv": "full",
+    "scope": [
+      "K2"
+    ],
+    "otc": "Auto Scaling (AS)",
+    "tfAws": "aws_autoscaling_group, aws_autoscaling_policy, aws_launch_configuration",
+    "tfOtc": "opentelekomcloud_as_group_v1, opentelekomcloud_as_policy_v2, opentelekomcloud_as_configuration_v1",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/autoscaling/",
+    "docsOtc": "https://docs.otc.t-systems.com/auto-scaling/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_group",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/as_group_v1",
+    "desc": {
+      "de": "Automatische Skalierung von EC2-Instanzen. Launch Configurations/Templates, Scaling Policies (Target Tracking, Step, Scheduled), Predictive Scaling.",
+      "en": "Automatic scaling of EC2 instances. Launch configurations/templates, scaling policies (target tracking, step, scheduled), predictive scaling."
+    },
+    "otcDesc": {
+      "de": "Automatische ECS-Skalierung und Bandwidth-Scaling. AS-Gruppen, AS-Konfigurationen, Scaling-Policies (Alarm-basiert, Scheduled, Lifecycle Hooks).",
+      "en": "Automatic ECS scaling and bandwidth scaling. AS groups, AS configurations, scaling policies (alarm-based, scheduled, lifecycle hooks)."
+    },
+    "alt": {
+      "de": "Kubernetes HPA/VPA auf CCE, Terraform + Cron",
+      "en": "Kubernetes HPA/VPA on CCE, Terraform + Cron"
+    },
+    "migration": {
+      "de": "**Alarm-basiertes Scaling.** OTC AS nutzt Cloud Eye Alarme statt CloudWatch. Target Tracking Policies gibt es nicht — nur Step/Simple Scaling mit Cloud-Eye-Schwellwerten. **AS Configurations.** Launch Configurations → AS Configurations (ähnlich, aber andere Parameter-Namen). Cooldown-Perioden und Health Check Grace Period separat konfigurierbar. **Kein Predictive Scaling.** Vorausschauende Skalierung fehlt komplett. **Flavor-Einschränkung.** Mixed Instance Policies (On-Demand + Spot) nicht verfügbar — nur ein Flavor pro AS-Gruppe. **Lifecycle Hooks.** OTC nutzt SMN-Benachrichtigungen statt SNS/SQS für Hook-Notifications.",
+      "en": "**Alarm-based scaling.** OTC AS uses Cloud Eye alarms instead of CloudWatch. Target Tracking policies don't exist — only Step/Simple Scaling with Cloud Eye thresholds. **AS configurations.** Launch Configurations → AS Configurations (similar but different parameter names). Cooldown periods and health check grace period configurable separately. **No Predictive Scaling.** Predictive scaling is completely missing. **Flavor restriction.** Mixed Instance Policies (On-Demand + Spot) not available — only one flavor per AS group. **Lifecycle Hooks.** OTC uses SMN notifications instead of SNS/SQS for hook notifications."
+    },
+    "equivNote": null,
+    "tfNote": null
+  },
+  {
+    "name": "AWS Elastic Beanstalk",
+    "category": "Compute",
+    "effort": "hard",
+    "equiv": "none",
+    "scope": [],
+    "otc": "Kein Equivalent",
+    "tfAws": "aws_elastic_beanstalk_application, aws_elastic_beanstalk_environment",
+    "tfOtc": null,
+    "tfStatus": "none",
+    "docsAws": "https://docs.aws.amazon.com/elasticbeanstalk/",
+    "docsOtc": null,
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/elastic_beanstalk_environment",
+    "tfDocsOtc": null,
+    "desc": {
+      "de": "Managed PaaS für Webanwendungen. Automatisches Deployment, Skalierung, Load Balancing, Health Monitoring. Unterstützt Java, .NET, Node.js, Python, Ruby, Go, Docker.",
+      "en": "Managed PaaS for web applications. Automatic deployment, scaling, load balancing, health monitoring. Supports Java, .NET, Node.js, Python, Ruby, Go, Docker."
+    },
+    "otcDesc": {
+      "de": "Kein direktes Pendant auf OTC. Kein managed PaaS-Service der automatisch Infrastruktur provisioniert und Anwendungen deployt.",
+      "en": "No direct equivalent on OTC. No managed PaaS service that automatically provisions infrastructure and deploys applications."
+    },
+    "alt": {
+      "de": "CCE + Helm Charts (Kubernetes-basiert), Docker auf ECS (manuelles Setup), APIG + FunctionGraph (für einfache Web-APIs), ServiceStage (falls in der Region verfügbar)",
+      "en": "CCE + Helm Charts (Kubernetes-based), Docker on ECS (manual setup), APIG + FunctionGraph (for simple web APIs), ServiceStage (if available in the region)"
+    },
+    "migration": {
+      "de": "**Kein PaaS-Pendant.** OTC bietet keinen Managed PaaS wie Beanstalk. Die gesamte Plattform-Abstraktion (Auto Scaling, Load Balancing, Health Monitoring) muss selbst aufgebaut werden. **Container-Alternative.** CCE mit Helm Charts für Container-Deployments oder CCI für serverlose Container. **Konfigurations-Mapping.** Environment Variables → Kubernetes ConfigMaps/Secrets. .ebextensions → Helm Values oder Init-Container. **Worker Environments.** Beanstalk Worker Environments → DMS Kafka- oder RabbitMQ-Consumer auf CCE. **CI/CD.** Managed Platform Updates gibt es nicht — eigene CI/CD-Pipeline für Rolling Updates und Blue/Green Deployments nötig.",
+      "en": "**No PaaS equivalent.** OTC has no managed PaaS like Beanstalk. The entire platform abstraction (auto scaling, load balancing, health monitoring) must be built manually. **Container alternative.** CCE with Helm Charts for container deployments or CCI for serverless containers. **Configuration mapping.** Environment Variables → Kubernetes ConfigMaps/Secrets. .ebextensions → Helm Values or init containers. **Worker environments.** Beanstalk Worker Environments → DMS Kafka or RabbitMQ consumers on CCE. **CI/CD.** Managed Platform Updates don't exist — custom CI/CD pipeline needed for rolling updates and blue/green deployments."
+    },
+    "equivNote": null,
+    "tfNote": null
+  }
+]

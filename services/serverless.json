@@ -1,0 +1,145 @@
+[
+  {
+    "name": "AWS Lambda",
+    "category": "Serverless",
+    "effort": "easy",
+    "equiv": "full",
+    "scope": [
+      "K1"
+    ],
+    "otc": "FunctionGraph (FGS)",
+    "tfAws": "aws_lambda_function",
+    "tfOtc": "opentelekomcloud_fgs_function_v2",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/lambda/",
+    "docsOtc": "https://docs.otc.t-systems.com/function-graph/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/fgs_function_v2",
+    "desc": {
+      "de": "Serverlose Computing-Plattform. Event-gesteuert, automatische Skalierung, 15min Timeout, Layers, Provisioned Concurrency, Extensions, Lambda@Edge, SnapStart, bis 10GB Memory.",
+      "en": "Serverless computing platform. Event-driven, auto scaling, 15min timeout, layers, provisioned concurrency, extensions, Lambda@Edge, SnapStart, up to 10GB memory."
+    },
+    "otcDesc": {
+      "de": "Serverless für event-getriebene Funktionen. Python (2.7–3.12), Node.js (6.10–20.15), Java (8/11/17), Go 1.x, C# (.NET Core 2.1/3.1/6.0), PHP (7.3/8.3), Cangjie und Custom Runtimes. Limits: max 400 Funktionen/Account, 100 concurrent Executions (erweiterbar), 900s Timeout, 10GB Deployment-Packages gesamt. Trigger: APIG, OBS, Timer, SMN, DMS Kafka, DIS, CTS, LTS, DDS, GaussDB. Reserved Instances für Cold-Start-Vermeidung (max 90% der Concurrency).",
+      "en": "Serverless for event-driven functions. Python (2.7–3.12), Node.js (6.10–20.15), Java (8/11/17), Go 1.x, C# (.NET Core 2.1/3.1/6.0), PHP (7.3/8.3), Cangjie and custom runtimes. Limits: max 400 functions/account, 100 concurrent executions (expandable), 900s timeout, 10GB deployment packages total. Triggers: APIG, OBS, Timer, SMN, DMS Kafka, DIS, CTS, LTS, DDS, GaussDB. Reserved instances to avoid cold starts (max 90% of concurrency)."
+    },
+    "alt": {
+      "de": "Knative auf CCE, OpenFaaS",
+      "en": "Knative on CCE, OpenFaaS"
+    },
+    "migration": {
+      "de": "**Runtimes.** FunctionGraph unterstützt Python (2.7–3.12), Node.js (6.10–20.15), Java (8/11/17), Go, C#, PHP und Custom Runtimes. **Limits.** Max 400 Funktionen (AWS: keine harte Grenze), 100 Concurrency (AWS: 1000 default) — beides erweiterbar. **Trigger-Mapping.** S3 → OBS, SNS → SMN, API Gateway → APIG, CloudWatch Events → Timer-Trigger, SQS → DMS Kafka (kein direkter SQS-Trigger), DynamoDB Streams → DDS-Trigger. **Dependencies & IAM.** Layers → FunctionGraph Dependencies (ZIP oder OBS-Referenz). IAM Execution Roles → OTC Agency. **Cold Starts.** Provisioned Concurrency → Reserved Instances (ähnliches Konzept mit Scheduled Scaling). Cold-Start-Verhalten unterscheidet sich. **Fehlend.** Kein Lambda@Edge, keine Extensions, kein SnapStart.",
+      "en": "**Runtimes.** FunctionGraph supports Python (2.7–3.12), Node.js (6.10–20.15), Java (8/11/17), Go, C#, PHP and custom runtimes. **Limits.** Max 400 functions (AWS: no hard limit), 100 concurrency (AWS: 1000 default) — both expandable. **Trigger mapping.** S3 → OBS, SNS → SMN, API Gateway → APIG, CloudWatch Events → timer trigger, SQS → DMS Kafka (no direct SQS trigger), DynamoDB Streams → DDS trigger. **Dependencies & IAM.** Layers → FunctionGraph dependencies (ZIP or OBS reference). IAM Execution Roles → OTC Agency. **Cold starts.** Provisioned Concurrency → Reserved Instances (similar concept with scheduled scaling). Cold start behavior differs. **Missing.** No Lambda@Edge, no extensions, no SnapStart."
+    },
+    "equivNote": null,
+    "tfNote": null
+  },
+  {
+    "name": "AWS Step Functions",
+    "category": "Serverless",
+    "effort": "hard",
+    "equiv": "none",
+    "scope": [
+      "K1"
+    ],
+    "otc": "Kein Equivalent",
+    "tfAws": "aws_sfn_state_machine",
+    "tfOtc": null,
+    "tfStatus": "none",
+    "docsAws": "https://docs.aws.amazon.com/step-functions/",
+    "docsOtc": null,
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sfn_state_machine",
+    "tfDocsOtc": null,
+    "desc": {
+      "de": "Serverloser Workflow-Orchestrierungsdienst. Standard Workflows (bis 1 Jahr), Express Workflows (synchron, <5min). ASL (JSON), parallele Ausführung, Map State, Error Handling, Wait States, Choice, Service-Integrationen (200+ AWS Services).",
+      "en": "Serverless workflow orchestration. Standard Workflows (up to 1 year), Express Workflows (synchronous, <5min). ASL (JSON), parallel execution, Map State, error handling, wait states, choice, service integrations (200+ AWS services)."
+    },
+    "otcDesc": {
+      "de": "Kein nativer Workflow-Service auf OTC. Empfohlene Alternativen: (1) FunctionGraph Workflow (Orchestrierung mehrerer Funktionen als Kette/Parallel, einfache Flows), (2) Argo Workflows auf CCE (CNCF, DAG-basiert, Kubernetes-native), (3) Apache Airflow auf CCE (Python-DAGs, Scheduling, Retry), (4) Temporal.io auf CCE (langlebige Workflows, Saga-Pattern).",
+      "en": "No native workflow service on OTC. Recommended alternatives: (1) FunctionGraph Workflow (orchestration of multiple functions as chain/parallel, simple flows), (2) Argo Workflows on CCE (CNCF, DAG-based, Kubernetes-native), (3) Apache Airflow on CCE (Python DAGs, scheduling, retry), (4) Temporal.io on CCE (durable workflows, saga pattern)."
+    },
+    "alt": {
+      "de": "Apache Airflow auf CCE, Temporal.io auf CCE, Argo Workflows auf CCE, FunctionGraph-Chaining",
+      "en": "Apache Airflow on CCE, Temporal.io on CCE, Argo Workflows on CCE, FunctionGraph chaining"
+    },
+    "migration": {
+      "de": "**Kein Workflow-Service.** FunctionGraph unterstützt einfaches Chaining (Async-Invoke), aber keine State Machine mit Choice/Wait/Parallel/Map. **Alternativen.** Argo Workflows auf CCE (DAG, Retry, Parallel) oder Apache Airflow (Helm). **ASL nicht portierbar.** Amazon States Language muss komplett in DAGs/Workflows umgeschrieben werden. **Feature-Mapping.** Express Workflows (synchron, <5min) → HTTP-basierte Orchestrierung oder FunctionGraph-Chaining. Map State (parallele Iteration) → Airflow Dynamic Task Mapping oder Argo parallel steps. Error Handling (Retry/Catch) → Airflow retry_policy oder Argo retryStrategy.",
+      "en": "**No workflow service.** FunctionGraph supports simple chaining (async invoke), but no state machine with choice/wait/parallel/map. **Alternatives.** Argo Workflows on CCE (DAG, retry, parallel) or Apache Airflow (Helm). **ASL not portable.** Amazon States Language must be completely rewritten as DAGs/workflows. **Feature mapping.** Express Workflows (synchronous, <5min) → HTTP-based orchestration or FunctionGraph chaining. Map State (parallel iteration) → Airflow Dynamic Task Mapping or Argo parallel steps. Error handling (Retry/Catch) → Airflow retry_policy or Argo retryStrategy."
+    },
+    "equivNote": null,
+    "tfNote": null
+  },
+  {
+    "name": "Amazon API Gateway",
+    "category": "Serverless",
+    "effort": "medium",
+    "equiv": "partial",
+    "scope": [
+      "K1"
+    ],
+    "otc": "API Gateway (APIG)",
+    "tfAws": "aws_api_gateway_rest_api",
+    "tfOtc": "opentelekomcloud_apigw_api_v2",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/apigateway/",
+    "docsOtc": "https://docs.otc.t-systems.com/api-gateway/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_rest_api",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/apigw_api_v2",
+    "desc": {
+      "de": "Managed REST/HTTP/WebSocket APIs. Lambda/HTTP/AWS-Service-Integration, Cognito/IAM/Lambda Authorizer, Rate Limiting, Caching, Custom Domains, Canary Deployments, Usage Plans.",
+      "en": "Managed REST/HTTP/WebSocket APIs. Lambda/HTTP/AWS service integration, Cognito/IAM/Lambda authorizer, rate limiting, caching, custom domains, canary deployments, usage plans."
+    },
+    "otcDesc": {
+      "de": "APIG bietet Dedicated Gateway (eigene Instanz, VPC-intern) und Shared Gateway. REST- und gRPC-APIs. Features: FunctionGraph Custom Authorizer, App/IAM-Auth, Request Throttling (pro API/User/App, bis Sekunden-Granularität), VPC-Channels (Load-Balance zu Backend), Circuit Breaker, Mock-Responses, Version Management mit Rollback, Environment Variables, Domain-Binding mit TLS 1.1/1.2 und mTLS. Monitoring über Cloud Eye.",
+      "en": "APIG offers Dedicated Gateway (own instance, VPC-internal) and Shared Gateway. REST and gRPC APIs. Features: FunctionGraph custom authorizer, app/IAM auth, request throttling (per API/user/app, down to second granularity), VPC channels (load balance to backend), circuit breaker, mock responses, version management with rollback, environment variables, domain binding with TLS 1.1/1.2 and mTLS. Monitoring via Cloud Eye."
+    },
+    "alt": {
+      "de": "Kong auf CCE, Tyk",
+      "en": "Kong on CCE, Tyk"
+    },
+    "migration": {
+      "de": "**Gateway-Modi.** Dedicated Gateway (eigene Instanz in VPC, empfohlen für Produktion) und Shared Gateway (Multi-Tenant, limitiert). Dedicated bietet VPC-Channels (Load-Balancing zu ECS/CCE-Backends), Circuit Breaker und mTLS. **Kein WebSocket.** WebSocket-APIs werden nicht unterstützt — Alternative: eigener WebSocket-Server auf CCE/ECS. HTTP API (leichtgewichtig, günstiger) gibt es nicht, nur vollständiges APIG. **Authorizer & Mapping.** Lambda Authorizer → FunctionGraph Custom Authorizer (ähnlich, aber andere API). Velocity Templates → APIG eigene Mapping-Regeln. **Throttling & CORS.** Feingranulares Throttling: pro API, User, App, IP mit Excluded-Listen. CORS muss explizit konfiguriert werden. **Zertifikate.** Domain-Binding und SSL-Zertifikat-Management direkt in APIG möglich (kein ACM nötig).",
+      "en": "**Gateway modes.** Dedicated Gateway (own instance in VPC, recommended for production) and Shared Gateway (multi-tenant, limited). Dedicated offers VPC channels (load balancing to ECS/CCE backends), circuit breaker, and mTLS. **No WebSocket.** WebSocket APIs not supported — alternative: own WebSocket server on CCE/ECS. HTTP API (lightweight, cheaper) doesn't exist, only full APIG. **Authorizer & mapping.** Lambda Authorizer → FunctionGraph Custom Authorizer (similar but different API). Velocity Templates → APIG own mapping rules. **Throttling & CORS.** Fine-grained throttling: per API, user, app, IP with excluded lists. CORS must be configured explicitly. **Certificates.** Domain binding and SSL certificate management directly in APIG (no ACM needed)."
+    },
+    "equivNote": {
+      "de": "APIG Dedicated Gateway ist eine eigene Instanz (vergleichbar mit Regional API in AWS, aber dedizierte Infrastruktur). REST und gRPC APIs, aber kein HTTP API (leichtgewichtig) und kein WebSocket. Kein Edge-optimized Endpoint. Circuit Breaker und mTLS vorhanden (fehlen bei AWS API GW nativ). Throttling granularer konfigurierbar (excluded Apps/Tenants). Usage Plans → API-Gruppen mit Throttling-Policies. Caching nur auf Dedicated Gateway.",
+      "en": "APIG Dedicated Gateway is a dedicated instance (comparable to Regional API in AWS but dedicated infrastructure). REST and gRPC APIs but no HTTP API (lightweight) and no WebSocket. No edge-optimized endpoint. Circuit breaker and mTLS available (missing in AWS API GW natively). Throttling more granularly configurable (excluded apps/tenants). Usage Plans → API groups with throttling policies. Caching only on Dedicated Gateway."
+    },
+    "tfNote": null
+  },
+  {
+    "name": "Amazon EventBridge",
+    "category": "Serverless",
+    "effort": "hard",
+    "equiv": "none",
+    "scope": [
+      "K1"
+    ],
+    "otc": "Kein Equivalent",
+    "tfAws": "aws_cloudwatch_event_rule",
+    "tfOtc": null,
+    "tfStatus": "none",
+    "docsAws": "https://docs.aws.amazon.com/eventbridge/",
+    "docsOtc": null,
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule",
+    "tfDocsOtc": null,
+    "desc": {
+      "de": "Serverless Event Bus. Event-Routing mit Pattern Matching, Schema Registry, SaaS-Integrationen, EventBridge Pipes, Scheduler, Archive & Replay.",
+      "en": "Serverless event bus. Event routing with pattern matching, Schema Registry, SaaS integrations, EventBridge Pipes, Scheduler, archive & replay."
+    },
+    "otcDesc": {
+      "de": "Kein nativer Event Bus Service. Alternativ: FunctionGraph Timer-Trigger (cron-basiert), SMN Topics für Pub/Sub-Events, CTS-Notifications für API-Events, OBS-Event-Trigger für Datei-Events. Event-Routing mit Pattern Matching muss per FunctionGraph-Logik nachgebaut werden.",
+      "en": "No native event bus service. Alternatively: FunctionGraph timer triggers (cron-based), SMN topics for pub/sub events, CTS notifications for API events, OBS event triggers for file events. Event routing with pattern matching must be rebuilt via FunctionGraph logic."
+    },
+    "alt": {
+      "de": "DMS Kafka, Custom Bus mit SMN, FunctionGraph-Trigger (OBS/SMN/Timer/APIG)",
+      "en": "DMS Kafka, Custom Bus with SMN, FunctionGraph triggers (OBS/SMN/Timer/APIG)"
+    },
+    "migration": {
+      "de": "**Kein Event Bus.** Event Grid war angekündigt, existiert aber nicht. Cross-Account Event Bus gibt es ebenfalls nicht. **Pattern-Nachbau.** Scheduled Events → FunctionGraph Timer-Trigger. Service Events → CTS-Notifications via SMN. S3 Events → OBS-Trigger. Custom Events → DMS Kafka Topics + FunctionGraph Consumer. **Fehlend.** Schema Registry, Pattern Matching, Archive & Replay und Pipes haben kein Pendant — Schema-Validierung muss applikationsseitig implementiert werden.",
+      "en": "**No event bus.** Event Grid was announced but doesn't exist. Cross-account event bus also doesn't exist. **Pattern rebuild.** Scheduled events → FunctionGraph timer triggers. Service events → CTS notifications via SMN. S3 events → OBS triggers. Custom events → DMS Kafka topics + FunctionGraph consumer. **Missing.** Schema Registry, pattern matching, archive & replay, and Pipes have no equivalent — schema validation must be implemented application-side."
+    },
+    "equivNote": null,
+    "tfNote": null
+  }
+]

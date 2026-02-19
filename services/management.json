@@ -1,0 +1,298 @@
+[
+  {
+    "name": "AWS CloudTrail",
+    "category": "Management",
+    "effort": "easy",
+    "equiv": "partial",
+    "scope": [
+      "K1"
+    ],
+    "otc": "Cloud Trace Service (CTS)",
+    "tfAws": "aws_cloudtrail",
+    "tfOtc": "opentelekomcloud_cts_tracker_v3, opentelekomcloud_cts_event_notification_v3",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/cloudtrail/",
+    "docsOtc": "https://docs.otc.t-systems.com/cloud-trace-service/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudtrail",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/cts_tracker_v3",
+    "desc": {
+      "de": "Audit-Service für alle AWS API-Aufrufe. Management Events, Data Events (S3/Lambda/DynamoDB), Insights Events (Anomalie-Erkennung), CloudTrail Lake (SQL-Queries), Organization Trails, Multi-Region.",
+      "en": "Audit service for all AWS API calls. Management events, data events (S3/Lambda/DynamoDB), Insights Events (anomaly detection), CloudTrail Lake (SQL queries), Organization Trails, multi-region."
+    },
+    "otcDesc": {
+      "de": "Audit-Trail für OTC API-Operationen (Management Events). Traces werden 7 Tage in der Konsole vorgehalten. Transfer nach OBS (Langzeitarchivierung) und LTS (Suche/Analyse) möglich. Key Event Notifications über SMN (bis 200 Regeln, Filter auf Service/User/Resource). Kein Data Event Logging (kein OBS Object-Level/FGS Invocation Logging). Ein Tracker pro Region.",
+      "en": "Audit trail for OTC API operations (management events). Traces retained 7 days in console. Transfer to OBS (long-term archival) and LTS (search/analysis) possible. Key event notifications via SMN (up to 200 rules, filter on service/user/resource). No data event logging (no OBS object-level/FGS invocation logging). One tracker per region."
+    },
+    "alt": null,
+    "migration": {
+      "de": "**Regionale Tracker.** Kein Multi-Region Trail — pro Region einen separaten Tracker konfigurieren. **Nur Management Events.** Data Events (OBS Object-Level, FGS Invocations) werden nicht unterstützt — diese Zugriffe erscheinen nicht in CTS. **Log-Analyse.** CloudTrail Lake (SQL-Queries) hat kein Pendant. Traces an LTS weiterleiten und dort mit Suchfunktion analysieren. **Retention.** Traces nur 7 Tage in der Console — für Compliance OBS-Transfer aktivieren. **Nicht verfügbar.** Organization Trail (Multi-Account-Audit), Insights Events (automatische API-Anomalie-Erkennung). **Benachrichtigungen.** Key Event Notifications über SMN (bis 200 Regeln, filterbar nach Service/User/Resource).",
+      "en": "**Regional Trackers.** No multi-region trail — configure a separate tracker per region. **Management Events Only.** Data events (OBS object-level, FGS invocations) are not supported — these accesses don't appear in CTS. **Log Analysis.** CloudTrail Lake (SQL queries) has no equivalent. Forward traces to LTS and analyze with its search function. **Retention.** Traces retained only 7 days in console — enable OBS transfer for compliance. **Not Available.** Organization Trail (multi-account audit), Insights Events (automatic API anomaly detection). **Notifications.** Key event notifications via SMN (up to 200 rules, filterable by service/user/resource)."
+    },
+    "equivNote": {
+      "de": "Management Events gut abgedeckt. Kein Data Event Logging (S3 Object-Level, Lambda Invocation). Kein CloudTrail Insights (automatische Anomalie-Erkennung), keine Organization Trails, kein CloudTrail Lake (SQL-Abfragen). Traces 7 Tage in Console, danach OBS/LTS nötig.",
+      "en": "Management events well covered. No data event logging (S3 object-level, Lambda invocation). No CloudTrail Insights (automatic anomaly detection), no Organization Trails, no CloudTrail Lake (SQL queries). Traces 7 days in console, then OBS/LTS needed."
+    },
+    "tfNote": null
+  },
+  {
+    "name": "Amazon DevOps Guru",
+    "category": "Management",
+    "effort": "hard",
+    "equiv": "none",
+    "scope": [
+      "K1"
+    ],
+    "otc": "Kein Equivalent",
+    "tfAws": "aws_devopsguru_resource_collection",
+    "tfOtc": null,
+    "tfStatus": "none",
+    "docsAws": "https://docs.aws.amazon.com/devops-guru/",
+    "docsOtc": null,
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/devopsguru_resource_collection",
+    "tfDocsOtc": null,
+    "desc": {
+      "de": "ML-basierte Anomalie-Erkennung für Operations. Analysiert CloudWatch Metriken, CloudTrail Events und Config Changes. Proactive/Reactive Insights, automatische Empfehlungen, SNS-Notifications.",
+      "en": "ML-based anomaly detection for operations. Analyzes CloudWatch metrics, CloudTrail events, and Config changes. Proactive/reactive insights, automatic recommendations, SNS notifications."
+    },
+    "otcDesc": {
+      "de": "Kein ML-basierter DevOps Insights Service auf OTC. AOM bietet Basis-Monitoring und Alarm-Korrelation, aber keine ML-gestützte Anomalie-Erkennung oder automatische Root-Cause-Analyse.",
+      "en": "No ML-based DevOps insights service on OTC. AOM provides basic monitoring and alarm correlation, but no ML-powered anomaly detection or automatic root-cause analysis."
+    },
+    "alt": {
+      "de": "Prometheus + Grafana, Datadog",
+      "en": "Prometheus + Grafana, Datadog"
+    },
+    "migration": {
+      "de": "**Kein OTC-Pendant.** ML-basierte Operations Insights existieren auf OTC nicht. **Metriken-Monitoring.** Prometheus + Grafana auf CCE mit Alertmanager für Anomalie-Erkennung, oder Cloud Eye Alarme + AOM für Basis-Monitoring. **Log-Analyse.** ELK Stack oder Grafana Loki auf CCE für log-basierte Anomalie-Erkennung. **Full-Stack APM.** Externe Lösungen (Datadog, New Relic, Dynatrace) für End-to-End-Observability. **Proactive Insights.** Cloud Eye + FunctionGraph für threshold-basierte Vorhersagen. **Reactive Insights.** CTS + LTS Log-Analyse mit manueller Korrelation — kein automatisches Root-Cause-Mapping über Service-Grenzen.",
+      "en": "**No OTC Equivalent.** ML-based operations insights don't exist on OTC. **Metrics Monitoring.** Prometheus + Grafana on CCE with Alertmanager for anomaly detection, or Cloud Eye alarms + AOM for basic monitoring. **Log Analysis.** ELK Stack or Grafana Loki on CCE for log-based anomaly detection. **Full-Stack APM.** External solutions (Datadog, New Relic, Dynatrace) for end-to-end observability. **Proactive Insights.** Cloud Eye + FunctionGraph for threshold-based predictions. **Reactive Insights.** CTS + LTS log analysis with manual correlation — no automatic root-cause mapping across service boundaries."
+    },
+    "equivNote": null,
+    "tfNote": null
+  },
+  {
+    "name": "AWS Config",
+    "category": "Management",
+    "effort": "hard",
+    "equiv": "partial",
+    "scope": [
+      "K1"
+    ],
+    "otc": "Config (ehem. Resource Management Service)",
+    "tfAws": "aws_config_configuration_recorder",
+    "tfOtc": "opentelekomcloud_rms_policy_assignment_v1, opentelekomcloud_rms_resource_recorder_v1",
+    "tfStatus": "partial",
+    "docsAws": "https://docs.aws.amazon.com/config/",
+    "docsOtc": "https://docs.otc.t-systems.com/config/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/config_configuration_recorder",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/rms_policy_assignment_v1",
+    "desc": {
+      "de": "Configuration Tracking & Compliance-Auditing. 300+ Managed Rules, Custom Rules (Lambda/Guard), Conformance Packs, Config Aggregator (Multi-Account), Remediation Actions, Advanced Queries (SQL), Resource Timeline.",
+      "en": "Configuration tracking & compliance auditing. 300+ managed rules, custom rules (Lambda/Guard), conformance packs, Config Aggregator (multi-account), remediation actions, advanced queries (SQL), resource timeline."
+    },
+    "otcDesc": {
+      "de": "Resource Recorder (Snapshots alle 24h, Change Notifications alle 6h nach OBS/SMN). Built-in Compliance Rules (~80 vordefinierte Regeln) und Custom Policies. Advanced Queries mit ResourceQL (SQL-ähnlich, Abfrage über Resource-Inventar). Resource-Beziehungen und Change Records. SMN-Benachrichtigungen bei Änderungen. Kein Multi-Account Aggregator, keine Conformance Packs.",
+      "en": "Resource Recorder (snapshots every 24h, change notifications every 6h to OBS/SMN). Built-in compliance rules (~80 predefined rules) and custom policies. Advanced queries with ResourceQL (SQL-like, query across resource inventory). Resource relationships and change records. SMN notifications on changes. No multi-account aggregator, no conformance packs."
+    },
+    "alt": {
+      "de": "Terraform State, Custom CMDB",
+      "en": "Terraform State, Custom CMDB"
+    },
+    "migration": {
+      "de": "**Compliance-Regeln.** ~80 Built-in Rules (AWS hat 300+). Custom Policies über JSON-Templates — nicht Lambda-basiert wie AWS Custom Rules. Guard-Regeln (Policy-as-Code) nicht unterstützt. **Conformance Packs.** Kein Pendant — einzelne Rules manuell zusammenstellen. **Resource Timeline.** Snapshots alle 24h, Change Notifications alle 6h — deutlich weniger granular als AWS Config (near-realtime). **ResourceQL.** SQL-ähnliche Abfragen über alle aufgezeichneten Ressourcen (vergleichbar mit AWS Config Advanced Query). **Remediation.** Kein SSM Automation Backend — nur SMN-Benachrichtigungen, keine automatische Korrektur. **Nicht verfügbar.** Config Aggregator (Multi-Account), Conformance Packs, Guard-Regeln.",
+      "en": "**Compliance Rules.** ~80 built-in rules (AWS has 300+). Custom policies via JSON templates — not Lambda-based like AWS Custom Rules. Guard rules (policy-as-code) not supported. **Conformance Packs.** No equivalent — assemble individual rules manually. **Resource Timeline.** Snapshots every 24h, change notifications every 6h — significantly less granular than AWS Config (near-realtime). **ResourceQL.** SQL-like queries across all recorded resources (comparable to AWS Config Advanced Query). **Remediation.** No SSM Automation backend — only SMN notifications, no automatic correction. **Not Available.** Config Aggregator (multi-account), Conformance Packs, Guard rules."
+    },
+    "equivNote": {
+      "de": "~80 Built-in Rules (ca. 25% der AWS 300+ Managed Rules). Custom Policies über JSON-Templates. ResourceQL für SQL-ähnliche Abfragen über Resource-Inventar. Kein Multi-Account Config Aggregator. Keine Conformance Packs (Rule-Bundles). Remediation Actions eingeschränkt (kein SSM Automation). Resource Timeline weniger detailliert (Snapshots alle 24h).",
+      "en": "~80 built-in rules (approx. 25% of AWS 300+ managed rules). Custom policies via JSON templates. ResourceQL for SQL-like queries across resource inventory. No multi-account Config Aggregator. No conformance packs (rule bundles). Remediation actions limited (no SSM Automation). Resource timeline less detailed (snapshots every 24h)."
+    },
+    "tfNote": {
+      "de": "Resource Recorder und Policy Assignments per TF steuerbar, aber Custom Policies und Compliance-Regeln nicht vollständig per TF konfigurierbar.",
+      "en": "Resource recorder and policy assignments manageable via TF, but custom policies and compliance rules not fully configurable via TF."
+    }
+  },
+  {
+    "name": "AWS Systems Manager",
+    "category": "Management",
+    "effort": "hard",
+    "equiv": "partial",
+    "scope": [
+      "K1"
+    ],
+    "otc": "Application Operations Mgmt (AOM)",
+    "tfAws": "aws_ssm_parameter",
+    "tfOtc": null,
+    "tfStatus": "none",
+    "docsAws": "https://docs.aws.amazon.com/systems-manager/",
+    "docsOtc": "https://docs.otc.t-systems.com/application-operations-management/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter",
+    "tfDocsOtc": null,
+    "desc": {
+      "de": "Zentrale Plattform für operatives Management. Session Manager (Shell ohne SSH), Parameter Store, Patch Manager, Run Command, State Manager, Inventory, Automation, Maintenance Windows, OpsCenter.",
+      "en": "Central platform for operational management. Session Manager (shell without SSH), Parameter Store, Patch Manager, Run Command, State Manager, Inventory, Automation, maintenance windows, OpsCenter."
+    },
+    "otcDesc": {
+      "de": "AOM ist eine O&M-Plattform für Application- und Host-Monitoring: Metriken (CPU, Memory, Disk, Network), Log-Suche (LTS-Integration), Auto-Discovery (Prozesse, Container), Alarm Management, Dashboards. Kein Parameter Store, Session Manager, Patch Manager, Run Command oder Inventory. AOM fokussiert auf Monitoring, nicht auf operatives Management.",
+      "en": "AOM is an O&M platform for application and host monitoring: metrics (CPU, memory, disk, network), log search (LTS integration), auto-discovery (processes, containers), alarm management, dashboards. No Parameter Store, Session Manager, Patch Manager, Run Command, or Inventory. AOM focuses on monitoring, not operational management."
+    },
+    "alt": {
+      "de": "Ansible, Vault, SSH Bastion, DEW (KMS)",
+      "en": "Ansible, Vault, SSH Bastion, DEW (KMS)"
+    },
+    "migration": {
+      "de": "**Kein Gesamtpendant.** SSM ist ein Sammeldienst — auf OTC auf viele Tools verteilt. **Secrets & Config.** Parameter Store → CSMS (ab 05/2026) für Secrets, OBS oder Vault für Key-Value-Konfigurationen. **Shell-Zugriff.** Session Manager hat kein Pendant — SSH über Bastion Host oder VNC über Console nutzen (kein agentless Shell-Zugriff). **Patch & Run Command.** Patch Manager → Ansible Playbooks oder manuell. Run Command → Ansible ad-hoc oder Salt. **Inventory & State.** Inventory → OTC Config Service (Resource Recorder). State Manager → Ansible Playbooks mit Cron. **Automation.** Runbooks → Ansible/Terraform Pipelines. Maintenance Windows → eigene Scheduling-Lösung. OpsCenter → AOM Alarme + LTS Logs mit manueller Korrelation.",
+      "en": "**No Combined Equivalent.** SSM is a collection service — distributed across many tools on OTC. **Secrets & Config.** Parameter Store → CSMS (from 05/2026) for secrets, OBS or Vault for key-value configurations. **Shell Access.** Session Manager has no equivalent — use SSH via Bastion Host or VNC via Console (no agentless shell access). **Patch & Run Command.** Patch Manager → Ansible playbooks or manual. Run Command → Ansible ad-hoc or Salt. **Inventory & State.** Inventory → OTC Config Service (Resource Recorder). State Manager → Ansible Playbooks with cron. **Automation.** Runbooks → Ansible/Terraform pipelines. Maintenance Windows → custom scheduling solution. OpsCenter → AOM alarms + LTS logs with manual correlation."
+    },
+    "equivNote": {
+      "de": "AOM fokussiert auf Monitoring/Logs/Alarme — deckt nur den CloudWatch-ähnlichen Teil von SSM ab. Kein Parameter Store (→ CSMS ab 05/2026 oder Vault), kein Session Manager (→ SSH/VNC), kein Patch Manager (→ Ansible), kein Run Command (→ Ansible/Salt), kein Inventory (→ Config Service), kein State Manager, kein Automation, keine Maintenance Windows.",
+      "en": "AOM focuses on monitoring/logs/alarms — covers only the CloudWatch-like part of SSM. No Parameter Store (→ CSMS from 05/2026 or Vault), no Session Manager (→ SSH/VNC), no Patch Manager (→ Ansible), no Run Command (→ Ansible/Salt), no Inventory (→ Config Service), no State Manager, no Automation, no maintenance windows."
+    },
+    "tfNote": null
+  },
+  {
+    "name": "AWS CloudFormation",
+    "category": "Management",
+    "effort": "hard",
+    "equiv": "partial",
+    "scope": [],
+    "otc": "Resource Template Service (RTS)",
+    "tfAws": "aws_cloudformation_stack",
+    "tfOtc": "opentelekomcloud_rts_stack_v1",
+    "tfStatus": "partial",
+    "docsAws": "https://docs.aws.amazon.com/cloudformation/",
+    "docsOtc": "https://docs.otc.t-systems.com/resource-template-service/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudformation_stack",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/rts_stack_v1",
+    "desc": {
+      "de": "Infrastructure as Code. Deklarative Templates (JSON/YAML) für AWS-Ressourcen. Stack-Management, Drift Detection, Change Sets.",
+      "en": "Infrastructure as Code. Declarative templates (JSON/YAML) for AWS resources. Stack management, drift detection, change sets."
+    },
+    "otcDesc": {
+      "de": "Heat-basierter IaC-Service. HOT-Templates (YAML) für OTC-Ressourcen. Stack Lifecycle Management. Nicht CloudFormation-kompatibel!",
+      "en": "Heat-based IaC service. HOT templates (YAML) for OTC resources. Stack lifecycle management. Not CloudFormation-compatible!"
+    },
+    "alt": {
+      "de": "Terraform (empfohlen), Pulumi, Crossplane auf CCE",
+      "en": "Terraform (recommended), Pulumi, Crossplane on CCE"
+    },
+    "migration": {
+      "de": "**Template-Format.** RTS nutzt HOT (Heat Orchestration Template) — NICHT CloudFormation-kompatibel. Templates müssen komplett umgeschrieben werden. **Terraform empfohlen.** opentelekomcloud Provider ist die bessere Wahl für OTC als RTS. **Resource-Abdeckung.** RTS hat deutlich weniger Resource Types als CloudFormation. **Change Sets & Drift.** Change Sets → RTS Preview. Stack Drift Detection eingeschränkt. **Nested Stacks.** Funktionieren anders als in CloudFormation. **Nicht verfügbar.** StackSets (Multi-Account/Region), Macros, Transforms. **Terraform-Hinweis.** Resource heißt opentelekomcloud_rts_stack_v1, NICHT rfs_stack_v1.",
+      "en": "**Template Format.** RTS uses HOT (Heat Orchestration Template) — NOT CloudFormation-compatible. Templates must be completely rewritten. **Terraform Recommended.** opentelekomcloud provider is the better choice for OTC than RTS. **Resource Coverage.** RTS has significantly fewer resource types than CloudFormation. **Change Sets & Drift.** Change Sets → RTS Preview. Stack Drift Detection limited. **Nested Stacks.** Work differently than in CloudFormation. **Not Available.** StackSets (multi-account/region), Macros, Transforms. **Terraform Note.** Resource is opentelekomcloud_rts_stack_v1, NOT rfs_stack_v1."
+    },
+    "equivNote": {
+      "de": "RTS ist Heat-basiert, nicht CloudFormation-kompatibel. Deutlich weniger Resource-Typen, kein StackSets, kein Drift Detection, keine Macros/Transforms.",
+      "en": "RTS is Heat-based, not CloudFormation-compatible. Significantly fewer resource types, no StackSets, no drift detection, no macros/transforms."
+    },
+    "tfNote": {
+      "de": "RTS Stack-Erstellung per TF möglich, aber Templates selbst sind HOT-Format (nicht TF-nativ).",
+      "en": "RTS stack creation possible via TF, but templates themselves are HOT format (not TF-native)."
+    }
+  },
+  {
+    "name": "AWS CodePipeline",
+    "category": "Management",
+    "effort": "hard",
+    "equiv": "none",
+    "scope": [],
+    "otc": "Kein Equivalent",
+    "tfAws": "aws_codepipeline, aws_codebuild_project",
+    "tfOtc": null,
+    "tfStatus": "none",
+    "docsAws": "https://docs.aws.amazon.com/codepipeline/",
+    "docsOtc": null,
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codepipeline",
+    "tfDocsOtc": null,
+    "desc": {
+      "de": "CI/CD Pipeline-Orchestrierung. Source (CodeCommit/GitHub), Build (CodeBuild), Deploy (CodeDeploy), Approval Gates.",
+      "en": "CI/CD pipeline orchestration. Source (CodeCommit/GitHub), build (CodeBuild), deploy (CodeDeploy), approval gates."
+    },
+    "otcDesc": {
+      "de": "OTC bietet keinen Managed CI/CD Pipeline Service. Kein Build- oder Deployment-Service.",
+      "en": "OTC offers no managed CI/CD pipeline service. No build or deployment service."
+    },
+    "alt": {
+      "de": "GitLab CI, GitHub Actions, Jenkins, Tekton auf CCE",
+      "en": "GitLab CI, GitHub Actions, Jenkins, Tekton on CCE"
+    },
+    "migration": {
+      "de": "**Kein Managed CI/CD.** OTC bietet keinen Pipeline-Service. **Build & Deploy.** Jenkins auf CCE (Helm), GitLab CI (self-hosted auf ECS), GitHub Actions (extern) oder Tekton auf CCE als Alternativen. CodeBuild → Jenkins/GitLab Runner. CodeDeploy → ArgoCD (Kubernetes) oder Ansible. **Source Control.** CodeCommit → eigener Git-Server oder extern (GitHub/GitLab). **Artefakte & Credentials.** Pipeline-Artefakte in OBS statt S3. IAM Roles für Pipeline-Stages → Service Accounts + CSMS für Credentials.",
+      "en": "**No Managed CI/CD.** OTC offers no pipeline service. **Build & Deploy.** Jenkins on CCE (Helm), GitLab CI (self-hosted on ECS), GitHub Actions (external), or Tekton on CCE as alternatives. CodeBuild → Jenkins/GitLab Runner. CodeDeploy → ArgoCD (Kubernetes) or Ansible. **Source Control.** CodeCommit → own Git server or external (GitHub/GitLab). **Artifacts & Credentials.** Pipeline artifacts in OBS instead of S3. IAM Roles for pipeline stages → Service Accounts + CSMS for credentials."
+    },
+    "equivNote": null,
+    "tfNote": null
+  },
+  {
+    "name": "AWS DMS",
+    "category": "Management",
+    "effort": "hard",
+    "equiv": "partial",
+    "scope": [],
+    "otc": "Data Replication Service (DRS)",
+    "tfAws": "aws_dms_replication_instance, aws_dms_replication_task, aws_dms_endpoint",
+    "tfOtc": "opentelekomcloud_drs_task_v3",
+    "tfStatus": "partial",
+    "docsAws": "https://docs.aws.amazon.com/dms/",
+    "docsOtc": "https://docs.otc.t-systems.com/data-replication-service/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dms_replication_instance",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/drs_task_v3",
+    "desc": {
+      "de": "Database Migration Service. Homogene und heterogene DB-Migrationen. Schema Conversion, CDC (Change Data Capture), Serverless.",
+      "en": "Database Migration Service. Homogeneous and heterogeneous DB migrations. Schema Conversion, CDC (Change Data Capture), serverless."
+    },
+    "otcDesc": {
+      "de": "DB-Migration und Replikation. Online-Migration, Offline-Migration, Synchronisation, Disaster Recovery. MySQL, PostgreSQL, MongoDB, Oracle, SQL Server. Schema-Vergleich und -Konvertierung.",
+      "en": "DB migration and replication. Online migration, offline migration, synchronization, disaster recovery. MySQL, PostgreSQL, MongoDB, Oracle, SQL Server. Schema comparison and conversion."
+    },
+    "alt": {
+      "de": "pgloader, mysqldump/mysqlpump, mongodump/mongorestore, Debezium auf CCE",
+      "en": "pgloader, mysqldump/mysqlpump, mongodump/mongorestore, Debezium on CCE"
+    },
+    "migration": {
+      "de": "**Online-Migration.** DRS unterstützt CDC-basierte Online-Migration ähnlich wie DMS. Transformationsoptionen sind jedoch eingeschränkter. **Heterogene Migrationen.** Oracle→PostgreSQL und ähnliche Cross-Engine-Szenarien sind limitierter als bei DMS. **Schema-Konvertierung.** DRS hat eigenen Schema-Vergleich, aber weniger automatisiert als DMS Schema Conversion Tool. **Task-Konfiguration.** DMS Serverless existiert nicht — DRS erfordert explizite Task-Konfiguration mit anderen Parametern als DMS. **Zusätzliche Pfade.** DRS unterstützt laut Roadmap Cassandra→GeminiDB und DB2→GaussDB.",
+      "en": "**Online Migration.** DRS supports CDC-based online migration similar to DMS. However, transformation options are more limited. **Heterogeneous Migrations.** Oracle→PostgreSQL and similar cross-engine scenarios are more limited than DMS. **Schema Conversion.** DRS has its own schema comparison but less automated than DMS Schema Conversion Tool. **Task Configuration.** DMS Serverless doesn't exist — DRS requires explicit task configuration with different parameters than DMS. **Additional Paths.** DRS supports Cassandra→GeminiDB and DB2→GaussDB per roadmap."
+    },
+    "equivNote": {
+      "de": "DRS deckt Online-Migration (CDC), Offline-Migration und Synchronisation ab. Weniger heterogene Engine-Kombinationen als DMS. Kein Serverless-Modus. Schema Conversion eingeschränkter. Neue Quellen laut Roadmap: Cassandra→GeminiDB, DB2→GaussDB, DynamoDB→GeminiDB.",
+      "en": "DRS covers online migration (CDC), offline migration, and synchronization. Fewer heterogeneous engine combinations than DMS. No serverless mode. Schema conversion more limited. New sources per roadmap: Cassandra→GeminiDB, DB2→GaussDB, DynamoDB→GeminiDB."
+    },
+    "tfNote": {
+      "de": "Nur Task-Erstellung per TF. Endpoint-Konfiguration innerhalb des Tasks, nicht separat wie bei AWS DMS.",
+      "en": "Only task creation via TF. Endpoint configuration within the task, not separate like AWS DMS."
+    }
+  },
+  {
+    "name": "AWS Resource Groups Tagging",
+    "category": "Management",
+    "effort": "easy",
+    "equiv": "partial",
+    "scope": [],
+    "otc": "Tag Management Service (TMS)",
+    "tfAws": "aws_resourcegroups_group, aws_organizations_policy (TAG_POLICY)",
+    "tfOtc": "opentelekomcloud_tms_tags_v1",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/",
+    "docsOtc": "https://docs.otc.t-systems.com/tag-management-service/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/resourcegroups_group",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/tms_tags_v1",
+    "desc": {
+      "de": "Zentrales Tag-Management. Resource Groups, Tag Editor, Tag Policies (AWS Organizations). Kosten-Allokation via Tags.",
+      "en": "Central tag management. Resource Groups, Tag Editor, Tag Policies (AWS Organizations). Cost allocation via tags."
+    },
+    "otcDesc": {
+      "de": "Zentrales Tag-Management über alle OTC-Services. Tags erstellen, zuweisen, suchen. Predefined Tags für Standardisierung. Integration mit Cloud Eye, CTS, RMS.",
+      "en": "Central tag management across all OTC services. Create, assign, search tags. Predefined tags for standardization. Integration with Cloud Eye, CTS, RMS."
+    },
+    "alt": {
+      "de": "Manuelle Tags pro Service-API, Terraform Tags in jedem Resource-Block",
+      "en": "Manual tags per service API, Terraform tags in each resource block"
+    },
+    "migration": {
+      "de": "**Tag-Verwaltung.** TMS bietet zentrale Tag-Verwaltung mit Bulk-Operationen (vergleichbar mit Tag Editor). **Predefined Tags.** Vordefinierte Tags als Standardisierungsempfehlung — aber kein Enforcement wie AWS Tag Policies über Organizations. **Resource Groups.** Kein Pendant für logische Gruppierung per Tag-Query — TMS ist reine Tag-Verwaltung. **Kosten-Allokation.** Cloud Eye + BSS unterstützen tag-basierte Auswertung, aber eingeschränkter als AWS Cost Allocation Tags. **Tag-Limits.** Service-spezifische Tag-Limits können von AWS abweichen.",
+      "en": "**Tag Management.** TMS provides central tag management with bulk operations (comparable to Tag Editor). **Predefined Tags.** Predefined tags as standardization recommendation — but no enforcement like AWS Tag Policies via Organizations. **Resource Groups.** No equivalent for logical grouping via tag query — TMS is pure tag management. **Cost Allocation.** Cloud Eye + BSS support tag-based analysis, but more limited than AWS Cost Allocation Tags. **Tag Limits.** Service-specific tag limits may differ from AWS."
+    },
+    "equivNote": {
+      "de": "TMS bietet zentrales Tag-Management mit Predefined Tags und Bulk-Operationen. Kein Resource Groups Pendant (logische Gruppierung per Query). Keine Tag Policies (Enforcement). Kosten-Allokation via Tags begrenzt unterstützt.",
+      "en": "TMS provides central tag management with predefined tags and bulk operations. No Resource Groups equivalent (logical grouping via query). No Tag Policies (enforcement). Cost allocation via tags limited support."
+    },
+    "tfNote": null
+  }
+]

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oracle Managed Service — T Cloud Public (OTC)</title>
+<link rel="stylesheet" href="../css/vars.css">
+<link rel="stylesheet" href="style.css">
+<script>
+// Apply dark mode BEFORE paint to prevent flash
+// localStorage only stores manual overrides; system default always wins unless user toggled
+(function() {
+  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (prefersDark) {
+    document.documentElement.classList.add('dark');
+  }
+})();
+</script>
+</head>
+<body>
+
+<div class="header"><div class="container"><div class="header-row">
+<div class="header-left"><h1>🗄️ Oracle Managed Service — <span>T Cloud Public</span></h1><div class="sub" id="subtitle">Übersicht für Kunden · Stand Februar 2026</div></div>
+<div class="header-center"><span class="ai-hint">🤖 KI-generiert · ohne Gewähr</span></div>
+<div class="header-right">
+<div class="lang-toggle"><button class="lang-btn active" onclick="setLang('de')">DE</button><button class="lang-btn" onclick="setLang('en')">EN</button></div>
+<div class="header-actions">
+<a class="h-btn" href="https://public.t-cloud.com/_Resources/Persistent/7/8/3/c/783c92baa49c1363d1a06e024a43abede070c2e4/open-telekom-cloud-leistungsbeschreibung-tdg.pdf" target="_blank">📋 <span class="h-btn-label" data-de="Leistungsbeschreibung" data-en="Service Description">Leistungsbeschreibung</span></a>
+<a class="h-btn" href="https://public.t-cloud.com/_Resources/Persistent/5/2/6/7/52675c4ebe99390d0fc65621d4d86230bee89dab/managed-services-ueberblick.pdf" target="_blank">📦 <span class="h-btn-label" data-de="Managed Services PDF" data-en="Managed Services PDF">Managed Services PDF</span></a>
+<a class="h-btn" href="https://public.t-cloud.com/de/preise/preisrechner" target="_blank">🧮 <span class="h-btn-label" data-de="Preisrechner" data-en="Price Calculator">Preisrechner</span></a>
+<button class="h-btn" onclick="toggleDark()" id="btnDark">🌙</button>
+<button class="h-btn" onclick="exportPDF()">📄 <span class="h-btn-label">PDF</span></button>
+</div>
+</div></div></div></div>
+
+<div class="container main">
+
+<!-- SECTION: Overview -->
+<section class="section" id="overview">
+<h2 class="section-title"><span class="sec-icon">📋</span> <span data-de="Überblick" data-en="Overview">Überblick</span></h2>
+<div class="info-card highlight">
+<p data-de="Die T Cloud Public (ehemals Open Telekom Cloud) ermöglicht den Betrieb von Oracle-Datenbanken auf dedizierten, Oracle-optimierten Instanzen mit ZFS-Storage und KVM-Hypervisor in der Region EU-DE (zwei Availability Zones, Rechenzentren in Deutschland). Unterstützt wird ausschließlich die Oracle Enterprise Edition im BYOL-Modell — der Kunde bringt seine eigene Lizenz mit, T-Systems stellt keine bereit." data-en="T Cloud Public (formerly Open Telekom Cloud) enables running Oracle databases on dedicated, Oracle-optimized instances with ZFS storage and KVM hypervisor in the EU-DE region (two Availability Zones, data centers in Germany). Only the Oracle Enterprise Edition is supported in a BYOL model — the customer brings their own license, T-Systems does not provide one.">Die T Cloud Public (ehemals Open Telekom Cloud) ermöglicht den Betrieb von Oracle-Datenbanken auf dedizierten, Oracle-optimierten Instanzen mit ZFS-Storage und KVM-Hypervisor in der Region EU-DE (zwei Availability Zones, Rechenzentren in Deutschland). Unterstützt wird ausschließlich die Oracle Enterprise Edition im BYOL-Modell — der Kunde bringt seine eigene Lizenz mit, T-Systems stellt keine bereit.</p>
+<p data-de="Optional kann der Betrieb als Managed Service an T-Systems übergeben werden (ab Paket «Standard»). Dabei übernimmt T-Systems Installation, Konfiguration, Patching, Monitoring, Backup und 24/7-Entstörung. Voraussetzung ist eine Direct-Connect-Anbindung sowie eine initiale Mitwirkung des Kunden bei der Netzwerk-Konfiguration zwischen Oracle-Flavors und VPCs." data-en="Optionally, operations can be handed over to T-Systems as a Managed Service (from «Standard» package onwards). T-Systems then handles installation, configuration, patching, monitoring, backup, and 24/7 incident resolution. A Direct Connect connection and initial customer participation in network configuration between Oracle flavors and VPCs are required.">Optional kann der Betrieb als Managed Service an T-Systems übergeben werden (ab Paket «Standard»). Dabei übernimmt T-Systems Installation, Konfiguration, Patching, Monitoring, Backup und 24/7-Entstörung. Voraussetzung ist eine Direct-Connect-Anbindung sowie eine initiale Mitwirkung des Kunden bei der Netzwerk-Konfiguration zwischen Oracle-Flavors und VPCs.</p>
+</div>
+</section>
+
+<!-- SECTION: Flavors -->
+<section class="section" id="flavors">
+<h2 class="section-title"><span class="sec-icon">🖥️</span> <span data-de="Oracle-optimized Server Flavors" data-en="Oracle-Optimized Server Flavors">Oracle-optimized Server Flavors</span></h2>
+<div class="table-wrap">
+<table class="price-table">
+<thead>
+<tr>
+<th>Flavor</th>
+<th>vCPU</th>
+<th>RAM</th>
+<th data-de="€/Monat" data-en="€/Month">€/Monat</th>
+<th data-de="12M Reserved" data-en="12M Reserved">12M Reserved</th>
+<th data-de="24M Reserved" data-en="24M Reserved">24M Reserved</th>
+<th data-de="Hinweis" data-en="Note">Hinweis</th>
+</tr>
+</thead>
+<tbody>
+<tr><td class="mono">oo.xlarge.4</td><td>4</td><td>16 GiB</td><td class="price">800 €</td><td class="price dim">720 €</td><td class="price dim">680 €</td><td></td></tr>
+<tr><td class="mono">oo.2xlarge.4</td><td>8</td><td>32 GiB</td><td class="price">1.599 €</td><td class="price dim">1.439 €</td><td class="price dim">1.359 €</td><td></td></tr>
+<tr><td class="mono">oo.2xlarge.8</td><td>8</td><td>64 GiB</td><td class="price">2.056 €</td><td class="price dim">1.851 €</td><td class="price dim">1.748 €</td><td></td></tr>
+<tr class="limited"><td class="mono">oo.2xlarge.16 *</td><td>8</td><td>128 GiB</td><td class="price">2.970 €</td><td class="price dim">2.673 €</td><td class="price dim">2.525 €</td><td class="note-cell" data-de="begrenzt" data-en="limited">begrenzt</td></tr>
+<tr><td class="mono">oo.3xlarge.5</td><td>12</td><td>64 GiB</td><td class="price">2.627 €</td><td class="price dim">2.365 €</td><td class="price dim">2.233 €</td><td></td></tr>
+<tr class="limited"><td class="mono">oo.3xlarge.10 *</td><td>12</td><td>128 GiB</td><td class="price">3.541 €</td><td class="price dim">3.187 €</td><td class="price dim">3.010 €</td><td class="note-cell" data-de="begrenzt" data-en="limited">begrenzt</td></tr>
+<tr><td class="mono">oo.4xlarge.4</td><td>16</td><td>64 GiB</td><td class="price">3.199 €</td><td class="price dim">2.879 €</td><td class="price dim">2.719 €</td><td></td></tr>
+<tr><td class="mono">oo.4xlarge.8</td><td>16</td><td>128 GiB</td><td class="price">4.112 €</td><td class="price dim">3.701 €</td><td class="price dim">3.496 €</td><td></td></tr>
+<tr><td class="mono">oo.6xlarge.10</td><td>24</td><td>256 GiB</td><td class="price">7.083 €</td><td class="price dim">6.374 €</td><td class="price dim">6.020 €</td><td></td></tr>
+</tbody>
+</table>
+</div>
+<p class="table-note" data-de="* Begrenzte Verfügbarkeit — Freischaltung über Service Desk. Alle Flavors: ZFS-Storage bis 16 TiB, nur in Region EU-DE (2 AZs). Weitere Größen auf Anfrage." data-en="* Limited availability — activation via Service Desk. All flavors: ZFS storage up to 16 TiB, EU-DE region only (2 AZs). Additional sizes on request.">* Begrenzte Verfügbarkeit — Freischaltung über Service Desk. Alle Flavors: ZFS-Storage bis 16 TiB, nur in Region EU-DE (2 AZs). Weitere Größen auf Anfrage.</p>
+</section>
+
+<!-- SECTION: Storage -->
+<section class="section" id="storage">
+<h2 class="section-title"><span class="sec-icon">💾</span> <span data-de="ZFS Storage" data-en="ZFS Storage">ZFS Storage</span></h2>
+<div class="table-wrap">
+<table class="price-table">
+<thead><tr><th>Typ</th><th data-de="Abrechnungseinheit" data-en="Billing Unit">Einheit</th><th data-de="Preis" data-en="Price">Preis</th></tr></thead>
+<tbody>
+<tr><td>ZFS High Performance Storage</td><td>GiB / <span data-de="Monat" data-en="Month">Monat</span></td><td class="price">0,11 €</td></tr>
+<tr><td>ZFS High Performance II Storage</td><td>GiB / <span data-de="Monat" data-en="Month">Monat</span></td><td class="price">0,11 €</td></tr>
+</tbody>
+</table>
+</div>
+<p class="table-note" data-de="Bis zu 16 TiB pro Instanz. Oracle-optimized Servers sind nur in Verbindung mit ZFS-Storage buchbar. Die Leistungsbeschreibung differenziert nicht explizit zwischen den beiden ZFS-Typen — identischer Preis, vermutlich unterschiedliche Hardware-Generationen. Details über den Service Desk erfragen." data-en="Up to 16 TiB per instance. Oracle-optimized servers can only be booked with ZFS storage. The service description does not explicitly differentiate between the two ZFS types — identical pricing, likely different hardware generations. Details available via Service Desk.">Bis zu 16 TiB pro Instanz. Oracle-optimized Servers sind nur in Verbindung mit ZFS-Storage buchbar. Die Leistungsbeschreibung differenziert nicht explizit zwischen den beiden ZFS-Typen — identischer Preis, vermutlich unterschiedliche Hardware-Generationen. Details über den Service Desk erfragen.</p>
+</section>
+
+<!-- SECTION: Managed Services -->
+<section class="section" id="managed">
+<h2 class="section-title"><span class="sec-icon">🔧</span> <span data-de="Managed Services Kosten" data-en="Managed Services Costs">Managed Services Kosten</span></h2>
+<div class="table-wrap">
+<table class="price-table">
+<thead><tr><th>Position</th><th data-de="€/Monat" data-en="€/Month">€/Monat</th><th data-de="12M Reserved" data-en="12M Reserved">12M Reserved</th><th data-de="24M Reserved" data-en="24M Reserved">24M Reserved</th></tr></thead>
+<tbody>
+<tr class="row-highlight"><td>Base Standard * <span class="sub-info" data-de="(bis 50 Services)" data-en="(up to 50 services)">(bis 50 Services)</span></td><td class="price">989 €</td><td class="price dim">969 €</td><td class="price dim">939 €</td></tr>
+<tr><td>Base Basic <span class="sub-info" data-de="(bis 20 Services, kein Oracle DB)" data-en="(up to 20 services, no Oracle DB)">(bis 20 Services, kein Oracle DB)</span></td><td class="price">528 €</td><td class="price dim">517 €</td><td class="price dim">501 €</td></tr>
+<tr><td>Base Advanced <span class="sub-info" data-de="(unbegrenzt)" data-en="(unlimited)">(unbegrenzt)</span></td><td class="price">1.662 €</td><td class="price dim">1.628 €</td><td class="price dim">1.579 €</td></tr>
+<tr><td>Managed OS Linux <span class="sub-info" data-de="(pro Instanz)" data-en="(per instance)">(pro Instanz)</span></td><td class="price">105 €</td><td class="price dim">102 €</td><td class="price dim">99 €</td></tr>
+<tr><td>Managed Oracle DB <span class="sub-info" data-de="(pro Instanz)" data-en="(per instance)">(pro Instanz)</span></td><td class="price">226 €</td><td class="price dim">222 €</td><td class="price dim">215 €</td></tr>
+</tbody>
+</table>
+</div>
+<p class="table-note" data-de="* Oracle DB ist erst ab dem Paket «Standard» verfügbar. Das Paket «Basic» enthält nur RDS-Datenbanken (MSSQL, MySQL, PostgreSQL) — Oracle als Custom-Installation wird dort nicht angeboten." data-en="* Oracle DB is only available from the «Standard» package onwards. The «Basic» package only includes RDS databases (MSSQL, MySQL, PostgreSQL) — Oracle as a custom installation is not offered there.">* Oracle DB ist erst ab dem Paket «Standard» verfügbar. Das Paket «Basic» enthält nur RDS-Datenbanken (MSSQL, MySQL, PostgreSQL) — Oracle als Custom-Installation wird dort nicht angeboten.</p>
+<div class="includes-box">
+<h4 data-de="Im Managed Service enthalten:" data-en="Included in Managed Service:">Im Managed Service enthalten:</h4>
+<div class="tag-grid">
+<span class="inc-tag">24/7 Support</span>
+<span class="inc-tag" data-de="Architektur-Beratung" data-en="Architecture consulting">Architektur-Beratung</span>
+<span class="inc-tag">Grafana Dashboard</span>
+<span class="inc-tag">Backup & Restore</span>
+<span class="inc-tag">Patching</span>
+<span class="inc-tag" data-de="Hochverfügbarkeit" data-en="High Availability">Hochverfügbarkeit</span>
+<span class="inc-tag" data-de="Netzwerk-Management" data-en="Network Management">Netzwerk-Management</span>
+<span class="inc-tag" data-de="Speicher-Management" data-en="Storage Management">Speicher-Management</span>
+<span class="inc-tag" data-de="User-Management" data-en="User Management">User-Management</span>
+<span class="inc-tag">Root-Cause-Analyse</span>
+<span class="inc-tag" data-de="Tenant-Management" data-en="Tenant Management">Tenant-Management</span>
+<span class="inc-tag" data-de="Private Image Mgmt" data-en="Private Image Mgmt">Private Image Mgmt</span>
+</div>
+<h4 class="not-included" data-de="Nicht enthalten:" data-en="Not included:">Nicht enthalten:</h4>
+<div class="tag-grid">
+<span class="exc-tag" data-de="Oracle-Lizenz" data-en="Oracle License">Oracle-Lizenz</span>
+<span class="exc-tag" data-de="App-Fehler (SQL etc.)" data-en="App errors (SQL etc.)">App-Fehler (SQL etc.)</span>
+<span class="exc-tag" data-de="Major-Version-Upgrades" data-en="Major version upgrades">Major-Version-Upgrades</span>
+</div>
+</div>
+</section>
+
+<!-- SECTION: Direct Connect -->
+<section class="section" id="network">
+<h2 class="section-title"><span class="sec-icon">🌐</span> <span data-de="Direct Connect (Netzwerkanbindung)" data-en="Direct Connect (Network Connectivity)">Direct Connect (Netzwerkanbindung)</span></h2>
+<div class="table-wrap">
+<table class="price-table">
+<thead><tr><th>Position</th><th data-de="Preis" data-en="Price">Preis</th><th data-de="Typ" data-en="Type">Typ</th></tr></thead>
+<tbody>
+<tr><td>Setup EU-DE</td><td class="price">274 €</td><td data-de="einmalig" data-en="one-time">einmalig</td></tr>
+<tr><td>Port 1 Gbit/s</td><td class="price">0,034 €/h <span class="approx" data-de="(~25 €/M)" data-en="(~€25/M)">(~25 €/M)</span></td><td data-de="monatlich" data-en="monthly">monatlich</td></tr>
+<tr><td>Port 10 Gbit/s</td><td class="price">0,062 €/h <span class="approx" data-de="(~45 €/M)" data-en="(~€45/M)">(~45 €/M)</span></td><td data-de="monatlich" data-en="monthly">monatlich</td></tr>
+<tr><td>Bandwidth 100 Mbit/s</td><td class="price">0,024 €/h <span class="approx" data-de="(~17 €/M)" data-en="(~€17/M)">(~17 €/M)</span></td><td data-de="monatlich" data-en="monthly">monatlich</td></tr>
+<tr><td>Bandwidth 1 Gbit/s</td><td class="price">0,047 €/h <span class="approx" data-de="(~34 €/M)" data-en="(~€34/M)">(~34 €/M)</span></td><td data-de="monatlich" data-en="monthly">monatlich</td></tr>
+</tbody>
+</table>
+</div>
+<p class="table-note" data-de="Zusätzlich: Leitungskosten vom Netzwerk-Provider (nicht OTC). Direct Connect ist auch redundant (2-Port) verfügbar." data-en="Additionally: line costs from network provider (not OTC). Direct Connect is also available in redundant (2-port) setup.">Zusätzlich: Leitungskosten vom Netzwerk-Provider (nicht OTC). Direct Connect ist auch redundant (2-Port) verfügbar.</p>
+</section>
+
+<!-- SECTION: One-time costs -->
+<section class="section" id="onetime">
+<h2 class="section-title"><span class="sec-icon">💰</span> <span data-de="Einmalige Kosten" data-en="One-Time Costs">Einmalige Kosten</span></h2>
+<div class="table-wrap">
+<table class="price-table">
+<thead><tr><th>Position</th><th data-de="Preis" data-en="Price">Preis</th></tr></thead>
+<tbody>
+<tr><td>Oracle PCA Setup Fee</td><td class="price bold">8.099 €</td></tr>
+<tr><td>Direct Connect Setup EU-DE</td><td class="price">274 €</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- SECTION: Example -->
+<section class="section" id="example">
+<h2 class="section-title"><span class="sec-icon">🧮</span> <span data-de="Rechenbeispiel — Minimal HA-Setup" data-en="Cost Example — Minimal HA Setup">Rechenbeispiel — Minimal HA-Setup</span></h2>
+<div class="calc-card">
+<div class="calc-header" data-de="Minimal HA-Setup: 2 Instanzen in 2 Availability Zones" data-en="Minimal HA Setup: 2 Instances in 2 Availability Zones">Minimal HA-Setup: 2 Instanzen in 2 Availability Zones</div>
+<div class="calc-rows">
+<div class="calc-row calc-row-header"><span>Position</span><span data-de="€/Monat" data-en="€/Month">€/Monat</span></div>
+<div class="calc-row"><span data-de="2× Oracle-optimized Instance (4 vCPU / 16 GiB)" data-en="2× Oracle-optimized Instance (4 vCPU / 16 GiB)">2× Oracle-optimized Instance (4 vCPU / 16 GiB)</span><span class="calc-price">1.600 €</span></div>
+<div class="calc-row"><span>2× Managed OS Linux</span><span class="calc-price">210 €</span></div>
+<div class="calc-row"><span>1× Managed Oracle DB</span><span class="calc-price">226 €</span></div>
+<div class="calc-row"><span>1× Base Standard</span><span class="calc-price">989 €</span></div>
+<div class="calc-row"><span>ZFS Storage (500 GiB)</span><span class="calc-price">55 €</span></div>
+<div class="calc-row"><span>Direct Connect</span><span class="calc-price">~60 €</span></div>
+<div class="calc-total"><span data-de="Monatlich gesamt" data-en="Monthly total">Monatlich gesamt</span><span class="calc-price total">≈ 3.140 €</span></div>
+<div class="calc-note" data-de="+ Oracle Enterprise Lizenz (BYOL)" data-en="+ Oracle Enterprise License (BYOL)">+ Oracle Enterprise Lizenz (BYOL)</div>
+<div class="calc-row onetime"><span data-de="Einmalig" data-en="One-time">Einmalig</span><span class="calc-price">~8.373 €</span></div>
+</div>
+</div>
+</section>
+
+<!-- SECTION: HA & Backup -->
+<section class="section" id="ha">
+<h2 class="section-title"><span class="sec-icon">🔄</span> <span data-de="Hochverfügbarkeit & Backup" data-en="High Availability & Backup">Hochverfügbarkeit & Backup</span></h2>
+<div class="info-card">
+<div class="ha-grid">
+<div class="ha-item">
+<h4 data-de="Hochverfügbarkeit" data-en="High Availability">Hochverfügbarkeit</h4>
+<ul>
+<li data-de="Mehrere Instanzen in verschiedenen Availability Zones möglich" data-en="Multiple instances in different Availability Zones possible">Mehrere Instanzen in verschiedenen Availability Zones möglich</li>
+<li data-de="Region EU-DE: 2 Availability Zones" data-en="EU-DE region: 2 Availability Zones">Region EU-DE: 2 Availability Zones</li>
+<li data-de="SLA: 99,95 % Verfügbarkeit (HA-Konfiguration)" data-en="SLA: 99.95% availability (HA configuration)">SLA: 99,95 % Verfügbarkeit (HA-Konfiguration)</li>
+</ul>
+</div>
+<div class="ha-item">
+<h4 data-de="Backup-Policy" data-en="Backup Policy">Backup-Policy</h4>
+<ul>
+<li data-de="Wöchentlich: jeden Freitag ab 21:00 CET, vollständiges Backup" data-en="Weekly: every Friday from 21:00 CET, full backup">Wöchentlich: jeden Freitag ab 21:00 CET, vollständiges Backup</li>
+<li data-de="10 letzte Sicherungen aufbewahrt" data-en="10 most recent backups retained">10 letzte Sicherungen aufbewahrt</li>
+<li data-de="Monatliche Backups: 36 Monate Langzeitarchivierung" data-en="Monthly backups: 36 months long-term archival">Monatliche Backups: 36 Monate Langzeitarchivierung</li>
+</ul>
+</div>
+<div class="ha-item">
+<h4>RTO / RPO</h4>
+<p class="ha-note" data-de="Nicht explizit in der Leistungsbeschreibung definiert. Abhängig von gewählter HA-/Backup-Architektur. Individuell mit T-Systems zu vereinbaren." data-en="Not explicitly defined in the service description. Depends on chosen HA/backup architecture. To be agreed individually with T-Systems.">Nicht explizit in der Leistungsbeschreibung definiert. Abhängig von gewählter HA-/Backup-Architektur. Individuell mit T-Systems zu vereinbaren.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- SECTION: Packages comparison -->
+<section class="section" id="packages">
+<h2 class="section-title"><span class="sec-icon">📦</span> <span data-de="Managed Service Pakete — Oracle-Verfügbarkeit" data-en="Managed Service Packages — Oracle Availability">Managed Service Pakete — Oracle-Verfügbarkeit</span></h2>
+<div class="table-wrap">
+<table class="price-table pkg-table">
+<thead><tr><th data-de="Feature" data-en="Feature">Feature</th><th>Basic</th><th class="pkg-highlight">Standard</th><th>Advanced</th></tr></thead>
+<tbody>
+<tr><td data-de="Oracle DB (Custom)" data-en="Oracle DB (Custom)">Oracle DB (Custom)</td><td class="no">✗</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+<tr><td>MSSQL / MySQL / PostgreSQL (RDS)</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+<tr><td>MSSQL / MySQL / PostgreSQL (Custom)</td><td class="no">✗</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+<tr><td data-de="Architektur-Beratung" data-en="Architecture consulting">Architektur-Beratung</td><td class="no">✗</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+<tr><td>Grafana Dashboard</td><td class="no">✗</td><td class="yes">Standard</td><td class="yes" data-de="Individuell" data-en="Custom">Individuell</td></tr>
+<tr><td data-de="Hochverfügbarkeit" data-en="High Availability">Hochverfügbarkeit</td><td class="no">✗</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+<tr><td>Managed Containers</td><td class="no">✗</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+<tr><td data-de="Max. Services" data-en="Max. Services">Max. Services</td><td>20</td><td>50</td><td data-de="unbegrenzt" data-en="unlimited">unbegrenzt</td></tr>
+<tr><td data-de="Basispreis / Monat" data-en="Base price / month">Basispreis / Monat</td><td class="price">528 €</td><td class="price pkg-highlight">989 €</td><td class="price">1.662 €</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- SECTION: Sources -->
+<section class="section" id="sources">
+<h2 class="section-title"><span class="sec-icon">🔗</span> <span data-de="Quellen" data-en="Sources">Quellen</span></h2>
+<div class="info-card">
+<div class="source-list">
+<a href="https://public.t-cloud.com/_Resources/Persistent/7/8/3/c/783c92baa49c1363d1a06e024a43abede070c2e4/open-telekom-cloud-leistungsbeschreibung-tdg.pdf" target="_blank" class="source-link">📋 <span data-de="OTC Leistungsbeschreibung inkl. Preisliste" data-en="OTC Service Description incl. Price List">OTC Leistungsbeschreibung inkl. Preisliste</span> <span class="src-date">(Stand 11.02.2026)</span></a>
+<a href="https://public.t-cloud.com/_Resources/Persistent/5/2/6/7/52675c4ebe99390d0fc65621d4d86230bee89dab/managed-services-ueberblick.pdf" target="_blank" class="source-link">📦 <span data-de="Managed Services Leistungsbeschreibung" data-en="Managed Services Description">Managed Services Leistungsbeschreibung</span> <span class="src-date">(Stand 22.05.2025)</span></a>
+<a href="https://public.t-cloud.com/de/produkte-services/managed-services" target="_blank" class="source-link">🌐 <span data-de="Managed Services Übersicht" data-en="Managed Services Overview">Managed Services Übersicht</span></a>
+<a href="https://public.t-cloud.com/de/preise/preisrechner" target="_blank" class="source-link">🧮 <span data-de="Preisrechner" data-en="Price Calculator">Preisrechner</span></a>
+<a href="https://oss.oracle.com/ol9/EULA" target="_blank" class="source-link">📜 Oracle Linux 9.x EULA</a>
+</div>
+</div>
+</section>
+
+</div><!-- /container -->
+
+<div class="footer">Oracle Managed Service — T Cloud Public | <a href="https://public.t-cloud.com" target="_blank">T-Systems</a> | <span data-de="Stand: Februar 2026" data-en="As of: February 2026">Stand: Februar 2026</span></div>
+
+<script>
+let lang = 'de';
+
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.trim() === l.toUpperCase()));
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-' + l + ']').forEach(el => {
+    const val = el.getAttribute('data-' + l);
+    if (val) el.textContent = val;
+  });
+  document.getElementById('subtitle').textContent = l === 'de'
+    ? 'Übersicht für Kunden · Stand Februar 2026'
+    : 'Customer overview · As of February 2026';
+}
+
+function exportPDF() {
+  // Temporarily force light mode for print
+  const wasDark = document.body.classList.contains('dark');
+  if (wasDark) {
+    document.body.classList.remove('dark');
+    document.documentElement.classList.remove('dark');
+  }
+  window.print();
+  if (wasDark) {
+    document.body.classList.add('dark');
+    document.documentElement.classList.add('dark');
+  }
+}
+
+function toggleDark() {
+  const isDark = !document.body.classList.contains('dark');
+  document.body.classList.toggle('dark', isDark);
+  document.documentElement.classList.toggle('dark', isDark);
+  document.getElementById('btnDark').textContent = isDark ? '☀️' : '🌙';
+}
+
+// Init: sync body class with <html> (set early in <head>), update button, set default lang
+(function() {
+  const isDark = document.documentElement.classList.contains('dark');
+  if (isDark) {
+    document.body.classList.add('dark');
+    document.getElementById('btnDark').textContent = '☀️';
+  }
+  var browserLang = (navigator.language || navigator.userLanguage || 'de').substring(0, 2);
+  setLang(browserLang === 'en' ? 'en' : 'de');
+  // Live-sync with system theme changes
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    document.documentElement.classList.toggle('dark', e.matches);
+    document.body.classList.toggle('dark', e.matches);
+    document.getElementById('btnDark').textContent = e.matches ? '☀️' : '🌙';
+  });
+})();
+</script>
+</body>
+</html>

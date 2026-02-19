@@ -1,0 +1,117 @@
+/* ===================================================
+   Dark Theme
+   =================================================== */
+body.dark { background: var(--dark-bg); color: #e0e0e0; }
+
+/* Toolbar */
+body.dark .toolbar { background: var(--dark-bg-alt); border-bottom-color: #2a2a4e; }
+body.dark .search-box { background: var(--dark-bg); border-color: var(--dark-border); color: #e0e0e0; }
+body.dark .search-box::placeholder { color: #666; }
+
+/* Pills */
+body.dark .pill { background: var(--dark-bg); border-color: var(--dark-border); color: #aaa; }
+body.dark .pill:focus { outline: none; }
+body.dark .pill.active { background: rgba(226,0,116,.2); color: var(--magenta-light); border-color: var(--magenta-light); font-weight: 600; }
+body.dark .pill-reset { background: var(--hard-dark-bg); color: #f08090; border-color: #5a1a22; }
+body.dark .pill-sep { color: var(--dark-border); }
+
+/* Equiv pills dark */
+body.dark .pill-eq.eq-full { border-color: var(--easy); color: var(--easy-dark-text); }
+body.dark .pill-eq.eq-full.active { background: rgba(40,167,69,.3); color: var(--easy-dark-text); border-color: var(--easy-dark-text); font-weight: 700; }
+body.dark .pill-eq.eq-partial { border-color: var(--medium); color: var(--medium-dark-text); }
+body.dark .pill-eq.eq-partial.active { background: rgba(240,173,78,.3); color: var(--medium-dark-text); border-color: var(--medium-dark-text); font-weight: 700; }
+body.dark .pill-eq.eq-none { border-color: var(--hard); color: var(--hard-dark-text); }
+body.dark .pill-eq.eq-none.active { background: rgba(220,53,69,.3); color: var(--hard-dark-text); border-color: var(--hard-dark-text); font-weight: 700; }
+
+/* TF pills dark */
+body.dark .pill-tf.tag-full { border-color: var(--easy); color: var(--easy-dark-text); }
+body.dark .pill-tf.tag-full.active { background: rgba(40,167,69,.3); color: var(--easy-dark-text); border-color: var(--easy-dark-text); font-weight: 700; }
+body.dark .pill-tf.tag-partial { border-color: var(--medium); color: var(--medium-dark-text); }
+body.dark .pill-tf.tag-partial.active { background: rgba(240,173,78,.3); color: var(--medium-dark-text); border-color: var(--medium-dark-text); font-weight: 700; }
+body.dark .pill-tf.tag-none { border-color: var(--hard); color: var(--hard-dark-text); }
+body.dark .pill-tf.tag-none.active { background: rgba(220,53,69,.3); color: var(--hard-dark-text); border-color: var(--hard-dark-text); font-weight: 700; }
+
+/* Scope pills dark */
+body.dark .pill-scope { border-color: var(--scope); color: var(--scope-dark-text); }
+body.dark .pill-scope.active { background: rgba(111,66,193,.35); color: #d4b5ff; border-color: var(--scope-dark-text); font-weight: 700; }
+
+/* Effort pills dark */
+body.dark .pill-eff.eff-easy { border-color: var(--easy); color: var(--easy-dark-text); }
+body.dark .pill-eff.eff-easy.active { background: rgba(40,167,69,.3); color: var(--easy-dark-text); border-color: var(--easy-dark-text); font-weight: 700; }
+body.dark .pill-eff.eff-med { border-color: var(--medium); color: var(--medium-dark-text); }
+body.dark .pill-eff.eff-med.active { background: rgba(240,173,78,.3); color: var(--medium-dark-text); border-color: var(--medium-dark-text); font-weight: 700; }
+body.dark .pill-eff.eff-hard { border-color: var(--hard); color: var(--hard-dark-text); }
+body.dark .pill-eff.eff-hard.active { background: rgba(220,53,69,.3); color: var(--hard-dark-text); border-color: var(--hard-dark-text); font-weight: 700; }
+
+/* Sort dark */
+body.dark .sort-btn { background: var(--dark-bg); border-color: var(--dark-border); color: #aaa; }
+body.dark .sort-btn.active { background: rgba(226,0,116,.15); color: var(--magenta-light); border-color: var(--magenta-light); font-weight: 600; }
+
+/* Stat pills dark */
+body.dark .stat-pill { background: var(--dark-bg-alt); box-shadow: 0 1px 4px rgba(0,0,0,.3); }
+body.dark .stat-pill.s-easy { border-left-color: var(--easy); }
+body.dark .stat-pill.s-med { border-left-color: var(--medium); }
+body.dark .stat-pill.s-hard { border-left-color: var(--hard); }
+body.dark .stat-pill.s-total { border-left-color: var(--magenta); }
+body.dark .stat-lbl { color: #777; }
+body.dark .progress-bar { background: #2a2a4e; }
+
+/* Cards dark */
+body.dark .card { background: var(--dark-bg-alt); box-shadow: 0 1px 4px rgba(0,0,0,.2); }
+body.dark .card-name { color: #e0e0e0; }
+body.dark .card-inner { border-top-color: #2a2a4e; }
+body.dark .row-label { color: var(--magenta-light); }
+body.dark .row-val { color: #bbb; }
+body.dark .card.no-equiv { background: linear-gradient(135deg, var(--dark-bg-alt) 0%, #2a1520 100%); }
+body.dark .eq-note-text { color: var(--medium-dark-text); }
+body.dark .tf-note-text { color: var(--medium-dark-text); }
+body.dark .tf-code { background: #111; color: #f8f8f2; }
+
+/* Tags dark */
+body.dark .tag-cat { background: #2a2a4e; color: #aaa; }
+body.dark .tag-otc { background: #3d0030; color: var(--magenta-light); }
+body.dark .tag-no-equiv { background: var(--hard-dark-bg); color: var(--hard-dark-text); border-color: #5a1a22; }
+body.dark .tag-eq-full { background: var(--easy-dark-bg); color: var(--easy-dark-text); }
+body.dark .tag-eq-partial { background: var(--medium-dark-bg); color: var(--medium-dark-text); }
+body.dark .tag-eq-none { background: var(--hard-dark-bg); color: var(--hard-dark-text); }
+body.dark .tag-easy { background: var(--easy-dark-bg); color: #6fcf7f; }
+body.dark .tag-med { background: var(--medium-dark-bg); color: #f0c86e; }
+body.dark .tag-hard { background: var(--hard-dark-bg); color: #f08090; }
+body.dark .tag-full { background: var(--easy-dark-bg); color: #6fcf7f; }
+body.dark .tag-partial { background: var(--medium-dark-bg); color: #f0c86e; }
+body.dark .tag-none { background: var(--hard-dark-bg); color: #f08090; }
+
+/* Links dark */
+body.dark .link-chip.l-aws { background: var(--medium-dark-bg); color: #FF9900; border-color: #664d00; }
+body.dark .link-chip.l-otc { background: #3d0030; color: var(--magenta-light); border-color: #660050; }
+body.dark .link-chip.l-tf { background: #2a2050; color: #9b8cff; border-color: #4a3a80; }
+
+/* Migration dark */
+body.dark .mig-box { background: transparent; }
+body.dark .mig-box ol li { background: #1a2a3e; color: #ccc; }
+body.dark .mig-box ol li:nth-child(even) { background: #1e2e42; }
+body.dark .mig-warn { background: var(--medium-dark-bg); border-left-color: var(--medium); color: var(--medium); }
+body.dark .mig-info { background: #1a2a3e; border-left-color: #4488cc; color: #bbb; }
+body.dark .mig-info b { color: #e0e0e0; }
+body.dark .mig-box code, body.dark .mig-warn code, body.dark .mig-info code { background: #111; }
+body.dark .mig-wrap { background: linear-gradient(135deg, #1c2638 0%, #1a2235 100%); border-color: #2a3548; border-left-color: var(--magenta-light); box-shadow: 0 2px 8px rgba(0,0,0,.2); }
+body.dark .mig-title { color: var(--magenta-light); }
+body.dark .mig-text { color: #bbb; }
+body.dark .mig-ul { color: #bbb; }
+body.dark .mig-section { border-bottom-color: rgba(255,255,255,.06); }
+body.dark .mig-h { color: var(--magenta-light); }
+body.dark .mig-toggle { background: linear-gradient(135deg, rgba(226,0,116,.15), rgba(226,0,116,.05)); border-color: var(--magenta-light); color: var(--magenta-light); }
+
+/* Share/toast dark */
+body.dark .svc-link { border-color: rgba(255,255,255,.15); }
+body.dark .share-toast { background: var(--magenta); }
+
+/* Footer dark */
+body.dark .footer { border-top-color: #2a2a4e; color: #666; }
+body.dark .footer a { color: var(--magenta-light); }
+body.dark .filter-info { color: #888; }
+body.dark .filter-info b { color: var(--magenta-light); }
+body.dark .cat-header { color: #e0e0e0; border-bottom-color: var(--magenta); }
+body.dark .cat-header .cat-count { color: #666; }
+body.dark .back-top { background: var(--magenta); box-shadow: 0 2px 10px rgba(0,0,0,.4); }
+body.dark .h-btn { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.15); }

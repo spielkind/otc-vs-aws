@@ -1,0 +1,56 @@
+/* ===================================================
+   Migration Details Box
+   =================================================== */
+.mig-box { padding: 0; }
+.mig-box ol { margin: 0; padding: 0 0 0 1.4rem; list-style: decimal; }
+.mig-box ol li { padding: .45rem .6rem; margin: .3rem 0; background: #e8f4f8; border-radius: 4px; line-height: 1.6; }
+.mig-box ol li:nth-child(even) { background: #edf6fa; }
+
+/* Details toggle button */
+.mig-toggle {
+  background: linear-gradient(135deg, #fce4f0, #fff);
+  border: 1.5px solid var(--magenta);
+  border-radius: var(--radius-pill);
+  padding: .35rem .9rem;
+  cursor: pointer;
+  font-size: .78rem;
+  color: var(--magenta);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  letter-spacing: .2px;
+  margin-bottom: .5rem;
+}
+
+/* Expandable migration content */
+.mig-content { max-height: 0; overflow: hidden; transition: var(--expand-transition); }
+.mig-content.open { max-height: 5000px; }
+
+/* Structured migration box */
+.mig-wrap {
+  background: linear-gradient(135deg, #fdf8f0 0%, #f5eee4 100%);
+  border: 1px solid #e0d4c4;
+  border-left: 4px solid var(--magenta);
+  border-radius: 8px;
+  padding: .8rem 1rem;
+  font-size: .85rem;
+  line-height: 1.7;
+  box-shadow: 0 2px 8px rgba(0,0,0,.04);
+}
+
+.mig-section { margin-bottom: .6rem; padding-bottom: .5rem; border-bottom: 1px solid rgba(0,0,0,.05); }
+.mig-section:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.mig-title { font-weight: 700; color: var(--magenta); font-size: .84rem; margin-bottom: .2rem; letter-spacing: .2px; }
+.mig-text { color: #555; line-height: 1.7; }
+.mig-ul { margin: .15rem 0 0; padding: 0 0 0 1.2rem; color: #555; }
+.mig-ul li { margin: .1rem 0; }
+.mig-h { font-weight: 700; color: var(--magenta); white-space: nowrap; }
+
+/* Warning & info boxes (legacy) */
+.mig-warn { background: #fff3cd; border-left: 3px solid var(--medium); padding: .55rem .8rem; border-radius: 4px; margin: .5rem 0; font-size: .85rem; color: var(--medium-dark); line-height: 1.6; }
+.mig-info { background: #e8f4f8; border-left: 3px solid #0066cc; padding: .55rem .8rem; border-radius: 4px; margin: .5rem 0; font-size: .85rem; color: #444; line-height: 1.6; }
+.mig-info b, .mig-warn b { font-weight: 700; }
+
+/* Inline code */
+.mig-box code, .mig-warn code, .mig-info code { background: #2d2d2d; color: #f8f8f2; padding: .1rem .35rem; border-radius: 3px; font-family: var(--mono); font-size: .72rem; white-space: nowrap; }

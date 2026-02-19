@@ -1,0 +1,69 @@
+/* ===================================================
+   Service Cards
+   =================================================== */
+.card {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+  overflow: hidden;
+  transition: var(--card-transition);
+  border-left: 4px solid #ddd;
+}
+.card.easy { border-left-color: var(--easy); }
+.card.medium { border-left-color: var(--medium); }
+.card.hard { border-left-color: var(--hard); }
+
+/* No-equivalent special styling */
+.card.no-equiv { border-left-color: #ff6b6b; background: linear-gradient(135deg, #fff 0%, #fff5f5 100%); }
+.card.no-equiv .card-name::after { content: " ⚠️"; font-size: .8rem; }
+
+/* Card header */
+.card-head { padding: .8rem 1rem; cursor: pointer; display: grid; grid-template-columns: 1fr auto; align-items: start; gap: .5rem; min-width: 0; }
+.card-title { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+.card-name { font-size: 1.05rem; font-weight: 700; color: var(--dark-bg); }
+.card-arrow { color: var(--magenta); font-weight: 600; font-size: .9rem; transition: transform .2s; display: flex; align-items: center; gap: .3rem; }
+.card.expanded .card-arrow { transform: rotate(180deg); }
+
+/* Card meta tags */
+.card-meta { display: flex; gap: .3rem; flex-wrap: wrap; margin-top: .3rem; align-items: center; }
+.tag { padding: .15rem .5rem; border-radius: 3px; font-size: .72rem; font-weight: 600; white-space: nowrap; }
+.tag-cat { background: #f0f0f0; color: #666; }
+.tag-otc { background: #fce4f0; color: var(--magenta); }
+.tag-easy { background: var(--easy-bg); color: var(--easy-dark); }
+.tag-med { background: var(--medium-bg); color: var(--medium-dark); }
+.tag-hard { background: var(--hard-bg); color: var(--hard-dark); }
+.tag-full { background: var(--easy-bg); color: var(--easy-dark); }
+.tag-partial { background: var(--medium-bg); color: var(--medium-dark); }
+.tag-none { background: var(--hard-bg); color: var(--hard-dark); }
+.tag-no-equiv { background: #ffe0e0; color: #c0392b; border: 1px dashed #e74c3c; font-weight: 700; }
+.tag-eq-full { background: var(--easy-bg); color: var(--easy-dark); font-weight: 600; }
+.tag-eq-partial { background: var(--medium-bg); color: var(--medium-dark); font-weight: 600; }
+.tag-eq-none { background: var(--hard-bg); color: var(--hard-dark); font-weight: 600; }
+
+/* Card body (expandable) */
+.card-body { max-height: 0; overflow: hidden; transition: var(--expand-transition); }
+.card.expanded .card-body { max-height: 3000px; }
+
+.card-inner { padding: .8rem 1rem 1rem; border-top: 1px solid #f0f0f0; display: grid; gap: .8rem; min-width: 0; overflow-wrap: break-word; word-break: break-word; position: relative; }
+.row { display: grid; grid-template-columns: auto 1fr; gap: .3rem .8rem; align-items: start; font-size: .88rem; overflow-wrap: break-word; word-break: break-word; min-width: 0; }
+.row-label { font-weight: 600; color: var(--magenta); white-space: nowrap; font-size: .8rem; }
+.row-val { color: #444; min-width: 0; overflow-wrap: break-word; }
+
+/* Equiv/TF notes */
+.eq-note-text { font-size: .82rem; color: var(--medium-dark); font-style: italic; }
+.tf-note-text { font-size: .82rem; color: var(--medium-dark); font-style: italic; }
+
+/* Terraform row */
+.tf-row { display: flex; gap: .4rem; flex-wrap: wrap; align-items: center; }
+.tf-code { background: #2d2d2d; color: #f8f8f2; padding: .2rem .6rem; border-radius: 3px; font-family: var(--mono); font-size: .78rem; word-break: break-all; min-width: 0; }
+
+/* Links */
+.links-row { display: flex; gap: .3rem; flex-wrap: wrap; }
+.link-chip { padding: .2rem .5rem; border-radius: 3px; font-size: .72rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: .2rem; }
+.link-chip.l-aws { background: #fff5e6; color: #c77600; border: 1px solid #ffd699; }
+.link-chip.l-otc { background: #fce4f0; color: #c0005e; border: 1px solid #f0b3d1; }
+.link-chip.l-tf { background: #ede8fd; color: #5C4EE5; border: 1px solid #c7bff5; }
+
+/* Share button */
+.svc-link { background: none; border: 1px solid rgba(0,0,0,.1); border-radius: 4px; cursor: pointer; font-size: .85rem; padding: .2rem .4rem; opacity: 0; pointer-events: none; position: absolute; bottom: .5rem; right: .5rem; }
+.card.expanded .svc-link { opacity: .6; pointer-events: auto; }

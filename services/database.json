@@ -1,0 +1,196 @@
+[
+  {
+    "name": "Amazon DynamoDB",
+    "category": "Database",
+    "effort": "hard",
+    "equiv": "partial",
+    "scope": [
+      "K1",
+      "K2"
+    ],
+    "otc": "GeminiDB (Cassandra-kompatibel)",
+    "tfAws": "aws_dynamodb_table",
+    "tfOtc": "opentelekomcloud_gemini_instance_v3",
+    "tfStatus": "partial",
+    "docsAws": "https://docs.aws.amazon.com/dynamodb/",
+    "docsOtc": "https://docs.otc.t-systems.com/geminidb/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/gemini_instance_v3",
+    "desc": {
+      "de": "Serverlose NoSQL-DB (Key-Value + Wide-Column). Single-Digit-ms-Latenz, Global Tables, DynamoDB Streams, On-Demand + Provisioned Capacity, DAX In-Memory Cache, PartiQL-Support.",
+      "en": "Serverless NoSQL DB (key-value + wide-column). Single-digit ms latency, Global Tables, DynamoDB Streams, on-demand + provisioned capacity, DAX in-memory cache, PartiQL support."
+    },
+    "otcDesc": {
+      "de": "OTC-eigene verteilte NoSQL-DB mit Cassandra-API (CQL 3.x). Shared-Nothing-Architektur, automatisches Sharding, Multi-AZ, 3 Replikas. Instanztypen: 4–64 vCPUs, bis 512 GB RAM. Kein echtes Cassandra — proprietäre Storage Engine mit Cassandra Wire Protocol. Kein Serverless-Modus, kein On-Demand Pricing.",
+      "en": "OTC-native distributed NoSQL DB with Cassandra API (CQL 3.x). Shared-nothing architecture, automatic sharding, multi-AZ, 3 replicas. Instance types: 4–64 vCPUs, up to 512 GB RAM. Not real Cassandra — proprietary storage engine with Cassandra wire protocol. No serverless mode, no on-demand pricing."
+    },
+    "alt": {
+      "de": "DDS (MongoDB-kompatibel), Cassandra auf CCE, ScyllaDB auf CCE",
+      "en": "DDS (MongoDB-compatible), Cassandra on CCE, ScyllaDB on CCE"
+    },
+    "migration": {
+      "de": "**Komplett andere API.** GeminiDB nutzt CQL (Cassandra Query Language), nicht die DynamoDB-API — Datenmodell und Abfragen müssen vollständig neu entworfen werden. **Datenmodell-Mapping.** DynamoDB Key-Value wird zu Cassandra-Tabellen mit Partition Key + Clustering Key (ähnliches Konzept, andere Syntax). GSI/LSI werden zu Cassandra Secondary Indexes (weniger flexibel, kein Projection). **Kein Change Data Capture.** DynamoDB Streams haben kein Pendant — Änderungen nur per TTL oder Polling abfangbar. **Kein Serverless-Modus.** Auto Scaling und On-Demand Capacity existieren nicht — feste Instanzgrößen erfordern vorausschauende Kapazitätsplanung. **Cache-Ersatz.** DAX hat kein Pendant, DCS Redis als externer Cache-Layer nutzbar. **Fehlende Features.** Global Tables (kein Cross-Region), Conditional Writes nur eingeschränkt (CQL IF NOT EXISTS, nur INSERT), Batch Operations via CQL BATCH (max 5 MB). DynamoDB TTL wird zu Cassandra TTL (pro Zelle statt pro Item).",
+      "en": "**Completely different API.** GeminiDB uses CQL (Cassandra Query Language), not the DynamoDB API — data model and queries must be fully redesigned. **Data model mapping.** DynamoDB key-value becomes Cassandra tables with partition key + clustering key (similar concept, different syntax). GSI/LSI become Cassandra secondary indexes (less flexible, no projection). **No change data capture.** DynamoDB Streams have no equivalent — changes only catchable via TTL or polling. **No serverless mode.** Auto scaling and on-demand capacity don't exist — fixed instance sizes require proactive capacity planning. **Cache replacement.** DAX has no equivalent, DCS Redis usable as external cache layer. **Missing features.** Global Tables (no cross-region), conditional writes limited (CQL IF NOT EXISTS, INSERT only), batch operations via CQL BATCH (max 5 MB). DynamoDB TTL becomes Cassandra TTL (per cell instead of per item)."
+    },
+    "equivNote": {
+      "de": "GeminiDB Cassandra-API ist näher an DynamoDB als DDS (MongoDB): Key-Value/Wide-Column, distributed, auto-sharding. Aber CQL statt DynamoDB API — Query-Patterns müssen komplett umgebaut werden (kein PartiQL, kein GetItem/PutItem). Kein Serverless, kein DynamoDB Streams (kein CDC), kein DAX, keine Global Tables, kein On-Demand Capacity.",
+      "en": "GeminiDB Cassandra API is closer to DynamoDB than DDS (MongoDB): key-value/wide-column, distributed, auto-sharding. But CQL instead of DynamoDB API — query patterns must be completely reworked (no PartiQL, no GetItem/PutItem). No serverless, no DynamoDB Streams (no CDC), no DAX, no Global Tables, no on-demand capacity."
+    },
+    "tfNote": {
+      "de": "Instanz-Provisionierung per TF, aber Keyspaces/Tables nur per CQL verwaltbar.",
+      "en": "Instance provisioning via TF, but keyspaces/tables only manageable via CQL."
+    }
+  },
+  {
+    "name": "Amazon RDS",
+    "category": "Database",
+    "effort": "medium",
+    "equiv": "partial",
+    "scope": [
+      "K1",
+      "K2"
+    ],
+    "otc": "Relational Database Service (RDS)",
+    "tfAws": "aws_db_instance",
+    "tfOtc": "opentelekomcloud_rds_instance_v3",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/rds/",
+    "docsOtc": "https://docs.otc.t-systems.com/relational-database-service/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/rds_instance_v3",
+    "desc": {
+      "de": "Managed RDBMS: MySQL, PostgreSQL, MariaDB, Oracle, SQL Server. Multi-AZ, Read Replicas, RDS Proxy, Performance Insights, Blue/Green Deployments. ⚠️ Oracle + MariaDB: OTC hat KEINEN Oracle- und MariaDB-Support!",
+      "en": "Managed RDBMS: MySQL, PostgreSQL, MariaDB, Oracle, SQL Server. Multi-AZ, Read Replicas, RDS Proxy, Performance Insights, Blue/Green Deployments. ⚠️ Oracle + MariaDB: OTC has NO Oracle or MariaDB support!"
+    },
+    "otcDesc": {
+      "de": "MySQL (5.6/5.7/8.0), PostgreSQL (11–16 inkl. PostGIS), SQL Server (2017/2019 SE/EE). Automated Backups, Point-in-Time Recovery, Multi-AZ (Primary + Standby), Read Replicas (bis 5), Parameter Templates, SSL/TLS. ⚠️ Kein Oracle, kein MariaDB! PostgreSQL unterstützt PostGIS für Geodaten.",
+      "en": "MySQL (5.6/5.7/8.0), PostgreSQL (11–16 incl. PostGIS), SQL Server (2017/2019 SE/EE). Automated backups, point-in-time recovery, multi-AZ (primary + standby), read replicas (up to 5), parameter templates, SSL/TLS. ⚠️ No Oracle, no MariaDB! PostgreSQL supports PostGIS for geodata."
+    },
+    "alt": {
+      "de": "Oracle: ECS (self-managed), Ora2Pg, AWS SCT, Babelfish, EDB Postgres. MariaDB: MySQL als Alternative (hohe Kompatibilität) oder ECS (self-managed MariaDB)",
+      "en": "Oracle: ECS (self-managed), Ora2Pg, AWS SCT, Babelfish, EDB Postgres. MariaDB: MySQL as alternative (high compatibility) or ECS (self-managed MariaDB)"
+    },
+    "migration": {
+      "de": "**Engine-Einschränkungen.** OTC RDS unterstützt MySQL (5.6/5.7/8.0), PostgreSQL (11–16) und SQL Server (2017/2019) — kein Oracle, kein MariaDB. MariaDB lässt sich zu MySQL migrieren (hohe Kompatibilität, wenige Syntax-Unterschiede). Oracle erfordert Ora2Pg + PostgreSQL oder ECS self-managed. **Aurora-Ersatz.** Aurora hat kein direktes Pendant — TaurusDB (MySQL 8.0 kompatibel) als Alternative. **Replikation und HA.** Multi-AZ mit Primary + Standby (automatischer Failover). Read Replicas bis 5 (AWS: 15). **Fehlende Proxy-Schicht.** RDS Proxy hat kein Pendant — PgBouncer oder ProxySQL müssen self-hosted betrieben werden. **Kein Blue/Green.** Blue/Green Deployments existieren nicht, Rolling Updates nur manuell. Performance Insights werden durch Cloud Eye RDS-Metriken ersetzt (weniger detailliert). **Versionskompatibilität.** Nicht alle Minor-Versionen verfügbar — vor Migration prüfen. PostgreSQL unterstützt PostGIS-Plugin für räumliche Daten.",
+      "en": "**Engine limitations.** OTC RDS supports MySQL (5.6/5.7/8.0), PostgreSQL (11–16) and SQL Server (2017/2019) — no Oracle, no MariaDB. MariaDB can be migrated to MySQL (high compatibility, few syntax differences). Oracle requires Ora2Pg + PostgreSQL or ECS self-managed. **Aurora replacement.** Aurora has no direct equivalent — TaurusDB (MySQL 8.0 compatible) as alternative. **Replication and HA.** Multi-AZ with primary + standby (automatic failover). Read replicas up to 5 (AWS: 15). **No proxy layer.** RDS Proxy has no equivalent — PgBouncer or ProxySQL must be self-hosted. **No Blue/Green.** Blue/Green Deployments don't exist, rolling updates manual only. Performance Insights replaced by Cloud Eye RDS metrics (less detailed). **Version compatibility.** Not all minor versions available — verify before migration. PostgreSQL supports PostGIS plugin for spatial data."
+    },
+    "equivNote": {
+      "de": "OTC RDS: MySQL 5.6/5.7/8.0, PostgreSQL 11–16 (mit PostGIS!), SQL Server 2017/2019. Kein Oracle, kein MariaDB. Aurora → TaurusDB (nur MySQL). Read Replicas bis 5 (AWS: 15). Kein RDS Proxy (PgBouncer self-hosted). Kein Performance Insights (Cloud Eye Metriken). Kein Blue/Green Deployment. Multi-AZ mit Primary+Standby.",
+      "en": "OTC RDS: MySQL 5.6/5.7/8.0, PostgreSQL 11–16 (with PostGIS!), SQL Server 2017/2019. No Oracle, no MariaDB. Aurora → TaurusDB (MySQL only). Read replicas up to 5 (AWS: 15). No RDS Proxy (PgBouncer self-hosted). No Performance Insights (Cloud Eye metrics). No Blue/Green Deployment. Multi-AZ with primary+standby."
+    },
+    "tfNote": null
+  },
+  {
+    "name": "Amazon ElastiCache",
+    "category": "Database",
+    "effort": "easy",
+    "equiv": "partial",
+    "scope": [
+      "K2"
+    ],
+    "otc": "Distributed Cache Service (DCS)",
+    "tfAws": "aws_elasticache_cluster, aws_elasticache_replication_group",
+    "tfOtc": "opentelekomcloud_dcs_instance_v2",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/elasticache/",
+    "docsOtc": "https://docs.otc.t-systems.com/distributed-cache-service/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/elasticache_cluster",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/dcs_instance_v2",
+    "desc": {
+      "de": "Managed In-Memory Cache. Redis und Memcached. Cluster Mode, Multi-AZ, Automatic Failover.",
+      "en": "Managed in-memory cache. Redis and Memcached. Cluster mode, multi-AZ, automatic failover."
+    },
+    "otcDesc": {
+      "de": "Managed Redis (Single, Master/Standby, Cluster). Backup, Monitoring, Parameter-Konfiguration. Kein Memcached.",
+      "en": "Managed Redis (single, master/standby, cluster). Backup, monitoring, parameter configuration. No Memcached."
+    },
+    "alt": {
+      "de": "Redis auf CCE (self-managed), KeyDB auf ECS",
+      "en": "Redis on CCE (self-managed), KeyDB on ECS"
+    },
+    "migration": {
+      "de": "**Kein Memcached.** DCS unterstützt ausschließlich Redis (4.x–7.x) — Memcached-Workloads müssen auf Redis migriert oder self-hosted betrieben werden. **Deployment-Modi.** DCS bietet Single-Node, Master/Standby und Cluster (Sharding). Cluster Mode Enabled wird zu DCS Cluster, aber Slot-Migration beim Resizing funktioniert anders. **Feste Instanzgrößen.** ElastiCache Serverless hat kein Pendant — Kapazität muss vorab gewählt werden. **Kein Global Datastore.** Cross-Region-Replikation existiert nicht. Backup/Restore ist möglich, aber nur innerhalb derselben Region. **Authentifizierung.** Redis AUTH funktioniert, IAM-basierte Authentifizierung wie bei ElastiCache nicht.",
+      "en": "**No Memcached.** DCS supports Redis only (4.x–7.x) — Memcached workloads must be migrated to Redis or self-hosted. **Deployment modes.** DCS offers single-node, master/standby and cluster (sharding). Cluster Mode Enabled becomes DCS Cluster, but slot migration during resizing works differently. **Fixed instance sizes.** ElastiCache Serverless has no equivalent — capacity must be chosen upfront. **No Global Datastore.** Cross-region replication doesn't exist. Backup/restore is possible but only within the same region. **Authentication.** Redis AUTH works, but IAM-based authentication like ElastiCache is not available."
+    },
+    "equivNote": {
+      "de": "DCS unterstützt nur Redis, kein Memcached. Kein Global Datastore (Cross-Region), kein Auto Scaling der Cache-Kapazität. Redis-Versionsunterstützung kann hinter ElastiCache zurückliegen.",
+      "en": "DCS supports Redis only, no Memcached. No Global Datastore (cross-region), no auto scaling of cache capacity. Redis version support may lag behind ElastiCache."
+    },
+    "tfNote": null
+  },
+  {
+    "name": "Amazon DocumentDB",
+    "category": "Database",
+    "effort": "medium",
+    "equiv": "partial",
+    "scope": [],
+    "otc": "Document Database Service (DDS)",
+    "tfAws": "aws_docdb_cluster, aws_docdb_cluster_instance",
+    "tfOtc": "opentelekomcloud_dds_instance_v3",
+    "tfStatus": "partial",
+    "docsAws": "https://docs.aws.amazon.com/documentdb/",
+    "docsOtc": "https://docs.otc.t-systems.com/document-database-service/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/docdb_cluster",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/dds_instance_v3",
+    "desc": {
+      "de": "Managed MongoDB-kompatible Dokumentendatenbank. Bis MongoDB 5.0 API-kompatibel, automatische Skalierung, Multi-AZ.",
+      "en": "Managed MongoDB-compatible document database. Up to MongoDB 5.0 API-compatible, automatic scaling, multi-AZ."
+    },
+    "otcDesc": {
+      "de": "Managed MongoDB (3.4/4.0/4.2/4.4). Replica Set oder Sharded Cluster. Automatische Backups, Point-in-Time Recovery, SSL/TLS. Volle MongoDB Wire Protocol Kompatibilität.",
+      "en": "Managed MongoDB (3.4/4.0/4.2/4.4). Replica set or sharded cluster. Automatic backups, point-in-time recovery, SSL/TLS. Full MongoDB wire protocol compatibility."
+    },
+    "alt": {
+      "de": "GeminiDB (MongoDB-kompatibel), MongoDB auf CCE (self-managed)",
+      "en": "GeminiDB (MongoDB-compatible), MongoDB on CCE (self-managed)"
+    },
+    "migration": {
+      "de": "**Echtes MongoDB statt Emulation.** DDS nutzt die echte MongoDB Engine — DocumentDB ist nur API-kompatibel. Das bedeutet bessere Kompatibilität bei Standard-MongoDB-Features, aber auch andere Grenzen. **Versions-Delta.** DDS unterstützt bis MongoDB 4.4, DocumentDB emuliert bis 5.0 — neuere Features könnten fehlen. **Sharding-Unterschiede.** DocumentDB Elastic Clusters werden zu DDS Sharded Cluster (ähnliches Konzept, andere Konfiguration). **Kein Cross-Region.** DocumentDB Global Clusters haben kein Pendant — Cross-Region Replication fehlt. **Aggregation Pipeline.** Funktioniert auf beiden, aber manche DocumentDB-spezifische Operatoren fehlen in echtem MongoDB und umgekehrt. Change Streams funktionieren auf beiden Seiten. **Connection Strings.** Endpoints und SSL-Zertifikate müssen angepasst werden.",
+      "en": "**Real MongoDB instead of emulation.** DDS uses the real MongoDB engine — DocumentDB is only API-compatible. This means better compatibility for standard MongoDB features, but also different limitations. **Version delta.** DDS supports up to MongoDB 4.4, DocumentDB emulates up to 5.0 — newer features may be missing. **Sharding differences.** DocumentDB Elastic Clusters become DDS Sharded Cluster (similar concept, different configuration). **No cross-region.** DocumentDB Global Clusters have no equivalent — cross-region replication is missing. **Aggregation pipeline.** Works on both, but some DocumentDB-specific operators are missing in real MongoDB and vice versa. Change Streams work on both sides. **Connection strings.** Endpoints and SSL certificates must be adjusted."
+    },
+    "equivNote": {
+      "de": "DDS ist echtes MongoDB (nicht nur API-kompatibel wie DocumentDB). Unterstützt bis MongoDB 4.4 (DocumentDB emuliert 5.0). Kein Elastic Clusters Pendant für automatisches Sharding. Kein Global Clusters (Cross-Region). DDS bietet Replica Set + Sharded Cluster Modi.",
+      "en": "DDS is real MongoDB (not just API-compatible like DocumentDB). Supports up to MongoDB 4.4 (DocumentDB emulates 5.0). No Elastic Clusters equivalent for automatic sharding. No Global Clusters (cross-region). DDS offers replica set + sharded cluster modes."
+    },
+    "tfNote": {
+      "de": "DDS Instance und Backup per TF, aber Collections/Indexes nur per MongoDB API.",
+      "en": "DDS instance and backup via TF, but collections/indexes only via MongoDB API."
+    }
+  },
+  {
+    "name": "Amazon Aurora",
+    "category": "Database",
+    "effort": "medium",
+    "equiv": "partial",
+    "scope": [],
+    "otc": "TaurusDB",
+    "tfAws": "aws_rds_cluster, aws_rds_cluster_instance",
+    "tfOtc": "opentelekomcloud_taurusdb_mysql_instance_v3, opentelekomcloud_taurusdb_mysql_proxy_v3, opentelekomcloud_taurusdb_mysql_backup_v3",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/",
+    "docsOtc": "https://docs.otc.t-systems.com/taurusdb/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/rds_cluster",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/taurusdb_mysql_instance_v3",
+    "desc": {
+      "de": "MySQL/PostgreSQL-kompatible relationale DB. Bis 5x schneller als MySQL, bis 3x schneller als PostgreSQL. Serverless, Global Database, Multi-Master.",
+      "en": "MySQL/PostgreSQL-compatible relational DB. Up to 5x faster than MySQL, up to 3x faster than PostgreSQL. Serverless, Global Database, multi-master."
+    },
+    "otcDesc": {
+      "de": "Managed MySQL-kompatible Hochleistungs-DB (ehem. GaussDB for MySQL). Compute-Storage-Separation, bis 128TB, Multi-AZ, Read Replicas. Serverless-Modus laut Roadmap geplant. HTAP für Echtzeit-Analysen angekündigt.",
+      "en": "Managed MySQL-compatible high-performance DB (formerly GaussDB for MySQL). Compute-storage separation, up to 128TB, multi-AZ, read replicas. Serverless mode planned per roadmap. HTAP for real-time analytics announced."
+    },
+    "alt": {
+      "de": "RDS MySQL/PostgreSQL",
+      "en": "RDS MySQL/PostgreSQL"
+    },
+    "migration": {
+      "de": "**Nur MySQL-kompatibel.** TaurusDB unterstützt MySQL 8.0 — Aurora PostgreSQL hat kein Pendant auf OTC (nur RDS PostgreSQL als Fallback). **Kein Serverless.** Aurora Serverless v2 wird durch TaurusDB Serverless geplant ersetzt, ist aber noch nicht GA — feste Instanzgrößen einplanen. **Kein Cross-Region.** Aurora Global Database hat kein Pendant. Multi-Master ist ebenfalls nicht verfügbar. **Flashback statt Backtrack.** Aurora Backtrack wird durch TaurusDB Flashback Query ersetzt (ähnliche Funktionalität). **Integrierter Proxy.** RDS Proxy wird durch den TaurusDB-eigenen Proxy ersetzt (Terraform: opentelekomcloud_taurusdb_mysql_proxy_v3) — kein ProxySQL nötig. **Kein Performance Insights.** Monitoring über Cloud Eye, aber weniger granular. Read Replicas funktionieren auf beiden Seiten. Connection Strings und SSL-Zertifikate müssen angepasst werden.",
+      "en": "**MySQL only.** TaurusDB supports MySQL 8.0 — Aurora PostgreSQL has no equivalent on OTC (only RDS PostgreSQL as fallback). **No serverless.** Aurora Serverless v2 replacement (TaurusDB Serverless) is planned but not yet GA — plan for fixed instance sizes. **No cross-region.** Aurora Global Database has no equivalent. Multi-master is also not available. **Flashback instead of Backtrack.** Aurora Backtrack is replaced by TaurusDB Flashback Query (similar functionality). **Integrated proxy.** RDS Proxy is replaced by TaurusDB's built-in proxy (Terraform: opentelekomcloud_taurusdb_mysql_proxy_v3) — no ProxySQL needed. **No Performance Insights.** Monitoring via Cloud Eye, but less granular. Read replicas work on both sides. Connection strings and SSL certificates must be adjusted."
+    },
+    "equivNote": {
+      "de": "TaurusDB ist MySQL-kompatibel mit Compute-Storage-Separation (wie Aurora). Kein PostgreSQL-Support (nur RDS). Kein Aurora Serverless v2 (geplant), kein Global Database, kein Multi-Master. Flashback Query verfügbar (ähnlich Backtrack). Eigener DB-Proxy integriert.",
+      "en": "TaurusDB is MySQL-compatible with compute-storage separation (like Aurora). No PostgreSQL support (RDS only). No Aurora Serverless v2 (planned), no Global Database, no multi-master. Flashback Query available (similar to Backtrack). Integrated DB proxy."
+    },
+    "tfNote": null
+  }
+]

@@ -1,0 +1,57 @@
+/* ===================================================
+   Filter Pills
+   =================================================== */
+.pill-group { display: flex; flex-wrap: nowrap; gap: .3rem; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 2px; }
+.pill-group::-webkit-scrollbar { display: none; }
+
+.pill {
+  padding: .25rem .6rem;
+  border: 1.5px solid #ddd;
+  background: #fff;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  font-size: .76rem;
+  font-weight: 500;
+  color: #666;
+  white-space: nowrap;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.pill:focus { outline: none; }
+.pill.active { background: var(--magenta); color: #fff; border-color: var(--magenta); }
+.pill-reset { background: #fee; color: var(--hard); border-color: #fcc; font-weight: 600; }
+.pill-sep { color: #ccc; font-size: .7rem; display: flex; align-items: center; margin: 0 .2rem; }
+
+/* Scope pills */
+.scope-group { display: flex; gap: .3rem; flex-shrink: 0; }
+.pill-scope { border-color: var(--scope); color: var(--scope); }
+.pill-scope.active { background: var(--scope); color: #fff; border-color: var(--scope); }
+
+/* Equiv pills */
+.equiv-group { display: flex; gap: .3rem; flex-shrink: 0; }
+.pill-eq.eq-full { border-color: var(--easy); color: var(--easy-dark); }
+.pill-eq.eq-full.active { background: var(--easy-bg-strong); color: #0b4f1c; border-color: var(--easy); font-weight: 700; }
+.pill-eq.eq-partial { border-color: var(--medium); color: var(--medium-dark); }
+.pill-eq.eq-partial.active { background: var(--medium-bg-strong); color: #6d5200; border-color: var(--medium); font-weight: 700; }
+.pill-eq.eq-none { border-color: var(--hard); color: var(--hard-dark); }
+.pill-eq.eq-none.active { background: var(--hard-bg-strong); color: #5a1520; border-color: var(--hard); font-weight: 700; }
+
+/* TF pills */
+.tf-group { display: flex; gap: .3rem; flex-shrink: 0; }
+.pill-tf.tag-full { border-color: var(--easy); color: var(--easy-dark); }
+.pill-tf.tag-full.active { background: var(--easy-bg-strong); color: #0b4f1c; border-color: var(--easy); font-weight: 700; }
+.pill-tf.tag-partial { border-color: var(--medium); color: var(--medium-dark); }
+.pill-tf.tag-partial.active { background: var(--medium-bg-strong); color: #6d5200; border-color: var(--medium); font-weight: 700; }
+.pill-tf.tag-none { border-color: var(--hard); color: var(--hard-dark); }
+.pill-tf.tag-none.active { background: var(--hard-bg-strong); color: #5a1520; border-color: var(--hard); font-weight: 700; }
+
+/* Effort pills */
+.effort-pills { display: flex; gap: .3rem; flex-shrink: 0; }
+.pill-eff { display: flex; align-items: center; gap: .25rem; }
+.pill-eff .eff-cnt { font-weight: 700; }
+.pill-eff.eff-easy { border-color: var(--easy); color: var(--easy-dark); }
+.pill-eff.eff-easy.active { background: var(--easy-bg-strong); color: #0b4f1c; border-color: var(--easy); font-weight: 700; }
+.pill-eff.eff-med { border-color: var(--medium); color: var(--medium-dark); }
+.pill-eff.eff-med.active { background: var(--medium-bg-strong); color: #6d5200; border-color: var(--medium); font-weight: 700; }
+.pill-eff.eff-hard { border-color: var(--hard); color: var(--hard-dark); }
+.pill-eff.eff-hard.active { background: var(--hard-bg-strong); color: #5a1520; border-color: var(--hard); font-weight: 700; }

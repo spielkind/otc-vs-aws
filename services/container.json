@@ -1,0 +1,116 @@
+[
+  {
+    "name": "Amazon ECS",
+    "category": "Container",
+    "effort": "hard",
+    "equiv": "partial",
+    "scope": [
+      "K1",
+      "K2"
+    ],
+    "otc": "Cloud Container Instance (CCI)",
+    "tfAws": "aws_ecs_cluster, aws_ecs_service",
+    "tfOtc": "opentelekomcloud_cci_namespace_v2",
+    "tfStatus": "partial",
+    "docsAws": "https://docs.aws.amazon.com/ecs/",
+    "docsOtc": "https://docs.otc.t-systems.com/cloud-container-instance/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_cluster",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/cci_namespace_v2",
+    "desc": {
+      "de": "Vollständig verwalteter Container-Orchestrator. Cluster mit Fargate (serverless) und EC2 Launch Types. Service Discovery (Cloud Map), ECS Exec, Capacity Providers, Service Connect, Deployment Circuit Breaker.",
+      "en": "Fully managed container orchestrator. Clusters with Fargate (serverless) and EC2 launch types. Service Discovery (Cloud Map), ECS Exec, Capacity Providers, Service Connect, Deployment Circuit Breaker."
+    },
+    "otcDesc": {
+      "de": "Serverless Container-Engine ohne Cluster. Pods direkt deployen (max. 5 Container/Pod), pay-per-use. Nur VPC-Netzwerk, nur SWR-Images (kein 3rd-party Registry), nur Linux x86, 30 GB rootfs ohne EVS. CPU/RAM in festen Kombinationen (0.25–64 vCPU, Ratio 1:1 bis 1:8). ⚠️ Aktuell Beta — Go-Live ca. Mai 2026. Für Produktion CCE (Managed K8s) empfohlen.",
+      "en": "Serverless container engine without clusters. Deploy pods directly (max 5 containers/pod), pay-per-use. VPC networking only, SWR images only (no 3rd-party registry), Linux x86 only, 30 GB rootfs without EVS. CPU/RAM in fixed combinations (0.25–64 vCPU, ratio 1:1 to 1:8). ⚠️ Currently beta — go-live approx. May 2026. For production CCE (Managed K8s) recommended."
+    },
+    "alt": {
+      "de": "CCE (Managed Kubernetes) — empfohlen für Produktion. Kubernetes auf VMs (self-managed). Rancher, OpenShift.",
+      "en": "CCE (Managed Kubernetes) — recommended for production. Kubernetes on VMs (self-managed). Rancher, OpenShift."
+    },
+    "migration": {
+      "de": "**Architekturwechsel.** ECS (proprietär, Cluster/Service/Task) → CCI (serverless K8s-Pods, kein Cluster-Konzept). Task Definitions komplett in K8s Pod-Specs umschreiben. **Feature-Lücken.** Kein Service Discovery (Cloud Map), kein ECS Exec, keine Capacity Providers, kein Service Connect, kein Deployment Circuit Breaker, keine Task Placement Strategies. **Registry & Images.** CCI unterstützt NUR SWR — keine externen Registries, keine CRDs. Container Images von ECR nach SWR migrieren. **Ressourcen-Limits.** Max 5 Container pro Pod, nur x86. CPU/RAM in festen Kombinationen (0.25–64 vCPU, Ratio 1:1 bis 1:8). Ohne EVS nur 30 GB Storage. Nicht alle ECS Task Sizes abbildbar. **Monitoring.** ECS Exec nicht verfügbar — Debugging nur über Logs (AOM/LTS). Auto Scaling nur indirekt über AOM-Alarms statt Target Tracking. IAM Task Roles → OTC IAM Agencies. **Beta-Status.** CCI ist noch Beta (Go-Live ca. Mai 2026). Für Produktion CCE (Managed K8s) evaluieren.",
+      "en": "**Architecture change.** ECS (proprietary, Cluster/Service/Task) → CCI (serverless K8s pods, no cluster concept). Task Definitions must be completely rewritten as K8s Pod specs. **Feature gaps.** No Service Discovery (Cloud Map), no ECS Exec, no Capacity Providers, no Service Connect, no Deployment Circuit Breaker, no Task Placement Strategies. **Registry & images.** CCI supports SWR ONLY — no external registries, no CRDs. Migrate container images from ECR to SWR. **Resource limits.** Max 5 containers per pod, x86 only. CPU/RAM in fixed combinations (0.25–64 vCPU, ratio 1:1 to 1:8). Without EVS only 30 GB storage. Not all ECS Task sizes mappable. **Monitoring.** ECS Exec not available — debugging only via logs (AOM/LTS). Auto Scaling only indirectly via AOM alarms instead of Target Tracking. IAM Task Roles → OTC IAM Agencies. **Beta status.** CCI is still in beta (go-live approx. May 2026). For production evaluate CCE (Managed K8s)."
+    },
+    "equivNote": {
+      "de": "CCI ist serverless ohne Cluster-Konzept — ECS hat Cluster mit Fargate/EC2. Fehlend: Service Discovery (Cloud Map), ECS Exec, Capacity Providers, Service Connect, Deployment Circuit Breaker, Task Placement Strategies. CCI unterstützt keine CRDs und keine Drittanbieter-Image-Registries. Max 5 Container pro Pod, nur x86. Für komplexe Orchestrierung CCE (Managed K8s) evaluieren.",
+      "en": "CCI is serverless without cluster concept — ECS has clusters with Fargate/EC2. Missing: Service Discovery (Cloud Map), ECS Exec, Capacity Providers, Service Connect, Deployment Circuit Breaker, Task Placement Strategies. CCI does not support CRDs or third-party image registries. Max 5 containers per pod, x86 only. For complex orchestration evaluate CCE (Managed K8s)."
+    },
+    "tfNote": {
+      "de": "CCI hat nur Namespace-Resource — kein TF für Workloads/Deployments, nur Infrastruktur.",
+      "en": "CCI only has namespace resource — no TF for workloads/deployments, only infrastructure."
+    }
+  },
+  {
+    "name": "Amazon ECR",
+    "category": "Container",
+    "effort": "easy",
+    "equiv": "partial",
+    "scope": [
+      "K1",
+      "K2"
+    ],
+    "otc": "SoftWare Repository for Container (SWR)",
+    "tfAws": "aws_ecr_repository",
+    "tfOtc": "opentelekomcloud_swr_organization_v2",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/ecr/",
+    "docsOtc": "https://docs.otc.t-systems.com/software-repository-container/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_repository",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/swr_organization_v2",
+    "desc": {
+      "de": "Managed Container Registry. Private/Public Repos, automatisches Vulnerability Scanning (Inspector), Lifecycle Policies, Cross-Region Replication, Image Signing, Pull-Through Cache.",
+      "en": "Managed container registry. Private/public repos, automatic vulnerability scanning (Inspector), lifecycle policies, cross-region replication, image signing, pull-through cache."
+    },
+    "otcDesc": {
+      "de": "Container-Image-Registry mit Organisations-Struktur (Organization → Repository → Image:Tag). Private Repositories, Multi-User-Zugriff über IAM. Trigger für automatische CCE-Deployments. Kein natives Vulnerability Scanning — Trivy/Clair extern integrieren. Lifecycle nur über max. Tags pro Repository (keine zeitbasierten Regeln).",
+      "en": "Container image registry with organization structure (Organization → Repository → Image:Tag). Private repositories, multi-user access via IAM. Triggers for automatic CCE deployments. No native vulnerability scanning — integrate Trivy/Clair externally. Lifecycle only via max tags per repository (no time-based rules)."
+    },
+    "alt": {
+      "de": "Harbor auf CCE",
+      "en": "Harbor on CCE"
+    },
+    "migration": {
+      "de": "**Organisations-Struktur.** SWR nutzt Organization → Repository → Image:Tag — grundlegend anders als ECR (per-Account, per-Region). IAM-Berechtigungen auf Organisations-Ebene, nicht pro Repository. **Vulnerability Scanning.** Kein natives Scanning — Trivy oder Clair als CI-Pipeline-Step einbauen, alternativ HSS Container Edition. **Lifecycle Policies.** Nur max. Tag-Anzahl pro Repository — keine zeitbasierten Regeln wie 'untagged older than X days'. **Fehlende Features.** Cross-Region Replication, Pull-Through Cache und Image Signing (Cosign/Notary) fehlen — Images manuell in andere Regionen pushen, Signing extern lösen. **Deployment-Trigger.** SWR bietet Trigger-Webhooks für automatische CCE-Deployments bei Image-Push. **CCI-Einschränkung.** CCI unterstützt ausschließlich SWR — keine externen Registries.",
+      "en": "**Organization structure.** SWR uses Organization → Repository → Image:Tag — fundamentally different from ECR (per-account, per-region). IAM permissions at organization level, not per repository. **Vulnerability scanning.** No native scanning — integrate Trivy or Clair as CI pipeline step, alternatively HSS Container Edition. **Lifecycle policies.** Only max tag count per repository — no time-based rules like 'untagged older than X days'. **Missing features.** Cross-region replication, pull-through cache, and image signing (Cosign/Notary) are missing — push images to other regions manually, handle signing externally. **Deployment triggers.** SWR offers trigger webhooks for automatic CCE deployments on image push. **CCI restriction.** CCI supports SWR exclusively — no external registries."
+    },
+    "equivNote": {
+      "de": "SWR nutzt Organization → Repository Hierarchie (nicht per-Account wie ECR). Kein natives Vulnerability Scanning (Trivy selbst integrieren). Kein Cross-Region Replication. Lifecycle Policies nur max. Tags (keine regelbasierten wie ECR). Kein Image Signing, kein Pull-Through Cache. SWR bietet Trigger für automatische CCE-Deployments bei Image-Push.",
+      "en": "SWR uses Organization → Repository hierarchy (not per-account like ECR). No native vulnerability scanning (integrate Trivy yourself). No cross-region replication. Lifecycle policies only max tags (no rule-based like ECR). No image signing, no pull-through cache. SWR offers triggers for automatic CCE deployments on image push."
+    },
+    "tfNote": null
+  },
+  {
+    "name": "Amazon EKS",
+    "category": "Container",
+    "effort": "medium",
+    "equiv": "full",
+    "scope": [],
+    "otc": "Cloud Container Engine (CCE)",
+    "tfAws": "aws_eks_cluster, aws_eks_node_group",
+    "tfOtc": "opentelekomcloud_cce_cluster_v3, opentelekomcloud_cce_node_v3, opentelekomcloud_cce_node_pool_v3",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/eks/",
+    "docsOtc": "https://docs.otc.t-systems.com/cloud-container-engine/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/cce_cluster_v3",
+    "desc": {
+      "de": "Managed Kubernetes Service. Control Plane vollständig verwaltet, Fargate für serverlose Pods, EKS Anywhere für Hybrid.",
+      "en": "Managed Kubernetes service. Fully managed control plane, Fargate for serverless pods, EKS Anywhere for hybrid."
+    },
+    "otcDesc": {
+      "de": "Hochskalierbare, hochperformante Enterprise-Kubernetes-Cluster (CNCF-zertifiziert). Control Plane verwaltet, Node Pools, Helm-Support, Add-ons, Persistent Storage via EVS/SFS.",
+      "en": "Highly scalable, high-performance, enterprise-class Kubernetes clusters (CNCF certified). Managed control plane, node pools, Helm support, add-ons, persistent storage via EVS/SFS."
+    },
+    "alt": {
+      "de": "Kubernetes auf ECS (self-managed), Rancher, OpenShift",
+      "en": "Kubernetes on ECS (self-managed), Rancher, OpenShift"
+    },
+    "migration": {
+      "de": "**K8s-Versionen.** CCE nutzt andere Kubernetes-Versionen als EKS — Versionskompatibilität und API-Deprecations vorab prüfen. **Node Pools.** EKS Managed Node Groups → CCE Node Pools (ähnliches Konzept, andere API). EKS Fargate Profile → CCI (serverless, aber anderes Networking-Modell). **Ingress & Load Balancing.** AWS Load Balancer Controller → OTC ELB Ingress Controller mit abweichenden Annotations. **IAM-Integration.** EKS IRSA (IAM Roles for Service Accounts) → OTC Agency-basierte Berechtigungen — grundlegend anderes Konzept. **Storage-Treiber.** EBS CSI Driver → EVS CSI Driver. EFS CSI → SFS Turbo CSI. **Pod-Networking.** VPC CNI Plugin funktioniert anders — kein sekundäres CIDR für Pods, Netzwerk-Modell bei der Cluster-Erstellung prüfen.",
+      "en": "**K8s versions.** CCE uses different Kubernetes versions than EKS — verify version compatibility and API deprecations beforehand. **Node pools.** EKS Managed Node Groups → CCE Node Pools (similar concept, different API). EKS Fargate Profile → CCI (serverless, but different networking model). **Ingress & load balancing.** AWS Load Balancer Controller → OTC ELB Ingress Controller with different annotations. **IAM integration.** EKS IRSA (IAM Roles for Service Accounts) → OTC Agency-based permissions — fundamentally different concept. **Storage drivers.** EBS CSI Driver → EVS CSI Driver. EFS CSI → SFS Turbo CSI. **Pod networking.** VPC CNI plugin works differently — no secondary CIDR for pods, verify network model during cluster creation."
+    },
+    "equivNote": null,
+    "tfNote": null
+  }
+]

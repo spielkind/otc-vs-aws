@@ -1,0 +1,380 @@
+/* ===================================================
+   Oracle Managed Service — Standalone Styles
+   Uses vars.css tokens from parent OTC-vs-AWS
+   =================================================== */
+
+/* Base Reset & Typography */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font);
+  background: #f8f9fa;
+  color: #333;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+/* ===================================================
+   Header (matches OTC-vs-AWS)
+   =================================================== */
+.header {
+  background: linear-gradient(135deg, var(--dark-bg) 0%, var(--dark-bg-alt) 50%, #0f3460 100%);
+  padding: .6rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(0,0,0,.3);
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+.container.main { padding-top: 1.5rem; padding-bottom: 2rem; }
+
+.header-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .4rem; }
+.header-left h1 { color: #fff; font-size: 1.15rem; font-weight: 700; letter-spacing: -.5px; }
+.header-left h1 span { color: var(--magenta); }
+.header-left .sub { color: rgba(255,255,255,.6); font-size: .7rem; margin-top: .1rem; }
+.header-right { display: flex; align-items: center; gap: .6rem; }
+.header-center { display: flex; align-items: center; justify-content: center; }
+.ai-hint { font-size: .6rem; color: rgba(255,255,255,.35); letter-spacing: .5px; }
+
+.lang-toggle { display: flex; border-radius: 4px; overflow: hidden; border: 1px solid rgba(255,255,255,.3); }
+.lang-btn { padding: .25rem .6rem; background: transparent; color: rgba(255,255,255,.7); border: none; cursor: pointer; font-weight: 600; font-size: .75rem; }
+.lang-btn.active { background: var(--magenta); color: #fff; }
+
+.header-actions { display: flex; gap: .3rem; flex-wrap: wrap; }
+.h-btn { padding: .2rem .5rem; background: rgba(255,255,255,.1); color: rgba(255,255,255,.8); border: 1px solid rgba(255,255,255,.2); border-radius: 4px; cursor: pointer; font-size: .7rem; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: .2rem; }
+.h-btn:hover { background: rgba(255,255,255,.2); }
+
+/* ===================================================
+   Sections
+   =================================================== */
+.section { margin-bottom: 2rem; }
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--dark-bg);
+  padding: .5rem 0 .4rem;
+  border-bottom: 3px solid var(--magenta);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+.sec-icon { font-size: 1.1rem; }
+
+/* ===================================================
+   Info Cards
+   =================================================== */
+.info-card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 1.2rem 1.5rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+}
+.info-card.highlight {
+  border-left: 4px solid var(--magenta);
+}
+.info-card p { margin-bottom: .6rem; }
+
+/* Two-column boxes */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+.col-box {
+  background: #f8f9fa;
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  border: 1px solid #e8e8e8;
+  position: relative;
+}
+.col-label {
+  position: absolute;
+  top: -.6rem;
+  left: .8rem;
+  background: var(--magenta);
+  color: #fff;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: .75rem;
+}
+.col-box h3 { font-size: .95rem; margin-bottom: .2rem; color: var(--dark-bg); }
+.col-type {
+  display: inline-block;
+  padding: .1rem .5rem;
+  border-radius: 3px;
+  font-size: .7rem;
+  font-weight: 600;
+  background: #fce4f0;
+  color: var(--magenta);
+  margin-bottom: .4rem;
+}
+.col-box p:last-child { font-size: .85rem; color: #555; margin-bottom: 0; }
+.recommend { font-weight: 600; color: var(--magenta); font-size: .9rem; margin-top: .5rem; }
+
+/* Req list */
+.req-list { list-style: none; }
+.req-list li {
+  padding: .6rem .8rem;
+  border-left: 3px solid var(--medium);
+  margin-bottom: .5rem;
+  background: var(--medium-bg);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: .9rem;
+}
+
+/* ===================================================
+   Tables
+   =================================================== */
+.table-wrap { overflow-x: auto; margin-bottom: .5rem; }
+
+.price-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .85rem;
+  background: #fff;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+}
+.price-table th {
+  background: var(--dark-bg);
+  color: #fff;
+  padding: .6rem .8rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: .78rem;
+  white-space: nowrap;
+}
+.price-table td {
+  padding: .5rem .8rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+.price-table tbody tr:hover { background: #fafafa; }
+
+.price { font-weight: 700; color: var(--magenta); white-space: nowrap; }
+.price.dim { font-weight: 500; color: #999; }
+.price.bold { font-size: 1rem; }
+.mono { font-family: var(--mono); font-size: .82rem; font-weight: 600; }
+.approx { font-weight: 400; color: #999; font-size: .78rem; }
+.sub-info { font-weight: 400; color: #999; font-size: .78rem; }
+
+.note-cell { font-size: .72rem; color: #999; }
+.note-cell.warn { color: var(--hard); font-weight: 600; }
+
+.table-note { font-size: .78rem; color: #888; margin-top: .3rem; font-style: italic; }
+
+tr.limited { background: #fffbf0; }
+tr.deprecated { opacity: .55; }
+tr.row-highlight { background: #fef5fa; }
+
+/* Package table */
+.pkg-table .yes { color: var(--easy); font-weight: 700; text-align: center; }
+.pkg-table .no { color: #ccc; text-align: center; }
+.pkg-table .pkg-highlight { background: #fef5fa; font-weight: 600; }
+.pkg-table th.pkg-highlight { background: var(--magenta); color: #fff; }
+.pkg-table td, .pkg-table th { text-align: center; }
+.pkg-table td:first-child, .pkg-table th:first-child { text-align: left; }
+
+/* all tables full width for visual consistency */
+
+/* ===================================================
+   Includes Box
+   =================================================== */
+.includes-box {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  margin-top: 1rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+}
+.includes-box h4 { font-size: .85rem; color: var(--dark-bg); margin-bottom: .5rem; }
+.includes-box h4.not-included { color: var(--hard); margin-top: .8rem; }
+
+.tag-grid { display: flex; flex-wrap: wrap; gap: .3rem; }
+.inc-tag {
+  padding: .2rem .6rem;
+  border-radius: 3px;
+  font-size: .75rem;
+  font-weight: 600;
+  background: var(--easy-bg);
+  color: var(--easy-dark);
+}
+.exc-tag {
+  padding: .2rem .6rem;
+  border-radius: 3px;
+  font-size: .75rem;
+  font-weight: 600;
+  background: var(--hard-bg);
+  color: var(--hard-dark);
+}
+
+/* ===================================================
+   Calculator Card
+   =================================================== */
+.calc-card {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+  overflow: hidden;
+  border-left: 4px solid var(--magenta);
+}
+.calc-header {
+  background: linear-gradient(135deg, var(--dark-bg) 0%, var(--dark-bg-alt) 100%);
+  color: #fff;
+  padding: .8rem 1.2rem;
+  font-weight: 600;
+  font-size: .9rem;
+}
+.calc-rows { padding: .8rem 1.2rem; }
+.calc-row {
+  display: flex;
+  justify-content: space-between;
+  padding: .4rem 0;
+  border-bottom: 1px solid #f5f5f5;
+  font-size: .88rem;
+}
+.calc-row.calc-row-header { font-weight: 700; font-size: .78rem; color: #999; text-transform: uppercase; letter-spacing: .5px; border-bottom: 2px solid #eee; padding-bottom: .3rem; }
+.calc-row.onetime { border-top: 2px solid var(--dark-border); margin-top: .5rem; padding-top: .6rem; }
+.calc-price { font-weight: 600; color: #555; white-space: nowrap; }
+.calc-total {
+  display: flex;
+  justify-content: space-between;
+  padding: .6rem 0 .3rem;
+  border-top: 2px solid var(--magenta);
+  margin-top: .3rem;
+  font-weight: 700;
+}
+.calc-price.total { color: var(--magenta); font-size: 1.1rem; }
+.calc-note {
+  text-align: right;
+  font-size: .78rem;
+  color: var(--medium);
+  font-weight: 600;
+  margin-bottom: .3rem;
+}
+
+/* ===================================================
+   HA Grid
+   =================================================== */
+.ha-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+.ha-item h4 { font-size: .85rem; color: var(--dark-bg); margin-bottom: .4rem; border-bottom: 2px solid var(--magenta); padding-bottom: .2rem; }
+.ha-item ul { list-style: none; }
+.ha-item li { font-size: .85rem; padding: .2rem 0; padding-left: 1rem; position: relative; color: #555; }
+.ha-item li::before { content: "›"; position: absolute; left: 0; color: var(--magenta); font-weight: 700; }
+.ha-note { font-size: .85rem; color: var(--medium); font-style: italic; }
+
+/* ===================================================
+   Sources
+   =================================================== */
+.source-list { display: flex; flex-direction: column; gap: .5rem; }
+.source-link {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .5rem .8rem;
+  background: #f8f9fa;
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--dark-bg);
+  font-size: .88rem;
+  font-weight: 500;
+  border: 1px solid #e8e8e8;
+  transition: all .15s;
+}
+.source-link:hover { border-color: var(--magenta); background: #fef5fa; }
+.src-date { color: #999; font-size: .75rem; font-weight: 400; }
+
+/* ===================================================
+   Footer
+   =================================================== */
+.footer {
+  text-align: center;
+  padding: 1.5rem;
+  color: #999;
+  font-size: .75rem;
+  border-top: 1px solid #eee;
+  margin-top: 1rem;
+}
+.footer a { color: var(--magenta); text-decoration: none; }
+
+/* ===================================================
+   Dark Mode (html.dark for early <head> script, body.dark for compat)
+   =================================================== */
+:is(html, body).dark {
+  background: #121212;
+  color: #e0e0e0;
+}
+:is(html, body).dark .header { background: linear-gradient(135deg, #0d0d1a 0%, #111128 50%, #0a1e3d 100%); }
+:is(html, body).dark .section-title { color: #fff; }
+:is(html, body).dark .info-card,
+:is(html, body).dark .calc-card,
+:is(html, body).dark .includes-box,
+:is(html, body).dark .price-table { background: #1e1e2e; }
+:is(html, body).dark .info-card { box-shadow: 0 1px 4px rgba(0,0,0,.3); }
+:is(html, body).dark .price-table td { border-bottom-color: #2a2a3e; }
+:is(html, body).dark .price-table tbody tr:hover { background: #252538; }
+:is(html, body).dark .price-table th { background: #151525; }
+:is(html, body).dark .col-box { background: #252538; border-color: #3a3a5e; }
+:is(html, body).dark .col-box p:last-child { color: #bbb; }
+:is(html, body).dark .col-box h3 { color: #fff; }
+:is(html, body).dark .req-list li { background: var(--medium-dark-bg); color: var(--medium-dark-text); border-left-color: var(--medium-dark-text); }
+:is(html, body).dark .tag-cat { background: #2a2a3e; color: #aaa; }
+:is(html, body).dark .card-name { color: #fff; }
+:is(html, body).dark .row-val { color: #ccc; }
+:is(html, body).dark .calc-row { border-bottom-color: #2a2a3e; }
+:is(html, body).dark .calc-price { color: #ccc; }
+:is(html, body).dark .source-link { background: #1e1e2e; border-color: #3a3a5e; color: #e0e0e0; }
+:is(html, body).dark .source-link:hover { background: #252538; border-color: var(--magenta); }
+:is(html, body).dark .footer { border-top-color: #2a2a3e; }
+:is(html, body).dark .note-cell { color: #777; }
+:is(html, body).dark tr.limited { background: #2a2518; }
+:is(html, body).dark tr.row-highlight { background: #2a1a28; }
+:is(html, body).dark .pkg-table .no { color: #555; }
+:is(html, body).dark .pkg-table .pkg-highlight { background: #28162a; }
+:is(html, body).dark .pkg-table .yes { color: var(--easy-dark-text); }
+:is(html, body).dark .pkg-table td { color: #ddd; }
+:is(html, body).dark .pkg-table .price { color: var(--magenta-light); }
+:is(html, body).dark .includes-box h4 { color: #fff; }
+:is(html, body).dark .ha-item h4 { color: #fff; }
+:is(html, body).dark .ha-item li { color: #bbb; }
+:is(html, body).dark .table-note { color: #666; }
+
+:is(html, body).dark .inc-tag { background: var(--easy-dark-bg); color: var(--easy-dark-text); }
+:is(html, body).dark .exc-tag { background: var(--hard-dark-bg); color: var(--hard-dark-text); }
+
+/* ===================================================
+   Responsive
+   =================================================== */
+@media (max-width: 768px) {
+  .two-col { grid-template-columns: 1fr; }
+  .ha-grid { grid-template-columns: 1fr; }
+  .header-row { flex-direction: column; align-items: flex-start; }
+  .header-right { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
+  .header-center { display: none; }
+  .price-table { font-size: .78rem; }
+  .price-table th, .price-table td { padding: .4rem .5rem; }
+}
+
+@media print {
+  .header { position: static; box-shadow: none; }
+  :is(html, body).dark { background: #fff; color: #333; }
+  .h-btn, .lang-toggle, #btnDark, .header-actions { display: none !important; }
+  .header { padding: .8rem 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .header-left h1 { font-size: 1.3rem; }
+  .section { break-inside: avoid; page-break-inside: avoid; margin-bottom: 1rem; }
+  .price-table, .calc-card, .info-card, .includes-box { box-shadow: none; border: 1px solid #ddd; }
+  .price-table th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .price { color: var(--magenta) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .footer { border-top: 1px solid #ddd; }
+  body { font-size: 12px; }
+  .container.main { padding-top: .5rem; }
+  .section-title { font-size: 1rem; }
+  .source-link { border: 1px solid #ddd; }
+  .inc-tag, .exc-tag { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  tr.row-highlight { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .pkg-table th.pkg-highlight { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}

@@ -1,0 +1,373 @@
+[
+  {
+    "name": "AWS CloudHSM",
+    "category": "Security",
+    "effort": "hard",
+    "equiv": "none",
+    "scope": [
+      "K1"
+    ],
+    "otc": "Kein Equivalent",
+    "tfAws": "aws_cloudhsm_v2_cluster",
+    "tfOtc": null,
+    "tfStatus": "none",
+    "docsAws": "https://docs.aws.amazon.com/cloudhsm/",
+    "docsOtc": null,
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudhsm_v2_cluster",
+    "tfDocsOtc": null,
+    "desc": {
+      "de": "Dedizierte HSM-Instanzen (FIPS 140-2 Level 3). Volle Key-Kontrolle, PKCS#11/JCE/OpenSSL-Zugriff, Custom Key Store für KMS, Cluster-HA.",
+      "en": "Dedicated HSM instances (FIPS 140-2 Level 3). Full key control, PKCS#11/JCE/OpenSSL access, custom key store for KMS, cluster HA."
+    },
+    "otcDesc": {
+      "de": "Kein Dedicated HSM auf OTC. OTC KMS nutzt shared HSMs im Backend — laut OTC-Doku als HSM-backed beschrieben, aber keine explizite FIPS 140-2 Level 3 Zertifizierung publiziert. Kein eigener HSM-Zugriff möglich.",
+      "en": "No dedicated HSM on OTC. OTC KMS uses shared HSMs in the backend — described as HSM-backed in OTC docs, but no explicit FIPS 140-2 Level 3 certification published. No direct HSM access possible."
+    },
+    "alt": {
+      "de": "OTC KMS (HSM-backed), HashiCorp Vault Transit",
+      "en": "OTC KMS (HSM-backed), HashiCorp Vault Transit"
+    },
+    "migration": {
+      "de": "**Kein Dedicated HSM.** OTC KMS nutzt shared HSMs im Backend (Encrypt/Decrypt/Sign/Verify mit RSA/ECC/AES), aber eine FIPS 140-2 Level 3 Zertifizierung ist nicht öffentlich dokumentiert — bei Compliance-Anforderungen T-Systems nach Zertifikat fragen. **Kein PKCS#11-Zugriff.** Kein direkter PKCS#11-, JCE- oder OpenSSL-Zugriff wie bei CloudHSM. Kein Custom Key Store. **Key-Transfer.** Key-Export aus CloudHSM ist bei non-extractable Keys nicht möglich — in OTC KMS neu generieren. Alle abhängigen Zertifikate und Signaturen müssen erneuert werden. **Vault-Alternative.** HashiCorp Vault Transit auf CCE (PKCS#11-kompatibel) für erweiterte Crypto-Operationen.",
+      "en": "**No Dedicated HSM.** OTC KMS uses shared HSMs in the backend (encrypt/decrypt/sign/verify with RSA/ECC/AES), but FIPS 140-2 Level 3 certification is not publicly documented — ask T-Systems for certificate if compliance requires it. **No PKCS#11 access.** No direct PKCS#11, JCE, or OpenSSL access as with CloudHSM. No custom key store. **Key transfer.** Key export from CloudHSM not possible for non-extractable keys — regenerate in OTC KMS. All dependent certificates and signatures must be renewed. **Vault alternative.** HashiCorp Vault Transit on CCE (PKCS#11-compatible) for extended crypto operations."
+    },
+    "equivNote": null,
+    "tfNote": null
+  },
+  {
+    "name": "AWS KMS",
+    "category": "Security",
+    "effort": "easy",
+    "equiv": "partial",
+    "scope": [
+      "K1"
+    ],
+    "otc": "Key Management Service (KMS)",
+    "tfAws": "aws_kms_key, aws_kms_alias",
+    "tfOtc": "opentelekomcloud_kms_key_v1",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/kms/",
+    "docsOtc": "https://docs.otc.t-systems.com/key-management-service/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/kms_key_v1",
+    "desc": {
+      "de": "Key Management Service. Symmetrische/asymmetrische CMKs, automatische Rotation (konfigurierbar 90-2560 Tage), Key Import, Grants, Multi-Region Keys, Audit via CloudTrail.",
+      "en": "Key Management Service. Symmetric/asymmetric CMKs, automatic rotation (configurable 90-2560 days), key import, grants, multi-region keys, audit via CloudTrail."
+    },
+    "otcDesc": {
+      "de": "Zentrale Schlüsselverwaltung: AES_256 (symmetrisch), RSA_2048/3072/4096, EC_P256/P384 (asymmetrisch), HMAC. HSM-backed. Automatische jährliche Rotation. Key-Import (BYOK) unterstützt. Integration mit OBS, EVS, IMS, SFS, RDS, DDS, GaussDB. Audit über CTS.",
+      "en": "Central key management: AES_256 (symmetric), RSA_2048/3072/4096, EC_P256/P384 (asymmetric), HMAC. HSM-backed. Automatic annual rotation. Key import (BYOK) supported. Integration with OBS, EVS, IMS, SFS, RDS, DDS, GaussDB. Audit via CTS."
+    },
+    "alt": {
+      "de": "HashiCorp Vault",
+      "en": "HashiCorp Vault"
+    },
+    "migration": {
+      "de": "**Algorithmen & FIPS.** OTC KMS unterstützt AES_256, RSA_2048/3072/4096, EC_P256/P384 und HMAC. HSM-backed, aber FIPS 140-2 Level 3 Zertifizierung nicht öffentlich dokumentiert — bei Compliance T-Systems fragen. **Rotation & Policies.** Automatische Key-Rotation nur jährlich fest (AWS: konfigurierbar 90–2560 Tage). Key Policies und Grants haben kein direktes Pendant — Berechtigungen über IAM Agencies steuern. **Kein Multi-Region.** Multi-Region Keys existieren nicht. **BYOK-Wrapping.** Key-Import (BYOK) wird unterstützt, Wrapping-Algorithmus ist RSA_OAEP_SHA_256 (AWS bietet zusätzlich RSA_OAEP_SHA_1 und SM2PKE). **Daten-Reencryption.** Mit AWS KMS verschlüsselte Daten müssen entschlüsselt und mit OTC KMS neu verschlüsselt werden — kein Key-Transfer möglich. Integration mit OBS, EVS, IMS, SFS, RDS, DDS, GaussDB.",
+      "en": "**Algorithms & FIPS.** OTC KMS supports AES_256, RSA_2048/3072/4096, EC_P256/P384, and HMAC. HSM-backed, but FIPS 140-2 Level 3 certification not publicly documented — ask T-Systems for compliance. **Rotation & policies.** Automatic key rotation only annually fixed (AWS: configurable 90–2560 days). Key Policies and Grants have no direct equivalent — manage permissions via IAM Agencies. **No multi-region.** Multi-Region Keys don't exist. **BYOK wrapping.** Key import (BYOK) supported, wrapping algorithm is RSA_OAEP_SHA_256 (AWS additionally offers RSA_OAEP_SHA_1 and SM2PKE). **Data re-encryption.** Data encrypted with AWS KMS must be decrypted and re-encrypted with OTC KMS — no key transfer possible. Integration with OBS, EVS, IMS, SFS, RDS, DDS, GaussDB."
+    },
+    "equivNote": {
+      "de": "OTC KMS unterstützt AES_256, RSA (2048/3072/4096), ECC (P256/P384) und HMAC. HSM-backed (FIPS-Zertifizierung nicht öffentlich dokumentiert). Automatische Rotation nur jährlich fest (AWS: 90–2560 Tage konfigurierbar). Key-Import (BYOK) mit RSA-Wrapping. Kein Multi-Region Key, kein eigenständiges Key Policy Document, weniger Condition Keys. Grants vorhanden aber eingeschränkter.",
+      "en": "OTC KMS supports AES_256, RSA (2048/3072/4096), ECC (P256/P384), and HMAC. HSM-backed (FIPS certification not publicly documented). Automatic rotation only annually fixed (AWS: configurable 90-2560 days). Key import (BYOK) with RSA wrapping. No multi-region keys, no standalone key policy document, fewer condition keys. Grants available but more limited."
+    },
+    "tfNote": null
+  },
+  {
+    "name": "AWS WAF",
+    "category": "Security",
+    "effort": "easy",
+    "equiv": "partial",
+    "scope": [
+      "K1"
+    ],
+    "otc": "Web Application Firewall (WAF)",
+    "tfAws": "aws_wafv2_web_acl",
+    "tfOtc": "opentelekomcloud_waf_dedicated_policy_v1",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/waf/",
+    "docsOtc": "https://docs.otc.t-systems.com/web-application-firewall/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/waf_dedicated_policy_v1",
+    "desc": {
+      "de": "Web Application Firewall. Managed Rules (AWS + Marketplace), Custom Rules, Bot Control, Fraud Control, IP Sets, Rate-based Rules, Integration mit CloudFront/ALB/API GW/AppSync.",
+      "en": "Web Application Firewall. Managed rules (AWS + Marketplace), custom rules, bot control, fraud control, IP sets, rate-based rules, integration with CloudFront/ALB/API GW/AppSync."
+    },
+    "otcDesc": {
+      "de": "Zwei Modi: Cloud-WAF (DNS-basiert, CNAME-Umleitung) und Dedicated WAF (eigene WAF-Instanzen hinter ELB). OWASP Top 10, CC-Protection, Anti-Crawler (Script/Scanner/Search-Engine), Geolocation-Kontrolle, Web Tamper Protection, IP-Blacklist/Whitelist, Precise Protection, Information Leakage Prevention, Data Masking. Logging nach LTS, Monitoring via Cloud Eye. Schützt HTTP/HTTPS-Websites.",
+      "en": "Two modes: Cloud WAF (DNS-based, CNAME redirect) and Dedicated WAF (own WAF instances behind ELB). OWASP Top 10, CC protection, anti-crawler (script/scanner/search-engine), geolocation control, web tamper protection, IP blacklist/whitelist, precise protection, information leakage prevention, data masking. Logging to LTS, monitoring via Cloud Eye. Protects HTTP/HTTPS websites."
+    },
+    "alt": {
+      "de": "ModSecurity, Cloudflare WAF",
+      "en": "ModSecurity, Cloudflare WAF"
+    },
+    "migration": {
+      "de": "**Deployment-Modi.** Cloud-WAF (DNS-basiert, CNAME-Umleitung, shared) und Dedicated WAF (eigene Instanzen hinter ELB, bessere Performance, VPC-intern). **Regel-Umfang.** OWASP Top 10, CC Attack Protection (entspricht Rate-based Rules), Anti-Crawler, Geolocation Access Control, Web Tamper Protection, IP Blacklist/Whitelist, Information Leakage Prevention, Data Masking, Known Attack Source Blocking. **Fehlende Bot-Kontrolle.** AWS WAF Bot Control, Fraud Control und Account Takeover Prevention haben kein direktes Pendant — OTC Anti-Crawler ist weniger granular. **Keine Managed Rules.** Managed Rule Groups (AWS Marketplace) fehlen — eigene Regeln schreiben oder WAF-Anbieter (z.B. Cloudflare) vorschalten. **Logging & Scope.** WAF Logging → LTS. WAF schützt ELB/APIG und Dedicated-Instanzen, nicht direkt Compute. Caching nur auf Dedicated Gateway.",
+      "en": "**Deployment modes.** Cloud WAF (DNS-based, CNAME redirect, shared) and Dedicated WAF (own instances behind ELB, better performance, VPC-internal). **Rule scope.** OWASP Top 10, CC Attack Protection (corresponds to rate-based rules), anti-crawler, geolocation access control, web tamper protection, IP blacklist/whitelist, information leakage prevention, data masking, Known Attack Source Blocking. **No bot control.** AWS WAF Bot Control, Fraud Control, and Account Takeover Prevention have no direct equivalent — OTC anti-crawler is less granular. **No managed rules.** Managed Rule Groups (AWS Marketplace) are missing — write custom rules or put WAF provider (e.g. Cloudflare) in front. **Logging & scope.** WAF Logging → LTS. WAF protects ELB/APIG and dedicated instances, not compute directly. Caching only on Dedicated Gateway."
+    },
+    "equivNote": {
+      "de": "OTC WAF bietet Cloud-WAF (DNS/CNAME) und Dedicated WAF (eigene Instanzen). OWASP Top 10, CC Protection, Anti-Crawler, Geolocation, IP-Blacklisting vorhanden. Kein AWS WAF Bot Control, kein Managed Rule Groups (Marketplace), keine Firewall Manager Integration, kein Rate-based Rules API-Format — CC Protection ist anders konfiguriert.",
+      "en": "OTC WAF offers Cloud WAF (DNS/CNAME) and Dedicated WAF (own instances). OWASP Top 10, CC protection, anti-crawler, geolocation, IP blacklisting available. No AWS WAF Bot Control, no managed rule groups (marketplace), no Firewall Manager integration, no rate-based rules API format — CC protection is configured differently."
+    },
+    "tfNote": null
+  },
+  {
+    "name": "Amazon Inspector",
+    "category": "Security",
+    "effort": "hard",
+    "equiv": "partial",
+    "scope": [
+      "K1"
+    ],
+    "otc": "Host Security Service (HSS)",
+    "tfAws": "aws_inspector2_enabler",
+    "tfOtc": "opentelekomcloud_hss_host_protection_v5",
+    "tfStatus": "partial",
+    "docsAws": "https://docs.aws.amazon.com/inspector/",
+    "docsOtc": "https://docs.otc.t-systems.com/host-security-service/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/inspector2_enabler",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/hss_host_protection_v5",
+    "desc": {
+      "de": "Automatisiertes Vulnerability Scanning für EC2, ECR-Images und Lambda. CVE-DB (NVD), CIS Benchmarks, Software Bill of Materials (SBOM), Network Reachability, agentless + agent-basiert.",
+      "en": "Automated vulnerability scanning for EC2, ECR images and Lambda. CVE DB (NVD), CIS benchmarks, software bill of materials (SBOM), network reachability, agentless + agent-based."
+    },
+    "otcDesc": {
+      "de": "HSS (Host Security Service) mit vier Editionen: Enterprise (Vulnerability Scan, Baseline Check, Asset Discovery, Intrusion Detection), Premium (+ Ransomware Protection, File Integrity, Application Protection), WTP (+ Web Tamper Protection), Container (+ Container Image Scan, Runtime Protection, Cluster Protection). Agent-basiert (UniAgent). Kein agentless Scanning.",
+      "en": "HSS (Host Security Service) with four editions: Enterprise (vulnerability scan, baseline check, asset discovery, intrusion detection), Premium (+ ransomware protection, file integrity, application protection), WTP (+ web tamper protection), Container (+ container image scan, runtime protection, cluster protection). Agent-based (UniAgent). No agentless scanning."
+    },
+    "alt": {
+      "de": "Trivy, Wazuh, OpenSCAP, Qualys, OTC Vulnerability Scan Service (VSS)",
+      "en": "Trivy, Wazuh, OpenSCAP, Qualys, OTC Vulnerability Scan Service (VSS)"
+    },
+    "migration": {
+      "de": "**Agent-Pflicht.** HSS erfordert UniAgent auf jeder Instanz — kein agentless Scanning wie Inspector. **Editionen.** Enterprise (Vuln Scan + Baseline + Asset Discovery + Intrusion Detection), Premium (+ Ransomware + File Integrity + Application Protection), WTP (+ Web Tamper Protection), Container (+ Image Scan + Runtime + Cluster Protection). **Container-Scanning.** Nur in Container Edition verfügbar (Aufpreis). Kein automatischer Scan bei SWR Push. **Fehlend.** Inspector Network Reachability Analysis, Lambda Function Scanning und SBOM-Export haben kein Pendant.",
+      "en": "**Agent required.** HSS requires UniAgent on every instance — no agentless scanning like Inspector. **Editions.** Enterprise (vuln scan + baseline + asset discovery + intrusion detection), Premium (+ ransomware + file integrity + application protection), WTP (+ web tamper protection), Container (+ image scan + runtime + cluster protection). **Container scanning.** Only in Container edition (surcharge). No automatic scan on SWR push. **Missing.** Inspector Network Reachability Analysis, Lambda Function Scanning, and SBOM export have no equivalent."
+    },
+    "equivNote": {
+      "de": "HSS ist agent-basiert (kein agentless Scanning). Vier Editionen von Enterprise bis Container mit unterschiedlichem Funktionsumfang. Kein Network Reachability Analysis, kein Lambda Scanning, kein SBOM-Export. Dafür zusätzlich: Virus Scanning, Intrusion Detection und File Integrity.",
+      "en": "HSS is agent-based (no agentless scanning). Four editions from Enterprise to Container with different feature scope. No network reachability analysis, no Lambda scanning, no SBOM export. Additional features: virus scanning, intrusion detection, and file integrity."
+    },
+    "tfNote": {
+      "de": "Nur Host Protection konfigurierbar. Scan-Policies und Vulnerability-Reports nicht per TF steuerbar.",
+      "en": "Only host protection configurable. Scan policies and vulnerability reports not manageable via TF."
+    }
+  },
+  {
+    "name": "AWS Security Hub",
+    "category": "Security",
+    "effort": "hard",
+    "equiv": "none",
+    "scope": [
+      "K1"
+    ],
+    "otc": "Kein Equivalent",
+    "tfAws": "aws_securityhub_account",
+    "tfOtc": null,
+    "tfStatus": "none",
+    "docsAws": "https://docs.aws.amazon.com/securityhub/",
+    "docsOtc": null,
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/securityhub_account",
+    "tfDocsOtc": null,
+    "desc": {
+      "de": "Zentrales Security Dashboard. Aggregiert Findings von GuardDuty, Inspector, Macie, Firewall Manager. CIS/PCI-DSS/NIST Compliance Checks. ASFF-Format, Automated Response.",
+      "en": "Central security dashboard. Aggregates findings from GuardDuty, Inspector, Macie, Firewall Manager. CIS/PCI-DSS/NIST compliance checks. ASFF format, automated response."
+    },
+    "otcDesc": {
+      "de": "Kein zentraler Security-Findings-Aggregator. HSS Dashboard bietet Security Score und Risiko-Übersicht, aber nur für HSS-Findings. SecMaster (cloud-native SIEM/SOAR mit Asset-, Posture-, Incident-Management) laut Roadmap für H1 2027 geplant. Bis dahin: CTS + Cloud Eye + HSS als Einzellösungen.",
+      "en": "No central security findings aggregator. HSS Dashboard provides security score and risk overview, but only for HSS findings. SecMaster (cloud-native SIEM/SOAR with asset, posture, incident management) planned per roadmap for H1 2027. Until then: CTS + Cloud Eye + HSS as individual solutions."
+    },
+    "alt": {
+      "de": "Wazuh SIEM, ELK/Splunk, Grafana, OTC HSS Dashboard (begrenzt)",
+      "en": "Wazuh SIEM, ELK/Splunk, Grafana, OTC HSS Dashboard (limited)"
+    },
+    "migration": {
+      "de": "**Kein Aggregator.** Kein zentraler Security-Findings-Aggregator auf OTC. HSS bietet ein Dashboard mit Security Score, aber nur für eigene Findings (kein Cross-Service-Aggregator). **SecMaster-Roadmap.** SecMaster (SIEM/SOAR mit Cloud Security Posture Management, Asset Management, Incident Management) ist laut OTC Roadmap für H1 2027 angekündigt. **Interim-Lösung.** CTS für Audit-Logs, Cloud Eye für Metriken-basierte Alarme, HSS für Host/Container-Security kombinieren. **Compliance-Checks.** CIS-, PCI-DSS-Checks müssen mit externen Tools (Prowler, ScoutSuite, Wazuh) selbst durchgeführt werden.",
+      "en": "**No aggregator.** No central security findings aggregator on OTC. HSS offers a dashboard with security score, but only for its own findings (no cross-service aggregator). **SecMaster roadmap.** SecMaster (SIEM/SOAR with cloud security posture management, asset management, incident management) is announced per OTC roadmap for H1 2027. **Interim solution.** Combine CTS for audit logs, Cloud Eye for metrics-based alarms, HSS for host/container security. **Compliance checks.** CIS, PCI DSS checks must be performed with external tools (Prowler, ScoutSuite, Wazuh)."
+    },
+    "equivNote": null,
+    "tfNote": null
+  },
+  {
+    "name": "Amazon GuardDuty",
+    "category": "Security",
+    "effort": "hard",
+    "equiv": "none",
+    "scope": [
+      "K1"
+    ],
+    "otc": "Kein Equivalent",
+    "tfAws": "aws_guardduty_detector",
+    "tfOtc": null,
+    "tfStatus": "none",
+    "docsAws": "https://docs.aws.amazon.com/guardduty/",
+    "docsOtc": null,
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/guardduty_detector",
+    "tfDocsOtc": null,
+    "desc": {
+      "de": "ML-basierte Bedrohungserkennung. Analysiert CloudTrail, VPC Flow Logs, DNS-Logs, S3-Daten-Events, EKS Audit Logs, Lambda Network Activity. Automatische Findings ohne Agent-Installation.",
+      "en": "ML-based threat detection. Analyzes CloudTrail, VPC Flow Logs, DNS logs, S3 data events, EKS audit logs, Lambda network activity. Automatic findings without agent installation."
+    },
+    "otcDesc": {
+      "de": "Kein ML-basierter Threat Detection Service auf Cloud-Ebene. HSS (Host Security Service) bietet auf Host-Ebene: Brute-Force-Erkennung, abnormale Login-Erkennung, Reverse Shell Detection, Malware-Erkennung, Web Shell Detection, Process Anomaly Detection. Agent-basiert (UniAgent auf ECS installieren).",
+      "en": "No ML-based threat detection service at cloud level. HSS (Host Security Service) provides at host level: brute-force detection, abnormal login detection, reverse shell detection, malware detection, web shell detection, process anomaly detection. Agent-based (install UniAgent on ECS)."
+    },
+    "alt": {
+      "de": "Wazuh, Suricata IDS, OTC HSS Intrusion Detection (Host-Ebene)",
+      "en": "Wazuh, Suricata IDS, OTC HSS Intrusion Detection (host-level)"
+    },
+    "migration": {
+      "de": "**Kein Cloud-Level Pendant.** GuardDuty analysiert Cloud-APIs und Netzwerk agentless — das gibt es auf OTC nicht. **HSS als Teilersatz.** Host-basierte Intrusion Detection (agent-basiert): Brute-Force, abnormale Logins, Reverse Shells, Web Shells, Malware, Process Anomalies, Ransomware Protection. **Log-Korrelation.** Automatische Korrelation von VPC Flow Logs, DNS-Logs und CTS-Events fehlt. Muss mit externem SIEM nachgebaut werden (Wazuh, ELK, Splunk). **Ergänzende Services.** CTS für API-Audit-Logs, DBSS für Datenbank-Sicherheit.",
+      "en": "**No cloud-level equivalent.** GuardDuty analyzes cloud APIs and network agentlessly — this doesn't exist on OTC. **HSS as partial replacement.** Host-based intrusion detection (agent-based): brute-force, abnormal logins, reverse shells, web shells, malware, process anomalies, ransomware protection. **Log correlation.** Automatic correlation of VPC Flow Logs, DNS logs, and CTS events is missing. Must be rebuilt with external SIEM (Wazuh, ELK, Splunk). **Supplementary services.** CTS for API audit logs, DBSS for database security."
+    },
+    "equivNote": null,
+    "tfNote": null
+  },
+  {
+    "name": "AWS Secrets Manager",
+    "category": "Security",
+    "effort": "hard",
+    "equiv": "none",
+    "scope": [
+      "K1",
+      "K2"
+    ],
+    "otc": "Cloud Secret Management Service (CSMS)",
+    "tfAws": "aws_secretsmanager_secret",
+    "tfOtc": null,
+    "tfStatus": "none",
+    "docsAws": "https://docs.aws.amazon.com/secretsmanager/",
+    "docsOtc": null,
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/secretsmanager_secret",
+    "tfDocsOtc": null,
+    "desc": {
+      "de": "Managed Secrets-Speicher mit automatischer Rotation (Lambda-basiert). KMS-Verschlüsselung, Cross-Region Replication, Resource-based Policies, native RDS/Redshift/DocumentDB-Integration.",
+      "en": "Managed secrets store with automatic rotation (Lambda-based). KMS encryption, cross-region replication, resource-based policies, native RDS/Redshift/DocumentDB integration."
+    },
+    "otcDesc": {
+      "de": "CSMS laut OTC Portfolio-Roadmap ab 01.05.2026 geplant. Erwarteter Funktionsumfang: Lifecycle-Management für Credentials, KMS-Verschlüsselung, API-Zugriff. Bis dahin: HashiCorp Vault auf CCE (empfohlen) oder Kubernetes Secrets mit KMS-Verschlüsselung als Workaround.",
+      "en": "CSMS planned per OTC portfolio roadmap from 2026-05-01. Expected scope: lifecycle management for credentials, KMS encryption, API access. Until then: HashiCorp Vault on CCE (recommended) or Kubernetes Secrets with KMS encryption as workaround."
+    },
+    "alt": {
+      "de": "HashiCorp Vault (auf CCE), Kubernetes Secrets + KMS, Ansible Vault",
+      "en": "HashiCorp Vault (on CCE), Kubernetes Secrets + KMS, Ansible Vault"
+    },
+    "migration": {
+      "de": "**CSMS noch nicht verfügbar.** OTC CSMS (Cloud Secret Management Service) ist per Roadmap bestätigt, aber erst ab 01.05.2026 verfügbar. Erwarteter Umfang: Lifecycle-Management für Credentials mit KMS-Verschlüsselung — ob automatische Rotation, Cross-Region Replication und Resource-based Policies unterstützt werden, ist noch unklar. **Interim-Lösungen.** HashiCorp Vault auf CCE (empfohlen — Secrets, PKI, Dynamic Secrets), Kubernetes Secrets mit OTC KMS Encryption, oder Ansible Vault für statische Secrets. **DB-Rotation.** Secrets Manager + RDS Integration (automatische DB-Passwort-Rotation) hat kein direktes Pendant — nach CSMS-Launch ggf. über FunctionGraph + CSMS API nachbaubar.",
+      "en": "**CSMS not yet available.** OTC CSMS (Cloud Secret Management Service) is confirmed per roadmap but only available from 2026-05-01. Expected scope: lifecycle management for credentials with KMS encryption — whether automatic rotation, cross-region replication, and resource-based policies will be supported is still unclear. **Interim solutions.** HashiCorp Vault on CCE (recommended — secrets, PKI, dynamic secrets), Kubernetes Secrets with OTC KMS encryption, or Ansible Vault for static secrets. **DB rotation.** Secrets Manager + RDS integration (automatic DB password rotation) has no direct equivalent — after CSMS launch potentially rebuildable via FunctionGraph + CSMS API."
+    },
+    "equivNote": null,
+    "tfNote": null
+  },
+  {
+    "name": "AWS Certificate Manager",
+    "category": "Security",
+    "effort": "hard",
+    "equiv": "none",
+    "scope": [
+      "K2"
+    ],
+    "otc": "Kein Equivalent",
+    "tfAws": "aws_acm_certificate, aws_acm_certificate_validation",
+    "tfOtc": null,
+    "tfStatus": "none",
+    "docsAws": "https://docs.aws.amazon.com/acm/",
+    "docsOtc": null,
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/acm_certificate",
+    "tfDocsOtc": null,
+    "desc": {
+      "de": "Managed SSL/TLS-Zertifikate. Kostenlose Public Certificates, automatisches Renewal, ACM Private CA, Integration mit ELB/CloudFront/API Gateway.",
+      "en": "Managed SSL/TLS certificates. Free public certificates, automatic renewal, ACM Private CA, integration with ELB/CloudFront/API Gateway."
+    },
+    "otcDesc": {
+      "de": "Kein Managed Certificate Service auf OTC. SSL Certificate Manager (SCM) existiert nicht als OTC-Service (Stand Feb 2026, per offizieller Leistungsbeschreibung bestätigt). Zertifikate müssen manuell beschafft und verwaltet werden.",
+      "en": "No managed certificate service on OTC. SSL Certificate Manager (SCM) does not exist as an OTC service (confirmed Feb 2026 per official service description). Certificates must be procured and managed manually."
+    },
+    "alt": {
+      "de": "Let's Encrypt (certbot auf ECS), HashiCorp Vault PKI, Self-managed cert lifecycle",
+      "en": "Let's Encrypt (certbot on ECS), HashiCorp Vault PKI, self-managed cert lifecycle"
+    },
+    "migration": {
+      "de": "**Kein Managed-Zertifikatsdienst.** SSL Certificate Manager (SCM) existiert nicht als OTC-Service (Stand Feb 2026, per offizieller Leistungsbeschreibung bestätigt). **Alternativen.** Let's Encrypt (certbot) für automatische Zertifikate, eigene PKI aufbauen, oder kommerzielle Zertifikate manuell verwalten. **Automatisierung.** Automatische Zertifikats-Erneuerung muss selbst implementiert werden (Cronjob mit certbot). ACM Private CA → eigene CA mit OpenSSL oder Vault PKI auf CCE. **ELB/APIG.** Zertifikate manuell hochladen und vor Ablauf erneuern.",
+      "en": "**No managed certificate service.** SSL Certificate Manager (SCM) does not exist as an OTC service (confirmed Feb 2026 per official service description). **Alternatives.** Let's Encrypt (certbot) for automatic certificates, build own PKI, or manage commercial certificates manually. **Automation.** Automatic certificate renewal must be implemented yourself (cronjob with certbot). ACM Private CA → own CA with OpenSSL or Vault PKI on CCE. **ELB/APIG.** Upload certificates manually and renew before expiry."
+    },
+    "equivNote": null,
+    "tfNote": null
+  },
+  {
+    "name": "AWS Shield",
+    "category": "Security",
+    "effort": "medium",
+    "equiv": "partial",
+    "scope": [],
+    "otc": "Anti-DDoS",
+    "tfAws": "aws_shield_protection, aws_shield_protection_group",
+    "tfOtc": "opentelekomcloud_antiddos_v1",
+    "tfStatus": "partial",
+    "docsAws": "https://docs.aws.amazon.com/waf/latest/developerguide/shield-chapter.html",
+    "docsOtc": "https://docs.otc.t-systems.com/anti-ddos/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/shield_protection",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/antiddos_v1",
+    "desc": {
+      "de": "DDoS-Schutz. Shield Standard (kostenlos, automatisch) und Shield Advanced (erweiterter Schutz, DRT-Team, Kosten-Schutz, SLA).",
+      "en": "DDoS protection. Shield Standard (free, automatic) and Shield Advanced (enhanced protection, DRT team, cost protection, SLA)."
+    },
+    "otcDesc": {
+      "de": "DDoS-Schutz für EIPs. Traffic Scrubbing, Anomalie-Erkennung, automatische Mitigation. Schützt vor SYN/UDP/HTTP Floods, CC-Attacken, SSL DoS, DNS-Attacken.",
+      "en": "DDoS protection for EIPs. Traffic scrubbing, anomaly detection, automatic mitigation. Protects against SYN/UDP/HTTP floods, CC attacks, SSL DoS, DNS attacks."
+    },
+    "alt": {
+      "de": "Cloudflare DDoS Protection, Akamai Prolexic",
+      "en": "Cloudflare DDoS Protection, Akamai Prolexic"
+    },
+    "migration": {
+      "de": "**Automatischer Basis-Schutz.** Anti-DDoS ist automatisch für alle Elastic IPs aktiv. Schützt vor Web-Server-Attacken (SYN flood, HTTP flood, CC), Game-Attacken (UDP flood, TCP, Fragment), HTTPS-Attacken (SSL DoS/DDoS) und DNS-Attacken (Reflection, Flood, Cache-Miss). **Kein Shield Advanced.** Kein SLA-garantierter Schutz, kein Cost Protection, kein dediziertes DDoS Response Team (DRT) — nur T-Systems Support. **Monitoring.** Attack-Statistiken und Monitoring-Reports verfügbar. **Kein CDN-Schutz.** CloudFront+Shield-Kombination hat kein Pendant (kein CDN auf OTC). Für L7-Schutz zusätzlich WAF nutzen.",
+      "en": "**Automatic basic protection.** Anti-DDoS is automatically active for all Elastic IPs. Protects against web server attacks (SYN flood, HTTP flood, CC), game attacks (UDP flood, TCP, fragment), HTTPS attacks (SSL DoS/DDoS), and DNS attacks (reflection, flood, cache-miss). **No Shield Advanced.** No SLA-guaranteed protection, no cost protection, no dedicated DDoS Response Team (DRT) — only T-Systems support. **Monitoring.** Attack statistics and monitoring reports available. **No CDN protection.** CloudFront+Shield combination has no equivalent (no CDN on OTC). Use WAF additionally for L7 protection."
+    },
+    "equivNote": {
+      "de": "Anti-DDoS bietet automatischen L3/L4 DDoS-Schutz inkl. SYN/UDP/HTTP Flood, CC, SSL DoS und DNS-Attacken (vergleichbar Shield Standard). Kein Shield Advanced Pendant: kein dediziertes DDoS Response Team (DRT), kein Cost Protection, kein SLA-basierter Credit. Für L7-Schutz WAF nutzen.",
+      "en": "Anti-DDoS provides automatic L3/L4 DDoS protection incl. SYN/UDP/HTTP flood, CC, SSL DoS, and DNS attacks (comparable to Shield Standard). No Shield Advanced equivalent: no dedicated DDoS Response Team (DRT), no cost protection, no SLA-based credit. Use WAF for L7 protection."
+    },
+    "tfNote": {
+      "de": "Anti-DDoS Basis-Schutz ist automatisch aktiv. Erweiterte Policies nur eingeschränkt per TF konfigurierbar.",
+      "en": "Anti-DDoS basic protection is automatically active. Extended policies only partially configurable via TF."
+    }
+  },
+  {
+    "name": "AWS Network Firewall",
+    "category": "Security",
+    "effort": "hard",
+    "equiv": "partial",
+    "scope": [],
+    "otc": "Cloud Firewall (CFW)",
+    "tfAws": "aws_networkfirewall_firewall, aws_networkfirewall_firewall_policy, aws_networkfirewall_rule_group",
+    "tfOtc": null,
+    "tfStatus": "none",
+    "docsAws": "https://docs.aws.amazon.com/network-firewall/",
+    "docsOtc": "https://docs.otc.t-systems.com/cloud-firewall/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/networkfirewall_firewall",
+    "tfDocsOtc": null,
+    "desc": {
+      "de": "Managed Network Firewall. Stateful/Stateless Rules, IDS/IPS, Domain Filtering, Suricata-kompatibel.",
+      "en": "Managed network firewall. Stateful/stateless rules, IDS/IPS, domain filtering, Suricata-compatible."
+    },
+    "otcDesc": {
+      "de": "Cloud-native Firewall für Internet- und VPC-Grenzen. Intrusion Detection & Prevention (IDPS), Access Control, Traffic-Analyse, Log-Audit. Verfügbar in EU-DE, EU-NL geplant.",
+      "en": "Cloud-native firewall for internet and VPC borders. Intrusion detection & prevention (IDPS), access control, traffic analysis, log audit. Available in EU-DE, EU-NL planned."
+    },
+    "alt": {
+      "de": "Security Groups + NACLs, pfSense/OPNsense auf ECS",
+      "en": "Security groups + NACLs, pfSense/OPNsense on ECS"
+    },
+    "migration": {
+      "de": "**Regelformat-Inkompatibilität.** Suricata-kompatible Regeln aus AWS Network Firewall sind NICHT direkt übertragbar — CFW nutzt ein eigenes Regelformat. **Feature-Umfang.** CFW ist eine cloud-native Next-Gen Firewall mit IDPS, Access Control, Traffic-Analyse und Log-Audit. Stateful Inspection und Domain Filtering vorhanden. Schützt Internet- und VPC-Grenzen. **Regionale Verfügbarkeit.** In EU-DE verfügbar, EU-NL ist in Planung. IPv6-Support vorhanden. **Logging.** Log-Integration über LTS (Log Tank Service). **Kein Terraform.** CFW hat aktuell keine Terraform-Ressourcen im OTC Provider. Kein Firewall Manager Pendant für Multi-Account-Verwaltung.",
+      "en": "**Rule format incompatibility.** Suricata-compatible rules from AWS Network Firewall are NOT directly transferable — CFW uses its own rule format. **Feature scope.** CFW is a cloud-native next-gen firewall with IDPS, access control, traffic analysis, and log audit. Stateful inspection and domain filtering available. Protects internet and VPC borders. **Regional availability.** Available in EU-DE, EU-NL is planned. IPv6 support available. **Logging.** Log integration via LTS (Log Tank Service). **No Terraform.** CFW currently has no Terraform resources in the OTC provider. No Firewall Manager equivalent for multi-account management."
+    },
+    "equivNote": {
+      "de": "CFW bietet IDPS, stateful/stateless Filterung, Domain Filtering und Traffic-Analyse. Kein Suricata-Regelformat (eigenes Format). Kein AWS Firewall Manager Pendant für zentrale Multi-Account-Policy-Verwaltung. IPv6-Support vorhanden.",
+      "en": "CFW provides IDPS, stateful/stateless filtering, domain filtering, and traffic analysis. No Suricata rule format (proprietary format). No AWS Firewall Manager equivalent for centralized multi-account policy management. IPv6 support available."
+    },
+    "tfNote": {
+      "de": "CFW hat aktuell keine Terraform-Ressourcen im OTC Provider.",
+      "en": "CFW currently has no Terraform resources in the OTC provider."
+    }
+  }
+]

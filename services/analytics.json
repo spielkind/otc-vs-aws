@@ -1,0 +1,190 @@
+[
+  {
+    "name": "Amazon OpenSearch",
+    "category": "Analytics",
+    "effort": "easy",
+    "equiv": "partial",
+    "scope": [
+      "K1"
+    ],
+    "otc": "Cloud Search Service (CSS)",
+    "tfAws": "aws_opensearch_domain",
+    "tfOtc": "opentelekomcloud_css_cluster_v1",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/opensearch-service/",
+    "docsOtc": "https://docs.otc.t-systems.com/cloud-search-service/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/opensearch_domain",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/css_cluster_v1",
+    "desc": {
+      "de": "Managed OpenSearch/Elasticsearch. Log-Analyse, Full-Text-Search, Kibana/Dashboards. Serverless-Modus, UltraWarm/Cold Storage, Fine-Grained Access Control, Cross-Cluster Search.",
+      "en": "Managed OpenSearch/Elasticsearch. Log analytics, full-text search, Kibana/Dashboards. Serverless mode, UltraWarm/Cold storage, fine-grained access control, cross-cluster search."
+    },
+    "otcDesc": {
+      "de": "Managed Elasticsearch (6.x/7.x) + OpenSearch (1.x/2.x) + Managed Logstash. Kibana/OpenSearch Dashboards/Cerebro integriert. Cluster mit Master/Data/Client-Nodes, automatische Snapshots nach OBS, Sicherheits-Plugin (HTTPS, Authentifizierung, Audit). Node-Typen: ess (Data), ess-master, ess-client, ess-cold. Bis 200 Nodes pro Cluster.",
+      "en": "Managed Elasticsearch (6.x/7.x) + OpenSearch (1.x/2.x) + Managed Logstash. Kibana/OpenSearch Dashboards/Cerebro integrated. Clusters with master/data/client nodes, automatic snapshots to OBS, security plugin (HTTPS, authentication, audit). Node types: ess (data), ess-master, ess-client, ess-cold. Up to 200 nodes per cluster."
+    },
+    "alt": {
+      "de": "Self-managed OpenSearch auf CCE",
+      "en": "Self-managed OpenSearch on CCE"
+    },
+    "migration": {
+      "de": "**Engine-Version.** CSS unterstützt Elasticsearch 6.x/7.x und OpenSearch 1.x/2.x — Engine und Version vorab abgleichen. **Node-Typen.** Cluster-Topologie anders benannt: ess (Data), ess-master, ess-client, ess-cold statt data/master/coordinating/ultrawarm. **Dashboards.** OpenSearch-Cluster nutzen OpenSearch Dashboards, ES-Cluster nutzen Kibana. Cerebro steht zusätzlich für Cluster-Monitoring bereit. **Access Control.** Security Plugin bietet HTTPS und Authentifizierung, aber kein Document/Field Level Security. ISM Policies nur teilweise unterstützt — Actions einzeln prüfen. **Cold Storage.** UltraWarm/Cold Storage → ess-cold Nodes mit weniger Automatisierung. Cross-Cluster Search nicht verfügbar. **Snapshot-Migration.** OBS als Snapshot-Repository registrieren, Snapshots von S3 nach OBS kopieren, in CSS wiederherstellen. **Logstash.** Pipelines in CSS Managed Logstash übertragen.",
+      "en": "**Engine version.** CSS supports Elasticsearch 6.x/7.x and OpenSearch 1.x/2.x — match engine and version beforehand. **Node types.** Cluster topology uses different naming: ess (data), ess-master, ess-client, ess-cold instead of data/master/coordinating/ultrawarm. **Dashboards.** OpenSearch clusters use OpenSearch Dashboards, ES clusters use Kibana. Cerebro is additionally available for cluster monitoring. **Access control.** Security plugin provides HTTPS and authentication but no document/field level security. ISM policies only partially supported — verify actions individually. **Cold storage.** UltraWarm/Cold Storage → ess-cold nodes with less automation. Cross-cluster search not available. **Snapshot migration.** Register OBS as snapshot repository, copy snapshots from S3 to OBS, restore in CSS. **Logstash.** Transfer pipelines to CSS Managed Logstash."
+    },
+    "equivNote": {
+      "de": "CSS bietet Managed Elasticsearch (6.x/7.x) UND OpenSearch (1.x/2.x) Cluster sowie Managed Logstash. Kibana, OpenSearch Dashboards und Cerebro verfügbar. Bis 200 Nodes/Cluster. Kein OpenSearch Serverless, kein UltraWarm/Cold Storage Tier (ess-cold Nodes als Alternative). Cross-Cluster Search nicht verfügbar. Fine-Grained Access Control über Security Plugin, aber weniger granular als AWS (kein Document/Field Level Security). ISM Policies teilweise unterstützt.",
+      "en": "CSS provides managed Elasticsearch (6.x/7.x) AND OpenSearch (1.x/2.x) clusters as well as managed Logstash. Kibana, OpenSearch Dashboards and Cerebro available. Up to 200 nodes/cluster. No OpenSearch Serverless, no UltraWarm/Cold storage tier (ess-cold nodes as alternative). Cross-cluster search not available. Fine-grained access control via security plugin but less granular than AWS (no document/field level security). ISM policies partially supported."
+    },
+    "tfNote": null
+  },
+  {
+    "name": "Amazon Redshift",
+    "category": "Analytics",
+    "effort": "medium",
+    "equiv": "partial",
+    "scope": [],
+    "otc": "Data Warehouse Service (DWS)",
+    "tfAws": "aws_redshift_cluster",
+    "tfOtc": "opentelekomcloud_dws_cluster_v1",
+    "tfStatus": "full",
+    "docsAws": "https://docs.aws.amazon.com/redshift/",
+    "docsOtc": "https://docs.otc.t-systems.com/data-warehouse-service/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/redshift_cluster",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/dws_cluster_v1",
+    "desc": {
+      "de": "Cloud Data Warehouse. Columnar Storage, Massively Parallel Processing (MPP). Redshift Spectrum, Serverless, Data Sharing, ML-Integration.",
+      "en": "Cloud data warehouse. Columnar storage, massively parallel processing (MPP). Redshift Spectrum, Serverless, data sharing, ML integration."
+    },
+    "otcDesc": {
+      "de": "Managed Data Warehouse (MPP, Columnar Storage). Offiziell GaussDB(DWS). SQL-kompatibel, OBS Foreign Tables (External Tables), Kompression, Partitionierung.",
+      "en": "Managed data warehouse (MPP, columnar storage). Officially GaussDB(DWS). SQL-compatible, OBS foreign tables (external tables), compression, partitioning."
+    },
+    "alt": {
+      "de": "ClickHouse auf CCE, Apache Doris auf CCE, StarRocks",
+      "en": "ClickHouse on CCE, Apache Doris on CCE, StarRocks"
+    },
+    "migration": {
+      "de": "**SQL-Dialekt.** DWS basiert auf GaussDB, nicht auf PostgreSQL — SQL-Syntax ist ~85 % kompatibel, Abweichungen bei Datentypen und Funktionen prüfen. Materialized Views verhalten sich anders. **External Tables.** Redshift Spectrum → DWS OBS Foreign Tables mit abweichender Syntax. **Datenimport.** COPY/UNLOAD → DWS-eigene Ladebefehle, GDS für parallelen Bulk-Import. **Kein Serverless.** Redshift Serverless hat kein Pendant — DWS benötigt feste Cluster-Größe. RA3 Instances (Managed Storage) ebenfalls nicht verfügbar. **Workload-Steuerung.** WLM → DWS Resource Queues (andere Konfigurationslogik).",
+      "en": "**SQL dialect.** DWS is based on GaussDB, not PostgreSQL — SQL syntax is ~85% compatible, verify deviations in data types and functions. Materialized views behave differently. **External tables.** Redshift Spectrum → DWS OBS Foreign Tables with different syntax. **Data import.** COPY/UNLOAD → DWS native load commands, GDS for parallel bulk import. **No serverless.** Redshift Serverless has no equivalent — DWS requires fixed cluster size. RA3 Instances (managed storage) also not available. **Workload management.** WLM → DWS Resource Queues (different configuration logic)."
+    },
+    "equivNote": {
+      "de": "DWS ist GaussDB-basiertes MPP Data Warehouse. OBS Foreign Tables (External Tables) sind verfügbar — ähnlich Redshift Spectrum aber andere Syntax. Kein Serverless-Modus, kein Data Sharing, kein Redshift ML. SQL-Syntax ~85% kompatibel.",
+      "en": "DWS is GaussDB-based MPP data warehouse. OBS foreign tables (external tables) available — similar to Redshift Spectrum but different syntax. No serverless mode, no data sharing, no Redshift ML. SQL syntax ~85% compatible."
+    },
+    "tfNote": null
+  },
+  {
+    "name": "Amazon Athena",
+    "category": "Analytics",
+    "effort": "hard",
+    "equiv": "partial",
+    "scope": [],
+    "otc": "Data Lake Insight (DLI)",
+    "tfAws": "aws_athena_workgroup, aws_athena_database, aws_athena_named_query",
+    "tfOtc": null,
+    "tfStatus": "none",
+    "docsAws": "https://docs.aws.amazon.com/athena/",
+    "docsOtc": "https://docs.otc.t-systems.com/data-lake-insight/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/athena_workgroup",
+    "tfDocsOtc": null,
+    "desc": {
+      "de": "Serverless Interactive Query Service. SQL-Abfragen direkt auf S3-Daten (Parquet, CSV, JSON, ORC). Presto/Trino-Engine, Federated Query, CTAS, Views, Prepared Statements.",
+      "en": "Serverless interactive query service. SQL queries directly on S3 data (Parquet, CSV, JSON, ORC). Presto/Trino engine, federated query, CTAS, views, prepared statements."
+    },
+    "otcDesc": {
+      "de": "Serverless SQL/Spark/Flink-Query-Service für Data Lakes. Unterstützt SQL, Spark SQL, Flink Jobs. Abfragen auf OBS-Daten, DLI-Tabellen, Anbindung an CSS, RDS, DWS.",
+      "en": "Serverless SQL/Spark/Flink query service for data lakes. Supports SQL, Spark SQL, Flink jobs. Queries on OBS data, DLI tables, integration with CSS, RDS, DWS."
+    },
+    "alt": {
+      "de": "MRS Hive/Presto auf CCE, Self-managed Trino auf CCE, DWS External Tables",
+      "en": "MRS Hive/Presto on CCE, self-managed Trino on CCE, DWS external tables"
+    },
+    "migration": {
+      "de": "**Query-Engine.** Athena nutzt Presto/Trino, DLI nutzt Spark SQL — Query-Syntax unterscheidet sich bei Funktionen, Datentypen und Joins. **Metastore.** Kein AWS Glue Data Catalog — DLI verwendet einen eigenen Metastore. Externe Tabellen-Definitionen komplett neu anlegen. **Partitionierung.** Partitioned Tables funktionieren, aber Partition Projection fehlt. CTAS-Syntax weicht ab. **Federated Queries.** Abfragen auf RDS und andere Quellen nur eingeschränkt möglich, keine Lambda-Connectors. **Kein Terraform.** DLI hat keine Terraform-Resources im OTC Provider — Infrastruktur-Provisionierung nur über API oder Konsole.",
+      "en": "**Query engine.** Athena uses Presto/Trino, DLI uses Spark SQL — query syntax differs in functions, data types, and joins. **Metastore.** No AWS Glue Data Catalog — DLI uses its own metastore. External table definitions must be recreated entirely. **Partitioning.** Partitioned tables work but Partition Projection is missing. CTAS syntax differs. **Federated queries.** Queries against RDS and other sources are limited, no Lambda connectors. **No Terraform.** DLI has no Terraform resources in the OTC provider — infrastructure provisioning only via API or console."
+    },
+    "equivNote": {
+      "de": "DLI ist serverloser Query-Service ähnlich Athena, aber mit eigener SQL-Syntax (nicht Presto/Trino). Kein Federated Query via Lambda Connectors, kein Glue Data Catalog, kein Terraform-Support für DLI-Ressourcen im OTC Provider.",
+      "en": "DLI is a serverless query service similar to Athena, but with its own SQL syntax (not Presto/Trino). No federated query via Lambda connectors, no Glue Data Catalog, no Terraform support for DLI resources in the OTC provider."
+    },
+    "tfNote": null
+  },
+  {
+    "name": "Amazon EMR",
+    "category": "Analytics",
+    "effort": "hard",
+    "equiv": "partial",
+    "scope": [],
+    "otc": "MapReduce Service (MRS)",
+    "tfAws": "aws_emr_cluster, aws_emr_instance_group, aws_emr_security_configuration",
+    "tfOtc": "opentelekomcloud_mrs_cluster_v1",
+    "tfStatus": "partial",
+    "docsAws": "https://docs.aws.amazon.com/emr/",
+    "docsOtc": "https://docs.otc.t-systems.com/mapreduce-service/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/emr_cluster",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/mrs_cluster_v1",
+    "desc": {
+      "de": "Managed Big Data Platform. Hadoop, Spark, Hive, Presto, HBase, Flink. Auto Scaling, Spot-Instanzen, EMR Serverless, EMR on EKS, Studio Notebooks.",
+      "en": "Managed big data platform. Hadoop, Spark, Hive, Presto, HBase, Flink. Auto scaling, spot instances, EMR Serverless, EMR on EKS, Studio notebooks."
+    },
+    "otcDesc": {
+      "de": "Managed Hadoop/Spark-Cluster. Unterstützt Hadoop, Spark, Hive, HBase, Kafka, Flink, Presto. Cluster-Management, Auto Scaling, Job-Scheduling.",
+      "en": "Managed Hadoop/Spark cluster. Supports Hadoop, Spark, Hive, HBase, Kafka, Flink, Presto. Cluster management, auto scaling, job scheduling."
+    },
+    "alt": {
+      "de": "Self-managed Hadoop/Spark auf CCE, Dataproc-Alternative auf CCE (Apache Livy + Spark)",
+      "en": "Self-managed Hadoop/Spark on CCE, Dataproc alternative on CCE (Apache Livy + Spark)"
+    },
+    "migration": {
+      "de": "**Kein Serverless.** EMR Serverless hat kein Pendant — MRS erfordert Cluster-Provisionierung. EMR on EKS ebenfalls nicht verfügbar (MRS läuft auf eigenen Nodes). **Spark-Versionen.** Engine-Versionen können abweichen — Kompatibilität der Spark/Hive/Presto-Version vorab prüfen. **Scaling.** EMR Managed Scaling → MRS Auto Scaling mit abweichender Konfiguration. EMR Instance Fleets → MRS Node Groups. **Bootstrap & Studio.** Bootstrap Actions → MRS Custom Scripts. EMR Studio → MRS Manager (weniger Features, kein Notebook-basiertes Arbeiten). **Terraform.** Cluster und Node Groups per TF möglich, aber Job-Konfiguration und Spark-Submit nicht per Terraform steuerbar.",
+      "en": "**No serverless.** EMR Serverless has no equivalent — MRS requires cluster provisioning. EMR on EKS also not available (MRS runs on its own nodes). **Spark versions.** Engine versions may differ — verify Spark/Hive/Presto version compatibility beforehand. **Scaling.** EMR Managed Scaling → MRS Auto Scaling with different configuration. EMR Instance Fleets → MRS Node Groups. **Bootstrap & Studio.** Bootstrap Actions → MRS Custom Scripts. EMR Studio → MRS Manager (fewer features, no notebook-based workflows). **Terraform.** Cluster and node groups manageable via TF, but job configuration and Spark submit not controllable via Terraform."
+    },
+    "equivNote": {
+      "de": "MRS bietet Managed Hadoop/Spark-Cluster mit den meisten Core-Engines. Kein EMR Serverless, kein EMR on EKS, kein EMR Studio, weniger Engine-Versionen, keine Spot-Instanzen, kein Glue Data Catalog Integration.",
+      "en": "MRS provides managed Hadoop/Spark clusters with most core engines. No EMR Serverless, no EMR on EKS, no EMR Studio, fewer engine versions, no spot instances, no Glue Data Catalog integration."
+    },
+    "tfNote": {
+      "de": "MRS Cluster und Node Groups per TF, aber Job-Konfiguration und Spark-Submit nicht per TF steuerbar.",
+      "en": "MRS cluster and node groups via TF, but job configuration and Spark submit not manageable via TF."
+    }
+  },
+  {
+    "name": "AWS Glue",
+    "category": "Analytics",
+    "effort": "hard",
+    "equiv": "partial",
+    "scope": [],
+    "otc": "DataArts Studio / DLI / MRS",
+    "tfAws": "aws_glue_job, aws_glue_crawler, aws_glue_catalog_database",
+    "tfOtc": "opentelekomcloud_mrs_cluster_v1, opentelekomcloud_mrs_job_v1",
+    "tfStatus": "partial",
+    "docsAws": "https://docs.aws.amazon.com/glue/",
+    "docsOtc": "https://docs.otc.t-systems.com/mapreduce-service/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/glue_job",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/mrs_cluster_v1",
+    "desc": {
+      "de": "Serverless ETL-Service. Glue Studio (Visual ETL), Glue Data Catalog, Crawlers, Schema Registry, Glue DataBrew, Spark/Python-basierte Jobs.",
+      "en": "Serverless ETL service. Glue Studio (visual ETL), Glue Data Catalog, crawlers, Schema Registry, Glue DataBrew, Spark/Python-based jobs."
+    },
+    "otcDesc": {
+      "de": "DataArts Studio: Data Governance & ETL-Plattform (Data Development, Architecture, Quality, Catalog, DataService, Security). Aktiv weiterentwickelt (v24.4.0, v25.3.0). DLI: Serverless SQL/Spark. MRS: Managed Hadoop/Spark/Flink-Cluster. DataArts Studio ist das nächste Pendant zu Glue Data Catalog + Glue Studio.",
+      "en": "DataArts Studio: Data governance & ETL platform (Data Development, Architecture, Quality, Catalog, DataService, Security). Actively developed (v24.4.0, v25.3.0). DLI: Serverless SQL/Spark. MRS: Managed Hadoop/Spark/Flink cluster. DataArts Studio is the closest equivalent to Glue Data Catalog + Glue Studio."
+    },
+    "alt": {
+      "de": "Apache Airflow + Spark auf CCE, dbt + MRS, AWS Glue cross-cloud (über Internet)",
+      "en": "Apache Airflow + Spark on CCE, dbt + MRS, AWS Glue cross-cloud (over internet)"
+    },
+    "migration": {
+      "de": "**Kein Glue-Pendant.** OTC hat keinen einzelnen Glue-Ersatz — die Funktionalität verteilt sich auf DataArts Studio, DLI und MRS. **ETL Jobs.** Glue ETL → DLI Spark Jobs (serverless) oder MRS Spark (dedizierte Cluster). Glue Studio (Visual ETL) → DataArts Studio Data Development. **Data Catalog.** Glue Data Catalog → DataArts Catalog oder DLI Metastore. Crawlers fehlen — Schema-Management manuell. **Fehlende Dienste.** Glue DataBrew, Schema Registry und Triggers haben kein Pendant. Scheduling über MRS oder DLI. **Terraform.** DLI hat keinen Terraform-Support. DataArts Studio nur Workspace-Erstellung per TF. **DataArts Studio.** Aktiv weiterentwickelt (v24.4.0, v25.3.0) mit Modulen für Architecture, Quality, Security — aber strukturell deutlich anders als Glue.",
+      "en": "**No Glue equivalent.** OTC has no single Glue replacement — functionality is spread across DataArts Studio, DLI, and MRS. **ETL jobs.** Glue ETL → DLI Spark Jobs (serverless) or MRS Spark (dedicated clusters). Glue Studio (Visual ETL) → DataArts Studio Data Development. **Data Catalog.** Glue Data Catalog → DataArts Catalog or DLI Metastore. Crawlers missing — schema management is manual. **Missing services.** Glue DataBrew, Schema Registry, and Triggers have no equivalent. Scheduling via MRS or DLI. **Terraform.** DLI has no Terraform support. DataArts Studio only workspace creation via TF. **DataArts Studio.** Actively developed (v24.4.0, v25.3.0) with modules for Architecture, Quality, Security — but structurally very different from Glue."
+    },
+    "equivNote": {
+      "de": "Kein einzelner Glue-Ersatz. ETL Jobs → DLI Spark oder MRS. Data Catalog → DLI Metastore oder DataArts Studio. Crawlers → manuell. Kein Glue Studio, kein Schema Registry, kein Terraform-Support für DLI.",
+      "en": "No single Glue replacement. ETL jobs → DLI Spark or MRS. Data Catalog → DLI Metastore or DataArts Studio. Crawlers → manual. No Glue Studio, no Schema Registry, no Terraform support for DLI."
+    },
+    "tfNote": {
+      "de": "DLI hat keinen Terraform-Support im OTC Provider. DataArts Studio nur Workspace-Erstellung.",
+      "en": "DLI has no Terraform support in OTC provider. DataArts Studio only workspace creation."
+    }
+  }
+]
