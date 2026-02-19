@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AWS → OTC Migration Guide</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="stylesheet" href="css/vars.css">
 <link rel="stylesheet" href="css/layout.css">
 <link rel="stylesheet" href="css/filters.css">
@@ -14,6 +15,7 @@
 <link rel="stylesheet" href="css/print.css">
 </head>
 <body>
+<div class="sticky-top">
 <div class="header"><div class="container"><div class="header-row">
 <div class="header-left"><h1>AWS → <span>Open Telekom Cloud</span></h1><div class="sub" id="subtitle"></div></div>
 <div class="header-center"><span class="ai-hint" id="aiHint">🤖 KI-generiert · ohne Gewähr</span></div>
@@ -31,7 +33,7 @@
 </div></div></div></div>
 
 <div class="toolbar"><div class="container"><div class="toolbar-inner">
-<div class="search-wrap"><input type="text" class="search-box" id="searchBox" placeholder="Service suchen..."></div>
+<div class="search-wrap"><input type="text" class="search-box" id="searchBox" placeholder="Service suchen..."><button class="search-clear" id="searchClear" onclick="document.getElementById('searchBox').value='';this.hidden=true;render()">✕</button></div>
 <div class="pill-group" id="catPills"></div>
 <span class="pill-sep">|</span>
 <div class="equiv-group" id="equivPills"></div>
@@ -52,6 +54,7 @@
 <span class="pill-sep">|</span>
 <div class="scope-group" id="scopePills"></div>
 </div></div></div>
+</div><!-- /sticky-top -->
 
 <div class="container">
 <div class="filter-info" id="filterInfo"></div>

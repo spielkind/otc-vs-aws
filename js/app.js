@@ -80,7 +80,11 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e =
 // ===================================================
 
 // Search input
-document.getElementById('searchBox').addEventListener('input', render);
+document.getElementById('searchBox').addEventListener('input', function() {
+  document.getElementById('searchClear').hidden = !this.value;
+  render();
+});
+document.getElementById('searchClear').hidden = true;
 
 // Sort buttons (desktop toolbar)
 document.querySelectorAll('.sort-btn').forEach(b => {
@@ -252,4 +256,14 @@ window.addEventListener('resize', fixToolbar);
       }
     }, 300);
   }
+})();
+
+// Keep toolbar sticky below header
+(function syncHeaderHeight() {
+  const hdr = document.querySelector('.header');
+  if (!hdr) return;
+  const update = () => document.documentElement.style.setProperty('--header-h', hdr.offsetHeight + 'px');
+  update();
+  window.addEventListener('resize', update);
+  new ResizeObserver(update).observe(hdr);
 })();
