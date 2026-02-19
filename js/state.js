@@ -5,7 +5,7 @@
 const state = {
   services: [],       // All loaded services
   categories: [],     // Auto-generated from service data
-  lang: localStorage.getItem('otc-lang') || 'de',
+  lang: localStorage.getItem('otc-lang') || (navigator.language && navigator.language.startsWith('de') ? 'de' : 'en'),
   sortBy: 'name',
   allOpen: false,
   filters: {
