@@ -241,5 +241,43 @@
       "en": "VPCEP provides interface and gateway endpoints for selected OTC services (OBS, DNS, DIS etc.) and own endpoint services. Significantly fewer service integrations than AWS (~20 vs. 100+), no endpoint policies, no PrivateLink marketplace."
     },
     "tfNote": null
+  },
+  {
+    "name": "Amazon VPC Lattice",
+    "category": "Networking",
+    "effort": "medium",
+    "equiv": "partial",
+    "scope": [
+      "K1"
+    ],
+    "otc": "Application Service Mesh (ASM)",
+    "tfAws": "aws_vpclattice_service, aws_vpclattice_target_group",
+    "tfOtc": "opentelekomcloud_asm_service_mesh_v1",
+    "tfStatus": "partial",
+    "docsAws": "https://docs.aws.amazon.com/vpc-lattice/",
+    "docsOtc": "https://docs.otc.t-systems.com/application-service-mesh/index.html",
+    "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpclattice_service",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/asm_service_mesh_v1",
+    "desc": {
+      "de": "Service-to-Service Networking auf VPC-Ebene. Vereinfacht Verbindungen zwischen Services über VPCs, Accounts und Compute-Typen (ECS, EKS, Lambda, EC2) ohne Sidecars. IAM-basierte Auth, Traffic Splitting, Observability.",
+      "en": "Service-to-service networking at VPC level. Simplifies connections between services across VPCs, accounts and compute types (ECS, EKS, Lambda, EC2) without sidecars. IAM-based auth, traffic splitting, observability."
+    },
+    "otcDesc": {
+      "de": "Managed Istio-basiertes Service Mesh. mTLS, Traffic Management (Canary, Blue/Green), Circuit Breaker, Distributed Tracing, AuthorizationPolicies. Sidecar-basiert (Envoy). Nur für Workloads im CCE Cluster, nicht VPC-übergreifend.",
+      "en": "Managed Istio-based service mesh. mTLS, traffic management (canary, blue/green), circuit breaker, distributed tracing, authorization policies. Sidecar-based (Envoy). Only for workloads in CCE clusters, not cross-VPC."
+    },
+    "alt": null,
+    "migration": {
+      "de": "**Architekturunterschiede.** VPC Lattice arbeitet ohne Sidecars auf VPC-Ebene — ASM ist Sidecar-basiert (Envoy/Istio). Lattice verbindet Services über VPCs und Compute-Typen hinweg — ASM nur innerhalb eines CCE Clusters. **Auth.** Lattice nutzt IAM Policies — ASM nutzt Istio AuthorizationPolicies (ServiceAccount-basiert). **Traffic Management.** Beide unterstützen Weighted Routing/Canary. **Fehlend.** Kein cross-VPC Service Discovery, kein serverless-zu-K8s Bridging. Für managed Services (DMS Kafka, GeminiDB) zusätzlich SASL/Credentials + Security Groups nötig.",
+      "en": "**Architecture differences.** VPC Lattice works without sidecars at VPC level — ASM is sidecar-based (Envoy/Istio). Lattice connects services across VPCs and compute types — ASM only within a CCE cluster. **Auth.** Lattice uses IAM policies — ASM uses Istio AuthorizationPolicies (ServiceAccount-based). **Traffic management.** Both support weighted routing/canary. **Missing.** No cross-VPC service discovery, no serverless-to-K8s bridging. For managed services (DMS Kafka, GeminiDB) additional SASL/credentials + security groups required."
+    },
+    "equivNote": {
+      "de": "ASM ist funktional ein Service Mesh (Istio), kein direktes VPC Lattice-Äquivalent. Lattice ist leichtgewichtiger (kein Sidecar), ASM ist feature-reicher (mTLS, Tracing, Circuit Breaker).",
+      "en": "ASM is functionally a service mesh (Istio), not a direct VPC Lattice equivalent. Lattice is more lightweight (no sidecar), ASM is more feature-rich (mTLS, tracing, circuit breaker)."
+    },
+    "tfNote": {
+      "de": "Terraform kann das Mesh erstellen (opentelekomcloud_asm_service_mesh_v1). Traffic Policies, AuthorizationPolicies etc. werden per kubectl/Istio CRDs konfiguriert.",
+      "en": "Terraform can create the mesh (opentelekomcloud_asm_service_mesh_v1). Traffic policies, authorization policies etc. are configured via kubectl/Istio CRDs."
+    }
   }
 ]
