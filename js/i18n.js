@@ -15,9 +15,9 @@ const T = {
     eqFull: '1:1', eqPartial: 'Teilweise', eqNone: 'Kein Pendant',
     tfFull: 'TF ✓', tfPartial: 'TF ~', tfNone: 'TF ✗',
     aiHint: '🤖 KI-generiert · ohne Gewähr',
-    roadmapUrl: 'https://public.t-cloud.com/de/produkte-services/roadmap',
+    roadmapUrl: 'https://www.t-cloud-public.com/de/produkte-services/roadmap',
     roadmapLabel: '🗺️ Roadmap',
-    releaseUrl: 'https://public.t-cloud.com/de/support/release-notes',
+    releaseUrl: 'https://www.t-cloud-public.com/de/support/release-notes',
     releaseLabel: '📰 Release Notes',
     leistungUrl: 'https://www.open-telekom-cloud.com/leistungsbeschreibung-tsi',
     leistungLabel: '📋 Leistungsbeschreibung'
@@ -34,9 +34,9 @@ const T = {
     eqFull: '1:1', eqPartial: 'Partial', eqNone: 'No equivalent',
     tfFull: 'TF ✓', tfPartial: 'TF ~', tfNone: 'TF ✗',
     aiHint: '🤖 AI-generated · no warranty',
-    roadmapUrl: 'https://public.t-cloud.com/en/products-services/roadmap',
+    roadmapUrl: 'https://www.t-cloud-public.com/en/products-services/roadmap',
     roadmapLabel: '🗺️ Roadmap',
-    releaseUrl: 'https://public.t-cloud.com/en/support/release-notes',
+    releaseUrl: 'https://www.t-cloud-public.com/en/support/release-notes',
     releaseLabel: '📰 Release Notes',
     leistungUrl: 'https://www.open-telekom-cloud.com/service-description',
     leistungLabel: '📋 Service Description'

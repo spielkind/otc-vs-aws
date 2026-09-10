@@ -10,12 +10,12 @@
     ],
     "otc": "DMS Kafka",
     "tfAws": "aws_kinesis_stream",
-    "tfOtc": "opentelekomcloud_dms_kafka_instance_v2",
+    "tfOtc": "opentelekomcloud_dms_dedicated_instance_v2, opentelekomcloud_dms_topic_v2",
     "tfStatus": "full",
     "docsAws": "https://docs.aws.amazon.com/kinesis/",
     "docsOtc": "https://docs.otc.t-systems.com/distributed-message-service/index.html",
     "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kinesis_stream",
-    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/dms_kafka_instance_v2",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/dms_dedicated_instance_v2",
     "desc": {
       "de": "Streaming-Plattform: Data Streams (Echtzeit-Ingestion), Firehose (ETL → S3/Redshift/OpenSearch), Data Analytics (SQL/Flink auf Streams), Video Streams. Serverless, auto-skalierend.",
       "en": "Streaming platform: Data Streams (real-time ingestion), Firehose (ETL → S3/Redshift/OpenSearch), Data Analytics (SQL/Flink on streams), Video Streams. Serverless, auto-scaling."
@@ -158,12 +158,12 @@
     "scope": [],
     "otc": "DMS for RabbitMQ",
     "tfAws": "aws_mq_broker, aws_mq_configuration",
-    "tfOtc": "opentelekomcloud_dms_dedicated_instance_v2",
-    "tfStatus": "partial",
+    "tfOtc": null,
+    "tfStatus": "none",
     "docsAws": "https://docs.aws.amazon.com/amazon-mq/",
     "docsOtc": "https://docs.otc.t-systems.com/distributed-message-service/index.html",
     "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/mq_broker",
-    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/dms_dedicated_instance_v2",
+    "tfDocsOtc": null,
     "desc": {
       "de": "Managed Message Broker. ActiveMQ und RabbitMQ. AMQP, MQTT, STOMP, OpenWire. Multi-AZ, Persistence, Encryption.",
       "en": "Managed message broker. ActiveMQ and RabbitMQ. AMQP, MQTT, STOMP, OpenWire. Multi-AZ, persistence, encryption."
@@ -177,16 +177,16 @@
       "en": "ActiveMQ/RabbitMQ on ECS (self-managed), DMS Kafka (for pub/sub patterns)"
     },
     "migration": {
-      "de": "**ActiveMQ-Wegfall.** ActiveMQ (OpenWire, STOMP) wird auf OTC nicht unterstützt — Clients auf AMQP umstellen oder ActiveMQ self-hosted auf ECS betreiben. **RabbitMQ-Migration.** Definitions (Queues/Exchanges/Bindings) per rabbitmqadmin exportieren und importieren. ActiveMQ Network of Brokers → RabbitMQ Federation Plugin oder Shovel. **MQTT-Einschränkung.** MQTT nur über RabbitMQ MQTT Plugin mit eingeschränkter MQTT 5.0 Unterstützung. **Terraform-Lücke.** DMS RabbitMQ TF kann nur Instanzen provisionieren — keine Queue/Exchange-Konfiguration per Terraform.",
-      "en": "**ActiveMQ unavailable.** ActiveMQ (OpenWire, STOMP) is not supported on OTC — switch clients to AMQP or run ActiveMQ self-hosted on ECS. **RabbitMQ migration.** Export/import definitions (queues/exchanges/bindings) via rabbitmqadmin. ActiveMQ Network of Brokers → RabbitMQ Federation Plugin or Shovel. **MQTT limitation.** MQTT only via RabbitMQ MQTT Plugin with limited MQTT 5.0 support. **Terraform gap.** DMS RabbitMQ TF can only provision instances — no queue/exchange configuration via Terraform."
+      "de": "**ActiveMQ-Wegfall.** ActiveMQ (OpenWire, STOMP) wird auf OTC nicht unterstützt — Clients auf AMQP umstellen oder ActiveMQ self-hosted auf ECS betreiben. **RabbitMQ-Migration.** Definitions (Queues/Exchanges/Bindings) per rabbitmqadmin exportieren und importieren. ActiveMQ Network of Brokers → RabbitMQ Federation Plugin oder Shovel. **MQTT-Einschränkung.** MQTT nur über RabbitMQ MQTT Plugin mit eingeschränkter MQTT 5.0 Unterstützung. **Terraform-Lücke.** Der OTC Provider unterstützt DMS-RabbitMQ derzeit nicht; Instanzen und Queue/Exchange-Konfiguration müssen außerhalb von Terraform verwaltet werden.",
+      "en": "**ActiveMQ unavailable.** ActiveMQ (OpenWire, STOMP) is not supported on OTC — switch clients to AMQP or run ActiveMQ self-hosted on ECS. **RabbitMQ migration.** Export/import definitions (queues/exchanges/bindings) via rabbitmqadmin. ActiveMQ Network of Brokers → RabbitMQ Federation Plugin or Shovel. **MQTT limitation.** MQTT only via RabbitMQ MQTT Plugin with limited MQTT 5.0 support. **Terraform gap.** The OTC provider does not currently support DMS RabbitMQ; manage instances and queue/exchange configuration outside Terraform."
     },
     "equivNote": {
       "de": "DMS bietet managed RabbitMQ, aber kein ActiveMQ. ActiveMQ-Clients müssen auf AMQP migriert oder ActiveMQ self-hosted betrieben werden. Kein nativer MQTT-Broker.",
       "en": "DMS offers managed RabbitMQ but no ActiveMQ. ActiveMQ clients must migrate to AMQP or run ActiveMQ self-hosted. No native MQTT broker."
     },
     "tfNote": {
-      "de": "DMS RabbitMQ Instanz per TF provisionierbar, aber Queue/Exchange/Binding-Konfiguration nicht per TF.",
-      "en": "DMS RabbitMQ instance provisionable via TF, but queue/exchange/binding configuration not via TF."
+      "de": "Keine Terraform-Ressourcen für DMS RabbitMQ im aktuellen OTC Provider.",
+      "en": "No Terraform resources for DMS RabbitMQ in the current OTC provider."
     }
   },
   {
@@ -197,7 +197,7 @@
     "scope": [],
     "otc": "DMS for Kafka",
     "tfAws": "aws_msk_cluster, aws_msk_configuration, aws_msk_serverless_cluster",
-    "tfOtc": "opentelekomcloud_dms_dedicated_instance_v2",
+    "tfOtc": "opentelekomcloud_dms_dedicated_instance_v2, opentelekomcloud_dms_topic_v2, opentelekomcloud_dms_user_v2, opentelekomcloud_dms_user_permission_v1, opentelekomcloud_dms_consumer_group_v2",
     "tfStatus": "partial",
     "docsAws": "https://docs.aws.amazon.com/msk/",
     "docsOtc": "https://docs.otc.t-systems.com/distributed-message-service/index.html",
@@ -224,8 +224,8 @@
       "en": "DMS Kafka provides managed Kafka instances with SASL/SSL. No MSK Serverless, no MSK Connect (managed Kafka Connect), no tiered storage, fewer Kafka versions, no IAM-based authentication. Schema Registry must be self-operated."
     },
     "tfNote": {
-      "de": "DMS Kafka Instanz und Topics per TF, aber Consumer Groups und ACLs nicht per TF steuerbar.",
-      "en": "DMS Kafka instance and topics via TF, but consumer groups and ACLs not manageable via TF."
+      "de": "DMS Kafka Instanzen, Topics, Benutzer, Berechtigungen und Consumer Groups sind per Terraform steuerbar.",
+      "en": "DMS Kafka instances, topics, users, permissions, and consumer groups are manageable through Terraform."
     }
   }
 ]

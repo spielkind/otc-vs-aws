@@ -117,7 +117,7 @@
     "scope": [],
     "otc": "MapReduce Service (MRS)",
     "tfAws": "aws_emr_cluster, aws_emr_instance_group, aws_emr_security_configuration",
-    "tfOtc": "opentelekomcloud_mrs_cluster_v1",
+    "tfOtc": "opentelekomcloud_mrs_cluster_v1, opentelekomcloud_mrs_job_v1",
     "tfStatus": "partial",
     "docsAws": "https://docs.aws.amazon.com/emr/",
     "docsOtc": "https://docs.otc.t-systems.com/mapreduce-service/index.html",
@@ -144,8 +144,8 @@
       "en": "MRS provides managed Hadoop/Spark clusters with most core engines. No EMR Serverless, no EMR on EKS, no EMR Studio, fewer engine versions, no spot instances, no Glue Data Catalog integration."
     },
     "tfNote": {
-      "de": "MRS Cluster und Node Groups per TF, aber Job-Konfiguration und Spark-Submit nicht per TF steuerbar.",
-      "en": "MRS cluster and node groups via TF, but job configuration and Spark submit not manageable via TF."
+      "de": "MRS Cluster, Node Groups und Jobs sind per Terraform steuerbar. MRS Serverless nicht per TF.",
+      "en": "MRS clusters, node groups, and jobs are manageable through Terraform. MRS Serverless not via TF."
     }
   },
   {

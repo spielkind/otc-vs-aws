@@ -82,12 +82,12 @@
     ],
     "otc": "Web Application Firewall (WAF)",
     "tfAws": "aws_wafv2_web_acl",
-    "tfOtc": "opentelekomcloud_waf_dedicated_policy_v1",
+    "tfOtc": "opentelekomcloud_waf_cloud_instance_v1, opentelekomcloud_waf_dedicated_instance_v1, opentelekomcloud_waf_dedicated_domain_v1, opentelekomcloud_waf_dedicated_policy_v1, opentelekomcloud_waf_dedicated_precise_protection_rule_v1, opentelekomcloud_waf_dedicated_cc_rule_v1",
     "tfStatus": "full",
     "docsAws": "https://docs.aws.amazon.com/waf/",
     "docsOtc": "https://docs.otc.t-systems.com/web-application-firewall/index.html",
     "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl",
-    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/waf_dedicated_policy_v1",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/waf_cloud_instance_v1",
     "desc": {
       "de": "Web Application Firewall. Managed Rules (AWS + Marketplace), Custom Rules, Bot Control, Fraud Control, IP Sets, Rate-based Rules, Integration mit CloudFront/ALB/API GW/AppSync.",
       "en": "Web Application Firewall. Managed rules (AWS + Marketplace), custom rules, bot control, fraud control, IP sets, rate-based rules, integration with CloudFront/ALB/API GW/AppSync."
@@ -172,16 +172,16 @@
       "en": "Central security dashboard. Aggregates findings from GuardDuty, Inspector, Macie, Firewall Manager. CIS/PCI-DSS/NIST compliance checks. ASFF format, automated response."
     },
     "otcDesc": {
-      "de": "Kein zentraler Security-Findings-Aggregator. HSS Dashboard bietet Security Score und Risiko-Übersicht, aber nur für HSS-Findings. SecMaster (cloud-native SIEM/SOAR mit Asset-, Posture-, Incident-Management) laut Roadmap für H1 2027 geplant. Bis dahin: CTS + Cloud Eye + HSS als Einzellösungen.",
-      "en": "No central security findings aggregator. HSS Dashboard provides security score and risk overview, but only for HSS findings. SecMaster (cloud-native SIEM/SOAR with asset, posture, incident management) planned per roadmap for H1 2027. Until then: CTS + Cloud Eye + HSS as individual solutions."
+      "de": "Kein zentraler Security-Findings-Aggregator. HSS Dashboard bietet Security Score und Risiko-Übersicht, aber nur für HSS-Findings. SecMaster (cloud-native SIEM/SOAR mit Asset-, Posture-, Incident-Management) ist laut Roadmap ab Q1 2027 geplant. Bis dahin: CTS + Cloud Eye + HSS als Einzellösungen.",
+      "en": "No central security findings aggregator. HSS Dashboard provides security score and risk overview, but only for HSS findings. SecMaster (cloud-native SIEM/SOAR with asset, posture, incident management) is planned per roadmap from Q1 2027. Until then: CTS + Cloud Eye + HSS as individual solutions."
     },
     "alt": {
       "de": "Wazuh SIEM, ELK/Splunk, Grafana, OTC HSS Dashboard (begrenzt)",
       "en": "Wazuh SIEM, ELK/Splunk, Grafana, OTC HSS Dashboard (limited)"
     },
     "migration": {
-      "de": "**Kein Aggregator.** Kein zentraler Security-Findings-Aggregator auf OTC. HSS bietet ein Dashboard mit Security Score, aber nur für eigene Findings (kein Cross-Service-Aggregator). **SecMaster-Roadmap.** SecMaster (SIEM/SOAR mit Cloud Security Posture Management, Asset Management, Incident Management) ist laut OTC Roadmap für H1 2027 angekündigt. **Interim-Lösung.** CTS für Audit-Logs, Cloud Eye für Metriken-basierte Alarme, HSS für Host/Container-Security kombinieren. **Compliance-Checks.** CIS-, PCI-DSS-Checks müssen mit externen Tools (Prowler, ScoutSuite, Wazuh) selbst durchgeführt werden.",
-      "en": "**No aggregator.** No central security findings aggregator on OTC. HSS offers a dashboard with security score, but only for its own findings (no cross-service aggregator). **SecMaster roadmap.** SecMaster (SIEM/SOAR with cloud security posture management, asset management, incident management) is announced per OTC roadmap for H1 2027. **Interim solution.** Combine CTS for audit logs, Cloud Eye for metrics-based alarms, HSS for host/container security. **Compliance checks.** CIS, PCI DSS checks must be performed with external tools (Prowler, ScoutSuite, Wazuh)."
+      "de": "**Kein Aggregator.** Kein zentraler Security-Findings-Aggregator auf OTC. HSS bietet ein Dashboard mit Security Score, aber nur für eigene Findings (kein Cross-Service-Aggregator). **SecMaster-Roadmap.** SecMaster (SIEM/SOAR mit Cloud Security Posture Management, Asset Management, Incident Management) ist laut OTC Roadmap ab Q1 2027 angekündigt. **Interim-Lösung.** CTS für Audit-Logs, Cloud Eye für Metriken-basierte Alarme, HSS für Host/Container-Security kombinieren. **Compliance-Checks.** CIS-, PCI-DSS-Checks müssen mit externen Tools (Prowler, ScoutSuite, Wazuh) selbst durchgeführt werden.",
+      "en": "**No aggregator.** No central security findings aggregator on OTC. HSS offers a dashboard with security score, but only for its own findings (no cross-service aggregator). **SecMaster roadmap.** SecMaster (SIEM/SOAR with cloud security posture management, asset management, incident management) is announced per OTC roadmap from Q1 2027. **Interim solution.** Combine CTS for audit logs, Cloud Eye for metrics-based alarms, HSS for host/container security. **Compliance checks.** CIS, PCI DSS checks must be performed with external tools (Prowler, ScoutSuite, Wazuh)."
     },
     "equivNote": null,
     "tfNote": null
@@ -243,16 +243,16 @@
       "en": "Managed secrets store with automatic rotation (Lambda-based). KMS encryption, cross-region replication, resource-based policies, native RDS/Redshift/DocumentDB integration."
     },
     "otcDesc": {
-      "de": "CSMS laut OTC Portfolio-Roadmap ab 01.05.2026 geplant. Erwarteter Funktionsumfang: Lifecycle-Management für Credentials, KMS-Verschlüsselung, API-Zugriff. Bis dahin: HashiCorp Vault auf CCE (empfohlen) oder Kubernetes Secrets mit KMS-Verschlüsselung als Workaround.",
-      "en": "CSMS planned per OTC portfolio roadmap from 2026-05-01. Expected scope: lifecycle management for credentials, KMS encryption, API access. Until then: HashiCorp Vault on CCE (recommended) or Kubernetes Secrets with KMS encryption as workaround."
+      "de": "CSMS ist laut aktueller OTC Portfolio-Roadmap ab Q1 2027 geplant. Vorgesehen ist ein zentraler Dienst zum Erstellen, Abrufen, Aktualisieren und Löschen von Credentials über deren Lebenszyklus. Bis dahin: HashiCorp Vault auf CCE (empfohlen) oder Kubernetes Secrets mit KMS-Verschlüsselung als Workaround.",
+      "en": "CSMS is planned per the current OTC portfolio roadmap from Q1 2027. It is intended as a central service for creating, retrieving, updating, and deleting credentials throughout their lifecycle. Until then: HashiCorp Vault on CCE (recommended) or Kubernetes Secrets with KMS encryption as workaround."
     },
     "alt": {
       "de": "HashiCorp Vault (auf CCE), Kubernetes Secrets + KMS, Ansible Vault",
       "en": "HashiCorp Vault (on CCE), Kubernetes Secrets + KMS, Ansible Vault"
     },
     "migration": {
-      "de": "**CSMS noch nicht verfügbar.** OTC CSMS (Cloud Secret Management Service) ist per Roadmap bestätigt, aber erst ab 01.05.2026 verfügbar. Erwarteter Umfang: Lifecycle-Management für Credentials mit KMS-Verschlüsselung — ob automatische Rotation, Cross-Region Replication und Resource-based Policies unterstützt werden, ist noch unklar. **Interim-Lösungen.** HashiCorp Vault auf CCE (empfohlen — Secrets, PKI, Dynamic Secrets), Kubernetes Secrets mit OTC KMS Encryption, oder Ansible Vault für statische Secrets. **DB-Rotation.** Secrets Manager + RDS Integration (automatische DB-Passwort-Rotation) hat kein direktes Pendant — nach CSMS-Launch ggf. über FunctionGraph + CSMS API nachbaubar.",
-      "en": "**CSMS not yet available.** OTC CSMS (Cloud Secret Management Service) is confirmed per roadmap but only available from 2026-05-01. Expected scope: lifecycle management for credentials with KMS encryption — whether automatic rotation, cross-region replication, and resource-based policies will be supported is still unclear. **Interim solutions.** HashiCorp Vault on CCE (recommended — secrets, PKI, dynamic secrets), Kubernetes Secrets with OTC KMS encryption, or Ansible Vault for static secrets. **DB rotation.** Secrets Manager + RDS integration (automatic DB password rotation) has no direct equivalent — after CSMS launch potentially rebuildable via FunctionGraph + CSMS API."
+      "de": "**CSMS noch nicht verfügbar.** OTC CSMS (Cloud Secret Management Service) ist per Roadmap bestätigt und ab Q1 2027 geplant. Vorgesehen ist Lifecycle-Management für Credentials; Details zu automatischer Rotation, Cross-Region Replication und Resource-based Policies sind noch offen. **Interim-Lösungen.** HashiCorp Vault auf CCE (empfohlen — Secrets, PKI, Dynamic Secrets), Kubernetes Secrets mit OTC KMS Encryption, oder Ansible Vault für statische Secrets. **DB-Rotation.** Secrets Manager + RDS Integration (automatische DB-Passwort-Rotation) hat kein direktes Pendant — nach CSMS-Launch ggf. über FunctionGraph + CSMS API nachbaubar.",
+      "en": "**CSMS not yet available.** OTC CSMS (Cloud Secret Management Service) is confirmed per roadmap and planned from Q1 2027. It is intended to manage the credential lifecycle; details about automatic rotation, cross-region replication, and resource-based policies remain open. **Interim solutions.** HashiCorp Vault on CCE (recommended — secrets, PKI, dynamic secrets), Kubernetes Secrets with OTC KMS encryption, or Ansible Vault for static secrets. **DB rotation.** Secrets Manager + RDS integration (automatic DB password rotation) has no direct equivalent — after CSMS launch potentially rebuildable via FunctionGraph + CSMS API."
     },
     "equivNote": null,
     "tfNote": null
@@ -339,12 +339,12 @@
     "scope": [],
     "otc": "Cloud Firewall (CFW)",
     "tfAws": "aws_networkfirewall_firewall, aws_networkfirewall_firewall_policy, aws_networkfirewall_rule_group",
-    "tfOtc": null,
-    "tfStatus": "none",
+    "tfOtc": "opentelekomcloud_cfw_firewall_v1, opentelekomcloud_cfw_acl_rule_v1, opentelekomcloud_cfw_ips_protection_v1, opentelekomcloud_cfw_eip_protection_v1, opentelekomcloud_cfw_log_configuration_v1",
+    "tfStatus": "partial",
     "docsAws": "https://docs.aws.amazon.com/network-firewall/",
     "docsOtc": "https://docs.otc.t-systems.com/cloud-firewall/index.html",
     "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/networkfirewall_firewall",
-    "tfDocsOtc": null,
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/cfw_firewall_v1",
     "desc": {
       "de": "Managed Network Firewall. Stateful/Stateless Rules, IDS/IPS, Domain Filtering, Suricata-kompatibel.",
       "en": "Managed network firewall. Stateful/stateless rules, IDS/IPS, domain filtering, Suricata-compatible."
@@ -358,16 +358,16 @@
       "en": "Security groups + NACLs, pfSense/OPNsense on ECS"
     },
     "migration": {
-      "de": "**Regelformat-Inkompatibilität.** Suricata-kompatible Regeln aus AWS Network Firewall sind NICHT direkt übertragbar — CFW nutzt ein eigenes Regelformat. **Feature-Umfang.** CFW ist eine cloud-native Next-Gen Firewall mit IDPS, Access Control, Traffic-Analyse und Log-Audit. Stateful Inspection und Domain Filtering vorhanden. Schützt Internet- und VPC-Grenzen. **Regionale Verfügbarkeit.** In EU-DE verfügbar, EU-NL ist in Planung. IPv6-Support vorhanden. **Logging.** Log-Integration über LTS (Log Tank Service). **Kein Terraform.** CFW hat aktuell keine Terraform-Ressourcen im OTC Provider. Kein Firewall Manager Pendant für Multi-Account-Verwaltung.",
-      "en": "**Rule format incompatibility.** Suricata-compatible rules from AWS Network Firewall are NOT directly transferable — CFW uses its own rule format. **Feature scope.** CFW is a cloud-native next-gen firewall with IDPS, access control, traffic analysis, and log audit. Stateful inspection and domain filtering available. Protects internet and VPC borders. **Regional availability.** Available in EU-DE, EU-NL is planned. IPv6 support available. **Logging.** Log integration via LTS (Log Tank Service). **No Terraform.** CFW currently has no Terraform resources in the OTC provider. No Firewall Manager equivalent for multi-account management."
+      "de": "**Regelformat-Inkompatibilität.** Suricata-kompatible Regeln aus AWS Network Firewall sind NICHT direkt übertragbar — CFW nutzt ein eigenes Regelformat. **Feature-Umfang.** CFW ist eine cloud-native Next-Gen Firewall mit IDPS, Access Control, Traffic-Analyse und Log-Audit. Stateful Inspection und Domain Filtering vorhanden. Schützt Internet- und VPC-Grenzen. **Regionale Verfügbarkeit.** In EU-DE verfügbar, EU-NL ist in Planung. IPv6-Support vorhanden. **Logging.** Log-Integration über LTS (Log Tank Service). **Terraform.** Der OTC Provider unterstützt CFW-Instanzen, ACL-, IPS- und EIP-Schutz, Regelgruppen sowie die LTS-Log-Konfiguration. Die Firewall-Instanzressource unterstützt derzeit nur Internet-Schutz; kein Firewall Manager Pendant für Multi-Account-Verwaltung.",
+      "en": "**Rule format incompatibility.** Suricata-compatible rules from AWS Network Firewall are NOT directly transferable — CFW uses its own rule format. **Feature scope.** CFW is a cloud-native next-gen firewall with IDPS, access control, traffic analysis, and log audit. Stateful inspection and domain filtering available. Protects internet and VPC borders. **Regional availability.** Available in EU-DE, EU-NL is planned. IPv6 support available. **Logging.** Log integration via LTS (Log Tank Service). **Terraform.** The OTC provider supports CFW instances, ACL, IPS and EIP protection, rule groups, and LTS log configuration. The firewall instance resource currently supports Internet protection only; there is no Firewall Manager equivalent for multi-account management."
     },
     "equivNote": {
       "de": "CFW bietet IDPS, stateful/stateless Filterung, Domain Filtering und Traffic-Analyse. Kein Suricata-Regelformat (eigenes Format). Kein AWS Firewall Manager Pendant für zentrale Multi-Account-Policy-Verwaltung. IPv6-Support vorhanden.",
       "en": "CFW provides IDPS, stateful/stateless filtering, domain filtering, and traffic analysis. No Suricata rule format (proprietary format). No AWS Firewall Manager equivalent for centralized multi-account policy management. IPv6 support available."
     },
     "tfNote": {
-      "de": "CFW hat aktuell keine Terraform-Ressourcen im OTC Provider.",
-      "en": "CFW currently has no Terraform resources in the OTC provider."
+      "de": "Teilunterstützung: CFW-Instanzen, ACL-, IPS- und EIP-Schutz, Regelgruppen sowie LTS-Log-Konfiguration sind verfügbar. Die Instanzressource unterstützt derzeit nur Internet-Schutz.",
+      "en": "Partial support: CFW instances, ACL, IPS and EIP protection, rule groups, and LTS log configuration are available. The instance resource currently supports Internet protection only."
     }
   }
 ]

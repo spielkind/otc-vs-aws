@@ -10,7 +10,7 @@
     ],
     "otc": "Virtual Private Cloud (VPC)",
     "tfAws": "aws_vpc, aws_subnet",
-    "tfOtc": "opentelekomcloud_vpc_v1, opentelekomcloud_vpc_subnet_v1",
+    "tfOtc": "opentelekomcloud_vpc_v1, opentelekomcloud_vpc_subnet_v1, opentelekomcloud_vpc_secondary_cidr_v3, opentelekomcloud_vpc_route_table_v1, opentelekomcloud_vpc_route_table_route_v1, opentelekomcloud_vpc_route_table_subnet_associate_v1, opentelekomcloud_vpc_flow_log_v1",
     "tfStatus": "full",
     "docsAws": "https://docs.aws.amazon.com/vpc/",
     "docsOtc": "https://docs.otc.t-systems.com/virtual-private-cloud/index.html",
@@ -43,7 +43,7 @@
     ],
     "otc": "Elastic Load Balance (ELB)",
     "tfAws": "aws_lb, aws_lb_listener",
-    "tfOtc": "opentelekomcloud_lb_loadbalancer_v3",
+    "tfOtc": "opentelekomcloud_lb_loadbalancer_v3, opentelekomcloud_lb_listener_v3",
     "tfStatus": "full",
     "docsAws": "https://docs.aws.amazon.com/elasticloadbalancing/",
     "docsOtc": "https://docs.otc.t-systems.com/elastic-load-balancing/index.html",
@@ -76,12 +76,12 @@
     "scope": [],
     "otc": "Direct Connect (DC)",
     "tfAws": "aws_dx_connection, aws_dx_gateway, aws_dx_private_virtual_interface",
-    "tfOtc": "opentelekomcloud_dc_virtual_gateway_v3, opentelekomcloud_dc_virtual_interface_v3",
+    "tfOtc": "opentelekomcloud_direct_connect_v2, opentelekomcloud_dc_virtual_gateway_v3, opentelekomcloud_dc_virtual_interface_v3",
     "tfStatus": "partial",
     "docsAws": "https://docs.aws.amazon.com/directconnect/",
     "docsOtc": "https://docs.otc.t-systems.com/direct-connect/index.html",
     "tfDocsAws": "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dx_connection",
-    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/dc_virtual_gateway_v3",
+    "tfDocsOtc": "https://registry.terraform.io/providers/opentelekomcloud/opentelekomcloud/latest/docs/resources/direct_connect_v2",
     "desc": {
       "de": "Dedizierte Netzwerkverbindung zwischen On-Premises und AWS. Private/Public VIF, LAG, Direct Connect Gateway.",
       "en": "Dedicated network connection between on-premises and AWS. Private/public VIF, LAG, Direct Connect Gateway."
@@ -100,8 +100,8 @@
     },
     "equivNote": null,
     "tfNote": {
-      "de": "Connection und Virtual Interface per TF, aber BGP-Konfiguration und physische Bereitstellung nicht per TF automatisierbar.",
-      "en": "Connection and virtual interface via TF, but BGP configuration and physical provisioning not automatable via TF."
+      "de": "Direct Connect v2 ist per Terraform verfügbar. Die v3-Ressourcen für Virtual Gateway und Virtual Interface sind nur für SwissCloud vorgesehen; BGP-Konfiguration und physische Bereitstellung sind nicht per Terraform automatisierbar.",
+      "en": "Direct Connect v2 is available through Terraform. The v3 virtual gateway and virtual interface resources are SwissCloud-only; BGP configuration and physical provisioning are not automatable through Terraform."
     }
   },
   {
@@ -181,7 +181,7 @@
     "scope": [],
     "otc": "VPN Gateway",
     "tfAws": "aws_vpn_gateway, aws_vpn_connection, aws_customer_gateway",
-    "tfOtc": "opentelekomcloud_vpnaas_service_v2, opentelekomcloud_vpnaas_ipsec_policy_v2, opentelekomcloud_vpnaas_ike_policy_v2",
+    "tfOtc": "opentelekomcloud_vpnaas_service_v2, opentelekomcloud_vpnaas_site_connection_v2, opentelekomcloud_vpnaas_ipsec_policy_v2, opentelekomcloud_vpnaas_ike_policy_v2",
     "tfStatus": "full",
     "docsAws": "https://docs.aws.amazon.com/vpn/latest/s2svpn/",
     "docsOtc": "https://docs.otc.t-systems.com/virtual-private-network/index.html",

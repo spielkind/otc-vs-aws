@@ -21,13 +21,13 @@
       "en": "Object storage. 11x9 durability, versioning, lifecycle, event notifications, S3 Select, Object Lock (WORM), Intelligent-Tiering, Transfer Acceleration, Batch Operations."
     },
     "otcDesc": {
-      "de": "S3-kompatible REST-API (SDKs, CLI, Browser). Storage-Klassen: Standard, Infrequent Access, Archive. Versioning, Lifecycle Policies, Server-Side Encryption (SSE-KMS/SSE-OBS), WORM (Object Lock), Bucket Policies, Cross-Region Replication, Event Notifications (SMN/FunctionGraph). Max. Objekt: 48.8 TB (Multipart), 5 GB (Single PUT). Kein S3 Select, kein Intelligent-Tiering.",
-      "en": "S3-compatible REST API (SDKs, CLI, browser). Storage classes: Standard, Infrequent Access, Archive. Versioning, lifecycle policies, server-side encryption (SSE-KMS/SSE-OBS), WORM (Object Lock), bucket policies, cross-region replication, event notifications (SMN/FunctionGraph). Max object: 48.8 TB (multipart), 5 GB (single PUT). No S3 Select, no Intelligent-Tiering."
+      "de": "S3-kompatible REST-API (SDKs, CLI, Browser). Storage-Klassen: Standard, Infrequent Access, Archive. Versioning, Lifecycle Policies, Server-Side Encryption (SSE-KMS/SSE-OBS), WORM (Object Lock), Bucket Policies, Cross-Region Replication, Event Notifications (SMN/FunctionGraph). Max. Objekt: 48.8 TB (Multipart), 5 GB (Single PUT). Kein S3 Select, kein Intelligent-Tiering; Intelligent Tiering ist laut Roadmap geplant, aber noch nicht als verfügbar dokumentiert.",
+      "en": "S3-compatible REST API (SDKs, CLI, browser). Storage classes: Standard, Infrequent Access, Archive. Versioning, lifecycle policies, server-side encryption (SSE-KMS/SSE-OBS), WORM (Object Lock), bucket policies, cross-region replication, event notifications (SMN/FunctionGraph). Max object: 48.8 TB (multipart), 5 GB (single PUT). No S3 Select or Intelligent-Tiering; Intelligent Tiering is planned on the roadmap but not yet documented as available."
     },
     "alt": null,
     "migration": {
-      "de": "**API-Kompatibilität.** OBS ist S3-API-kompatibel — SDKs und CLI funktionieren. WORM/Object Lock ist verfügbar. **Storage-Klassen.** Standard, IA, Archive (kein Intelligent-Tiering, kein Glacier Deep Archive). **Bucket Policies.** Ähnlich wie AWS, aber mit anderer Condition-Syntax. **Event-Notifications.** OBS Events + SMN/FunctionGraph. Cross-Region Replication verfügbar (nur bestimmte Regionen). **Fehlend.** S3 Select, Object Lambda, Transfer Acceleration und Batch Operations nicht verfügbar. Multipart Upload funktioniert, Limits können abweichen.",
-      "en": "**API compatibility.** OBS is S3 API-compatible — SDKs and CLI work. WORM/Object Lock available. **Storage classes.** Standard, IA, Archive (no Intelligent-Tiering, no Glacier Deep Archive). **Bucket policies.** Similar to AWS but with different condition syntax. **Event notifications.** OBS Events + SMN/FunctionGraph. Cross-region replication available (specific regions only). **Missing.** S3 Select, Object Lambda, Transfer Acceleration, and Batch Operations not available. Multipart Upload works, limits may differ."
+      "de": "**API-Kompatibilität.** OBS ist S3-API-kompatibel — SDKs und CLI funktionieren. WORM/Object Lock ist verfügbar. **Storage-Klassen.** Standard, IA, Archive; Intelligent Tiering und Deep Archive sind für die Migrationsplanung noch nicht verfügbar. Die Roadmap führt Intelligent Tiering sowie Deep Archive (Q1–Q2 2027) als zukünftige Funktionen, ohne bestätigte API-, Preis- oder Terraform-Details. **Bucket Policies.** Ähnlich wie AWS, aber mit anderer Condition-Syntax. **Event-Notifications.** OBS Events + SMN/FunctionGraph. Cross-Region Replication verfügbar (nur bestimmte Regionen). **Fehlend.** S3 Select, Object Lambda, Transfer Acceleration und Batch Operations nicht verfügbar. Multipart Upload funktioniert, Limits können abweichen.",
+      "en": "**API compatibility.** OBS is S3 API-compatible — SDKs and CLI work. WORM/Object Lock available. **Storage classes.** Standard, IA, Archive; Intelligent Tiering and Deep Archive are not yet available for migration design. The roadmap lists Intelligent Tiering and Deep Archive (Q1–Q2 2027) as future capabilities without confirmed API, pricing, or Terraform details. **Bucket policies.** Similar to AWS but with different condition syntax. **Event notifications.** OBS Events + SMN/FunctionGraph. Cross-region replication available (specific regions only). **Missing.** S3 Select, Object Lambda, Transfer Acceleration, and Batch Operations not available. Multipart Upload works, limits may differ."
     },
     "equivNote": null,
     "tfNote": null
@@ -86,20 +86,20 @@
       "en": "Central backup service. Automated backup plans for EC2, RDS, EFS, DynamoDB, S3 and more. Cross-region, cross-account, vault lock."
     },
     "otcDesc": {
-      "de": "Zentrales Backup für ECS, EVS, SFS Turbo. Backup-Policies, Replication-Policies für Cross-Region, Vaults, Wiederherstellung.",
-      "en": "Central backup for ECS, EVS, SFS Turbo. Backup policies, replication policies for cross-region, vaults, recovery."
+      "de": "Zentrales Backup für ECS, EVS, SFS Turbo. Backup-Policies, Vaults und Wiederherstellung. Cross-Region-Replication für EVS und SFS Turbo ist laut Roadmap noch in Umsetzung und nicht als Migrationsannahme zu verwenden.",
+      "en": "Central backup for ECS, EVS, SFS Turbo. Backup policies, vaults, and recovery. Cross-region replication for EVS and SFS Turbo remains in delivery on the roadmap and must not be assumed for migrations."
     },
     "alt": {
       "de": "Veeam auf ECS, Restic/Borg + OBS, Velero (für CCE/Kubernetes)",
       "en": "Veeam on ECS, Restic/Borg + OBS, Velero (for CCE/Kubernetes)"
     },
     "migration": {
-      "de": "**Service-Scope.** CBR deckt ECS, EVS und SFS Turbo ab, aber kein zentraler Backup-Plan über alle Services — separate Backup-Policies pro Service-Typ nötig. **Cross-Region.** CBR Replication Policies speichern Replicas in Replication Vaults, aber weniger Ziel-Regionen als AWS. **RDS-Backup.** Nicht über CBR — separates RDS Automated Backup nutzen. **Fehlend.** Backup Vault Lock (WORM) nicht verfügbar. AWS Backup Audit Manager hat kein Pendant. **Windows-Workloads.** Application-consistent Backups für Windows → VSS-Integration prüfen.",
-      "en": "**Service scope.** CBR covers ECS, EVS, and SFS Turbo, but no central backup plan across all services — separate backup policies per service type required. **Cross-region.** CBR Replication Policies store replicas in replication vaults, but fewer target regions than AWS. **RDS backup.** Not via CBR — use separate RDS Automated Backup. **Missing.** Backup Vault Lock (WORM) not available. AWS Backup Audit Manager has no equivalent. **Windows workloads.** Application-consistent backups for Windows → check VSS integration."
+      "de": "**Service-Scope.** CBR deckt ECS, EVS und SFS Turbo ab, aber kein zentraler Backup-Plan über alle Services — separate Backup-Policies pro Service-Typ nötig. **Cross-Region.** Cross-Region-Replication für EVS und SFS Turbo ist laut Roadmap noch in Umsetzung; nicht für den aktuellen DR-Entwurf voraussetzen. **RDS-Backup.** Nicht über CBR — separates RDS Automated Backup nutzen. **Fehlend.** Backup Vault Lock (WORM) nicht verfügbar. AWS Backup Audit Manager hat kein Pendant. **Windows-Workloads.** Application-consistent Backups für Windows → VSS-Integration prüfen.",
+      "en": "**Service scope.** CBR covers ECS, EVS, and SFS Turbo, but no central backup plan across all services — separate backup policies per service type required. **Cross-region.** Cross-region replication for EVS and SFS Turbo remains in delivery on the roadmap; do not depend on it for the current DR design. **RDS backup.** Not via CBR — use separate RDS Automated Backup. **Missing.** Backup Vault Lock (WORM) not available. AWS Backup Audit Manager has no equivalent. **Windows workloads.** Application-consistent backups for Windows → check VSS integration."
     },
     "equivNote": {
-      "de": "CBR unterstützt ECS/EVS/SFS Turbo. Cross-Region via Replication Policies möglich (weniger Ziel-Regionen). Kein Cross-Account Backup, kein Vault Lock (WORM), weniger Service-Integrationen als AWS Backup (~15 Services).",
-      "en": "CBR supports ECS/EVS/SFS Turbo. Cross-region via replication policies possible (fewer target regions). No cross-account backup, no vault lock (WORM), fewer service integrations than AWS Backup (~15 services)."
+      "de": "CBR unterstützt ECS/EVS/SFS Turbo. Cross-Region-Replication für EVS und SFS Turbo ist laut Roadmap in Umsetzung. Kein Cross-Account Backup, kein Vault Lock (WORM), weniger Service-Integrationen als AWS Backup (~15 Services).",
+      "en": "CBR supports ECS/EVS/SFS Turbo. Cross-region replication for EVS and SFS Turbo remains in delivery on the roadmap. No cross-account backup, no vault lock (WORM), fewer service integrations than AWS Backup (~15 services)."
     },
     "tfNote": null
   },
@@ -111,7 +111,7 @@
     "scope": [],
     "otc": "Elastic Volume Service (EVS)",
     "tfAws": "aws_ebs_volume, aws_ebs_snapshot",
-    "tfOtc": "opentelekomcloud_evs_volume_v3",
+    "tfOtc": "opentelekomcloud_evs_volume_v3, opentelekomcloud_evs_snapshot_v2",
     "tfStatus": "full",
     "docsAws": "https://docs.aws.amazon.com/ebs/",
     "docsOtc": "https://docs.otc.t-systems.com/elastic-volume-service/index.html",
@@ -157,12 +157,12 @@
     },
     "alt": null,
     "migration": {
-      "de": "**Storage-Klassen.** OBS Cold Storage entspricht Glacier, aber: kein Glacier Deep Archive — niedrigste Stufe ist OBS Cold. **Retrieval-Zeiten.** OBS Cold Standard Retrieval 1–5 Minuten (Glacier: 3–5 Stunden) — deutlich schneller. **Compliance.** Vault Lock → OBS WORM (Object Lock, Retention Policies). **Kein Retrieval-Tiering.** Glacier Flexible Retrieval Optionen (Expedited/Standard/Bulk) → OBS Cold hat nur einen Retrieval-Modus. **Fehlend.** Glacier Select nicht verfügbar.",
-      "en": "**Storage classes.** OBS Cold Storage corresponds to Glacier, but: no Glacier Deep Archive — lowest tier is OBS Cold. **Retrieval times.** OBS Cold Standard Retrieval 1–5 minutes (Glacier: 3–5 hours) — significantly faster. **Compliance.** Vault Lock → OBS WORM (Object Lock, Retention Policies). **No retrieval tiering.** Glacier Flexible Retrieval options (Expedited/Standard/Bulk) → OBS Cold has only one retrieval mode. **Missing.** Glacier Select not available."
+      "de": "**Storage-Klassen.** OBS Cold Storage entspricht Glacier, aber es gibt aktuell kein bestätigtes Glacier-Deep-Archive-Pendant. Deep Archive ist in der Roadmap für Q1–Q2 2027 geführt und darf bis zur dokumentierten Verfügbarkeit nicht eingeplant werden. **Retrieval-Zeiten.** OBS Cold Standard Retrieval 1–5 Minuten (Glacier: 3–5 Stunden) — deutlich schneller. **Compliance.** Vault Lock → OBS WORM (Object Lock, Retention Policies). **Kein Retrieval-Tiering.** Glacier Flexible Retrieval Optionen (Expedited/Standard/Bulk) → OBS Cold hat nur einen Retrieval-Modus. **Fehlend.** Glacier Select nicht verfügbar.",
+      "en": "**Storage classes.** OBS Cold Storage corresponds to Glacier, but there is currently no confirmed Glacier Deep Archive equivalent. Deep Archive is listed on the roadmap for Q1–Q2 2027 and must not be assumed until documented availability. **Retrieval times.** OBS Cold Standard Retrieval 1–5 minutes (Glacier: 3–5 hours) — significantly faster. **Compliance.** Vault Lock → OBS WORM (Object Lock, retention policies). **No retrieval tiering.** Glacier Flexible Retrieval options (Expedited/Standard/Bulk) → OBS Cold has only one retrieval mode. **Missing.** Glacier Select not available."
     },
     "equivNote": {
-      "de": "Glacier wird auf OTC über OBS Storage Classes (Cold/Archive) abgebildet — kein separater Vault-Service. OBS WORM (Object Lock, Retention Policies) ist verfügbar. Kein Glacier Deep Archive als eigener Tier, kein Glacier Select. Retrieval-Zeiten bei OBS Archive sind kürzer als bei AWS Glacier.",
-      "en": "Glacier is mapped on OTC via OBS storage classes (Cold/Archive) — no separate vault service. OBS WORM (Object Lock, retention policies) is available. No Glacier Deep Archive as separate tier, no Glacier Select. Retrieval times for OBS Archive are shorter than AWS Glacier."
+      "de": "Glacier wird auf OTC über OBS Storage Classes (Cold/Archive) abgebildet — kein separater Vault-Service. OBS WORM (Object Lock, Retention Policies) ist verfügbar. Kein aktuell verfügbarer Glacier Deep Archive Tier (laut Roadmap Q1–Q2 2027 geplant), kein Glacier Select. Retrieval-Zeiten bei OBS Archive sind kürzer als bei AWS Glacier.",
+      "en": "Glacier is mapped on OTC via OBS storage classes (Cold/Archive) — no separate vault service. OBS WORM (Object Lock, retention policies) is available. No currently available Glacier Deep Archive tier (planned on the roadmap for Q1–Q2 2027), no Glacier Select. Retrieval times for OBS Archive are shorter than AWS Glacier."
     },
     "tfNote": {
       "de": "OBS Lifecycle Rules (inkl. Cold/Archive Transition) per TF steuerbar, aber Retrieval Jobs nicht per TF.",

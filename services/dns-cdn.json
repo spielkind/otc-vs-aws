@@ -58,16 +58,16 @@
       "en": "Global CDN for static/dynamic content. 600+ PoPs worldwide, Lambda@Edge, CloudFront Functions, Origin Shield, signed URLs/cookies, field-level encryption, real-time logs."
     },
     "otcDesc": {
-      "de": "OTC bietet aktuell keinen CDN-Dienst in EU-DE/EU-NL. Laut Portfolio-Roadmap ist ein Content Delivery Network in Planung (kein konkretes Datum veröffentlicht, Stand Feb 2026). OBS Static Website Hosting kann als einfache Alternative für statische Inhalte dienen.",
-      "en": "OTC currently offers no CDN service in EU-DE/EU-NL. A Content Delivery Network is planned according to the portfolio roadmap (no concrete date published, as of Feb 2026). OBS Static Website Hosting can serve as a simple alternative for static content."
+      "de": "OTC bietet aktuell keinen CDN-Dienst in EU-DE/EU-NL. Die Portfolio-Roadmap führt ein Content Delivery Network, nennt aber noch keinen konkreten Veröffentlichungstermin. OBS Static Website Hosting kann als einfache Alternative für statische Inhalte dienen.",
+      "en": "OTC currently offers no CDN service in EU-DE/EU-NL. The portfolio roadmap lists a Content Delivery Network but does not yet give a concrete release date. OBS Static Website Hosting can serve as a simple alternative for static content."
     },
     "alt": {
       "de": "Cloudflare, Fastly, Akamai, AWS CloudFront cross-cloud (Origin auf OTC)",
       "en": "Cloudflare, Fastly, Akamai, AWS CloudFront cross-cloud (origin on OTC)"
     },
     "migration": {
-      "de": "**Kein CDN verfügbar.** OTC bietet aktuell keinen CDN-Dienst in EU-DE/EU-NL. Laut Portfolio-Roadmap ist ein CDN geplant, aber ohne konkretes Datum (Stand Feb 2026). **Externe CDN-Anbieter.** Cloudflare (empfohlen, kostenloser Tier), Akamai oder AWS CloudFront cross-cloud mit Origin auf OTC OBS/ELB als Übergangslösung. **Statische Assets.** OBS Static Website Hosting mit Cloudflare davor als einfachste Variante. **Edge-Computing.** Lambda@Edge und Origin Shield haben kein Pendant auf OTC. **Signed URLs.** Signed URLs/Cookies müssen applikationsseitig implementiert werden.",
-      "en": "**No CDN available.** OTC currently offers no CDN service in EU-DE/EU-NL. A CDN is planned per portfolio roadmap but without a concrete date (as of Feb 2026). **External CDN providers.** Cloudflare (recommended, free tier), Akamai, or AWS CloudFront cross-cloud with origin on OTC OBS/ELB as interim solution. **Static assets.** OBS Static Website Hosting with Cloudflare in front as simplest approach. **Edge computing.** Lambda@Edge and Origin Shield have no equivalent on OTC. **Signed URLs.** Signed URLs/cookies must be implemented application-side."
+      "de": "**Kein CDN verfügbar.** OTC bietet aktuell keinen CDN-Dienst in EU-DE/EU-NL. Die Portfolio-Roadmap führt ein CDN, jedoch ohne konkreten Veröffentlichungstermin. **Externe CDN-Anbieter.** Cloudflare (empfohlen, kostenloser Tier), Akamai oder AWS CloudFront cross-cloud mit Origin auf OTC OBS/ELB als Übergangslösung. **Statische Assets.** OBS Static Website Hosting mit Cloudflare davor als einfachste Variante. **Edge-Computing.** Lambda@Edge und Origin Shield haben kein Pendant auf OTC. **Signed URLs.** Signed URLs/Cookies müssen applikationsseitig implementiert werden.",
+      "en": "**No CDN available.** OTC currently offers no CDN service in EU-DE/EU-NL. The portfolio roadmap lists a CDN, but without a concrete release date. **External CDN providers.** Cloudflare (recommended, free tier), Akamai, or AWS CloudFront cross-cloud with origin on OTC OBS/ELB as interim solution. **Static assets.** OBS Static Website Hosting with Cloudflare in front as simplest approach. **Edge computing.** Lambda@Edge and Origin Shield have no equivalent on OTC. **Signed URLs.** Signed URLs/cookies must be implemented application-side."
     },
     "equivNote": null,
     "tfNote": null
